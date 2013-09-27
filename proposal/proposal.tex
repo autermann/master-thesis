@@ -43,7 +43,7 @@
     These data products are readily available as national coverages that can either be sampled and turned into model parameters, or turned into model drivers if they are time series products.
 
     This work shall evaluate the existing tools (e.g. Lake Analyzer\fu{https://github.com/GLEON/Lake-Analyzer}, see \cite{lakeanalyzer}), data models and the modeling frameworks used by USGS CIDA\fu{http://cida.usgs.gov/}.
-    Modeling runs are based on online data brokers (such as the USGS’s Geo Data Portal - GDP\fu{http://cida.usgs.gov/gdp/}) but rely on local algorithms, which comprise functionality for statistical quality assurance and quality control as well as the calculation of various metrics related to the physical state of the lakes (often linked with ecosystem function or disturbance). Building standardized and flexible infrastructure for analyzing foundational data used by domain scientists is an important challenge given legacy and heterogeneous architectures.
+    Modeling runs are based on online data brokers (such as the USGS’s Geo Data Portal - GDP\fu{http://cida.usgs.gov/gdp/}) build upon Open Geospatial Consortium standards such as CSW\fu{http://www.opengeospatial.org/standards/cat}, WPS\fu{http://www.opengeospatial.org/standards/wps} WMS\fu{http://www.opengeospatial.org/standards/wms} and WCS\fu{http://www.opengeospatial.org/standards/wcs}, but still rely on local algorithms, which comprise functionality for statistical quality assurance and quality control as well as the calculation of various metrics related to the physical state of the lakes (often linked with ecosystem function or disturbance). Building standardized and flexible infrastructure for analyzing foundational data used by domain scientists is an important challenge given legacy and heterogeneous architectures.
     Therefore building on the existing infrastructure and corresponding demands of the use case shall be considered.
 
     One approach for a scalable system is to move the modeling to a web-based processing framework, which should rely on public and interoperable standards in the given use case.
@@ -53,7 +53,7 @@
     Existing approaches to this problem shall be critically evaluated.
 
     This thesis work comprises the evaluation, design and prototypical implementation of a lake analysis chain for live sensor data.
-    This includes the evaluation of existing datamodels (mainly CSV/TSV), and standardized a way to convert existing domain specific applications written in MatLab\fu{http://www.mathworks.de/products/matlab/} into streaming web services (possibly Web Processing Service\fu{http://www.opengeospatial.org/standards/wps} algorithms) in favor of the currently used non standardized web frontend\fu{http://lakeanalyzer.gleon.org/}.
+    This includes the evaluation of existing datamodels (mainly CSV/TSV), and standardized a way to convert existing domain specific applications written in MatLab\fu{http://www.mathworks.de/products/matlab/} into streaming web services (possibly WPS algorithms) in favor of the currently used non standardized web frontend\fu{http://lakeanalyzer.gleon.org/}.
 
     \section*{Research Questions}
     \begin{itemize}
