@@ -1,0 +1,14 @@
+---
+function: add
+connection: local
+identifier: matlab.add
+version: 1.0.0
+inputs:
+  - identifier: a
+    type: double
+  - identifier: b
+    type: double
+outputs:
+  - identifier: result
+    type: double
+...

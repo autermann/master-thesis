@@ -1,0 +1,165 @@
+ <wps:Execute xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" service="WPS" version="1.0.0">
+  <ows:Identifier>org.gleon.LakeAnalyzer</ows:Identifier>
+  <wps:DataInputs>
+    <wps:Input>
+      <ows:Identifier>bathymetry</ows:Identifier>
+      <wps:Reference method="GET" mimeType="text/csv" xlink:href="http://localhost/example.bth" />
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>waterLevel</ows:Identifier>
+      <wps:Reference method="GET" mimeType="text/csv" xlink:href="http://localhost/example.lvl" />
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>windSpeed</ows:Identifier>
+      <wps:Reference method="GET" mimeType="text/csv" xlink:href="http://localhost/example.wnd" />
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>waterTemperature</ows:Identifier>
+      <wps:Reference method="GET" mimeType="text/csv" xlink:href="http://localhost/example.wtr" />
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>outputResolution</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:int">86400</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>totalDepth</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:double">20.0</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>windHeight</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:double">2.0</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>windAveraging</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:int">86400</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>layerAveraging</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:int">86400</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>outlierWindow</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:int">21600</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>maxWaterTemp</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:double">40.0</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>minWaterTemp</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:double">-12.0</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>maxWindSpeed</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:double">98.0</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>minWindSpeed</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:double">0.0</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>metaMinSlope</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:double">0.05</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>mixedTempDifferential</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:double">0.5</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>figRes</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:int">300</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>figUnits</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:string">points</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>figWidth</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:double">100.0</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>figHeight</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:double">50.0</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>leftMargin</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:double">5.0</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>rightMargin</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:double">5.0</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>topMargin</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:double">5.0</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>botMargin</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:double">5.0</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>heatMapMin</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:double">0.0</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>heatMapMax</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:double">22.0</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>fontSize</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:int">10</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>fontName</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:string">Helvetica</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+  </wps:DataInputs>
+</wps:Execute>

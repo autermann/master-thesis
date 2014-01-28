@@ -1,0 +1,343 @@
+\documentclass[xcolor=svgnames,professionalfonts,11pt,aspectratio=43,handout]{beamer}
+
+\input{preamble}
+
+\title{Streaming Web-Services for Calculating Live Hydrological Derivatives}
+\subtitle{Master Thesis Defense}
+\institute{Supervisors: Edzer Pebesma (IfGI), Jordan Read (USGS CIDA)}
+\author{Christian Autermann}
+\date{January 31, 2014}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}[t]{Outline}
+  \begin{enumerate}
+    \item Introduction
+    \item Lake Analyzer
+    \item Matlab WPS
+    \item Lake Analyzer WPS
+    \item Streaming WPS
+    \item Current Status
+  \end{enumerate}
+\end{frame}
+
+\titleframe{Introduction}
+
+\begin{frame}[t]{Introduction}
+  \begin{itemize}
+    \item
+  \end{itemize}
+\end{frame}
+
+\titleframe{Lake Analyzer}
+
+\begin{frame}[t]{Lake Analyzer}
+  \begin{itemize}
+    \item
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Lake Analyzer --- Outputs}
+  \begin{columns}
+    \column{.45\textwidth}
+    \begin{itemize}
+      \item Raw Results
+      \item Buoyancy frequency
+      \item Parent buoyancy frequency
+      \item Lake number
+      \item Parent lake number
+      \item Metalimnion bottom depth
+      \item Parent metalimnion bottom depth
+      \item Metalimnion top depth
+      \item Parent metalimnion top depth
+      \item Mode one vertical seiche period
+    \end{itemize}
+    \column{.45\textwidth}
+    \begin{itemize}
+      \item Parent mode one vertical seiche period
+      \item Schmidt stability
+      \item Thermocline depth
+      \item Parent thermocline depth
+      \item u star (turblent velocity scale from wind)
+      \item Parent u star (turblent velocity scale from wind)
+      \item Water temperature
+      \item Wedderburn number
+      \item Parent Wedderburn number
+      \item Wind speed
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[c,fragile]{Lake Analyzer --- Outputs}
+  \begin{figure}
+    \centering
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_Ln.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_N2.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_SLn.pdf}}\\
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_SN2.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_SW.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_SmetaB.pdf}}\\
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_SmetaT.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_St.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_SthermD.pdf}}\\
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_SuSt.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_T1.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_W.pdf}}\\
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_metaB.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_metaT.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_thermD.pdf}}\\
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_uSt.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_wTemp.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_wndSpd.pdf}}
+  \end{figure}
+\end{frame}
+
+\titleframe{Matlab WPS}
+
+\begin{frame}[t]{Matlab WPS}
+  \begin{itemize}
+    \item Offering Matlab functions as WPS processes
+    \item Configuration with simple YAML file
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Matlab WPS --- Example}
+  \begin{columns}
+    \column{.39\textwidth}
+    \lstinputlisting[language=Matlab]{listings/matlab-add-function.m}
+    \pause
+    \lstinputlisting{listings/matlab-add-process-configuration.yaml}
+    \pause
+    \column{.61\textwidth}
+    \lstinputlisting[language=XML]{listings/matlab-add-process-description.xml}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[c,fragile]{Matlab WPS --- Websockets}
+  \begin{columns}
+    \column{.45\textwidth}
+    \lstinputlisting{listings/websocket-handshake-request.txt}
+    \pause
+    \column{.45\textwidth}
+    \lstinputlisting{listings/websocket-handshake-response.txt}
+  \end{columns}
+  \pause
+  \begin{columns}
+  \column{.45\textwidth}
+  \column{.45\textwidth}
+  Widely supported:
+  \begin{itemize}
+    \item IE \textgreater10
+    \item Firefox \textgreater6
+    \item Chrome \textgreater14
+    \item Safari \textgreater6
+    \item Opera \textgreater12.1
+  \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[c,fragile]{Matlab WPS --- Accessing Matlab from the Web}
+  \begin{columns}
+    \column{.37\textwidth}
+    \lstinputlisting[language=Matlab]{listings/matlab-add-function.m}
+    \pause
+    \lstinputlisting{listings/matlab-connector.sh}
+    \pause
+    \column{.63\textwidth}
+    \lstinputlisting[language=JavaScript]{listings/matlab-add-javascript-client.js}
+  \end{columns}
+\end{frame}
+
+\titleframe{Lake Analyzer WPS}
+
+\begin{frame}[t]{Lake Analyzer WPS}
+  \begin{itemize}
+    \item simple implementation using the \emph{Matlab WPS}
+    \item small modifications to the script to allow file transfers
+    \item wrapper function to get rid of configuration files
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[c,fragile]{Lake Analyzer WPS --- Wrapper Function}
+    \begin{center}
+      \lstinputlisting[language=Matlab,lastline=10]{listings/lake-analyzer-wps-wrapper.m}
+    \end{center}
+\end{frame}
+
+\begin{frame}[c,fragile]{Lake Analyzer WPS --- Configuration}
+    \begin{center}
+      \lstinputlisting[lastline=40]{listings/lake-analyzer-wps-configuration.yaml}
+    \end{center}
+\end{frame}
+
+\begin{frame}[c,fragile]{Lake Analyzer WPS --- Process Description}
+    \begin{center}
+      \lstinputlisting[language=XML,lastline=40]{listings/lake-analyzer-wps-process-description.xml}
+    \end{center}
+\end{frame}
+
+\begin{frame}[c,fragile]{Lake Analyzer WPS --- Process Description}
+    \begin{center}
+      \lstinputlisting[language=XML,firstline=451,lastline=484]{listings/lake-analyzer-wps-process-description.xml}
+    \end{center}
+\end{frame}
+
+\begin{frame}[c,fragile]{Lake Analyzer WPS --- Example Request}
+    \begin{center}
+      \lstinputlisting[language=XML,lastline=40]{listings/lake-analyzer-wps-request.xml}
+    \end{center}
+\end{frame}
+
+\begin{frame}[c,fragile]{Lake Analyzer WPS --- Example Response}
+    \begin{center}
+      \lstinputlisting[language=XML,lastline=20]{listings/lake-analyzer-wps-response.xml}
+    \end{center}
+\end{frame}
+
+\begin{frame}[c,fragile]{Lake Analyzer WPS --- Example Response}
+    \begin{center}
+      \lstinputlisting[language=XML,firstline=426,lastline=490]{listings/lake-analyzer-wps-response.xml}
+    \end{center}
+\end{frame}
+
+\begin{frame}[c,fragile]{Lake Analyzer WPS --- Example Response}
+  \begin{figure}
+    \centering
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_Ln.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_N2.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_SLn.pdf}}\\
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_SN2.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_SW.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_SmetaB.pdf}}\\
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_SmetaT.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_St.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_SthermD.pdf}}\\
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_SuSt.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_T1.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_W.pdf}}\\
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_metaB.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_metaT.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_thermD.pdf}}\\
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_uSt.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_wTemp.pdf}}
+    \subfigure{\includegraphics[width=.25\textwidth]{figures/Sparkling_wndSpd.pdf}}
+  \end{figure}
+\end{frame}
+
+\titleframe{Streaming WPS}
+
+\begin{frame}[t]{Streaming WPS}
+  \begin{itemize}
+    \item
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[c,fragile]{Streaming WPS --- Sequence Diagram}
+  \begin{figure}
+    \begin{center}
+      \includegraphics[width=\textwidth]{figures/sequence-diagram.pdf}
+    \end{center}
+  \end{figure}
+\end{frame}
+
+\begin{frame}[c,fragile]{Streaming WPS --- Sequence Diagram}
+  \begin{figure}
+    \begin{center}
+      \includegraphics[width=\textwidth]{figures/sequence-diagram2.pdf}
+    \end{center}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Streaming WPS --- Input Types}
+  \begin{itemize}
+    \item Streaming Inputs
+    \pause
+    \begin{itemize}
+      \item submitted with \texttag{stream}{InputMessage}
+      \item of type \texttag{wps}{Input}
+    \end{itemize}
+    \pause
+    \item Static Inputs
+    \pause
+    \begin{itemize}
+      \item submitted with initial \texttag{wps}{Execute}
+      \item merged with inputs of every streaming iteration
+      \item of type \texttag{wps}{Input}
+    \end{itemize}
+    \pause
+    \item Reference Inputs
+    \pause
+    \begin{itemize}
+      \item submitted with \texttag{stream}{InputMessage}
+      \item references the output of a previous or upcoming streaming iteration
+    \end{itemize}
+    \pause
+    \item Polling Inputs
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[c,fragile]{Streaming WPS --- Input Message}
+    \begin{center}
+      \lstinputlisting[language=XML]{listings/streaming-input-message.xml}
+    \end{center}
+\end{frame}
+
+\begin{frame}[c,fragile]{Streaming WPS --- Ouput Request Message}
+    \begin{center}
+      \lstinputlisting[language=XML]{listings/streaming-output-request-message.xml}
+    \end{center}
+\end{frame}
+
+\begin{frame}[c,fragile]{Streaming WPS --- Output Message}
+    \begin{center}
+      \lstinputlisting[language=XML]{listings/streaming-output-message.xml}
+    \end{center}
+\end{frame}
+
+\begin{frame}[c,fragile]{Streaming WPS --- Stop Message}
+    \begin{center}
+      \lstinputlisting[language=XML]{listings/streaming-stop-message.xml}
+    \end{center}
+\end{frame}
+
+\begin{frame}[t]{Streaming WPS --- Handling Dependencies}
+  \begin{itemize}
+    \item Clients declare dependencies to other streaming iterations (or their outputs)
+    \item Automatic declaration of (spatial) dependencies not possibe as it is use case and format specific
+    \item Process waits for all dependencies to become available
+    \item Checking for cyclic dependencies using a directed acyclic graph and topological sorting (BFS)
+  \end{itemize}
+\end{frame}
+
+\titleframe{Current Status}
+
+\begin{frame}[t]{Current Status}
+  \begin{itemize}
+    \done Matlab WPS
+    \done Lake Analyzer WPS
+    \missing Streaming WPS
+    \begin{itemize}
+      \done Implementation
+      \missing Testing \& Bug Fixing
+    \end{itemize}
+    \missing Webapp showcasing the process chain
+  \end{itemize}
+  \begin{itemize}
+    \item \url{https://github.com/autermann/matlab-connector}
+    \item \url{https://github.com/autermann/matlab-wps}
+    \item \url{https://github.com/autermann/Lake-Analyzer}
+    \item \url{https://github.com/autermann/streaming-wps}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \vfill
+  \begin{center}
+    \emph{Thanks. Questions?}
+  \end{center}
+  \vfill
+\end{frame}
+
+\end{document}
