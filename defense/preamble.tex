@@ -11,8 +11,10 @@
 \usepackage{listings}
 \usepackage{tikz}
 \usepackage{pifont}
-\newcommand{\cmark}{\ding{51}}%
-\newcommand{\xmark}{\ding{55}}%
+\newcommand{\done}{\item[\textcolor{main}{\ding{51}}]}
+\newcommand{\missing}{\item[\textcolor{main}{\ding{55}}]}
+\newcommand{\arrow}{\item[\textcolor{main}{\ding{222}}]}
+
 \usepgflibrary{arrows,shapes}
 \usepackage[underline=false]{pgf-umlsd}
 \urlstyle{same}
@@ -26,7 +28,7 @@
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{items}[circle]
 \setbeamertemplate{blocks}[rounded]
-\setbeamertemplate{footline}[page number]{}
+\setbeamertemplate{footline}[frame number]{}
 \setbeamertemplate{frametitle}{\vskip1em\color{main}\insertframetitle}
 \setbeamersize{text margin left=1.5em}
 \setbeamercolor{normal text}{fg=black,bg=white}
@@ -100,7 +102,9 @@
     ows:AnyValue,
     ows:DataType,
     ows:Identifier,
+    ows:LowerCorner,
     ows:Title,
+    ows:UpperCorner,
     ProcessDescription,
     ProcessOutputs,
     soap:Body,
@@ -171,8 +175,6 @@
     xmlns:xlink,
   }
 }
-\newcommand{\done}{\item[\textcolor{main}{\cmark}]}
-\newcommand{\missing}{\item[\textcolor{main}{\xmark}]}
 \newcommand{\texttag}[2]{\texttt{\tiny{\textless\textcolor{keyword}{#1:#2}\textgreater}}}
 \newcommand{\titleframe}[1]{%
   \begin{frame}[c]

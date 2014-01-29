@@ -27,3 +27,6 @@
 *.dvi
 *.brf
 *.lol
+*.nav
+*.snm
+*.vrb

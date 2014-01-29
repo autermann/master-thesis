@@ -1,19 +1,10 @@
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:stream="https://github.com/autermann/streaming-wps">
   <soap:Header>
-    <wsa:FaultTo>
-      <wsa:Address>http://www.w3.org/2005/08/addressing/none</wsa:Address>
-    </wsa:FaultTo>
-    <wsa:ReplyTo>
-      <wsa:Address>http://www.w3.org/2005/08/addressing/none</wsa:Address>
-    </wsa:ReplyTo>
-    <wsa:From>
-      <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
-    </wsa:From>
     <wsa:MessageID>uuid:950a3380-1de4-4634-ba2d-ffdf324157d7</wsa:MessageID>
     <wsa:Action>https://github.com/autermann/streaming-wps/request-output</wsa:Action>
   </soap:Header>
   <soap:Body>
-    <stream:OutputRequestMessage includeInputs="true">
+    <stream:OutputRequestMessage>
       <stream:ProcessID>uuid:edb18778-d570-469a-8264-3468fd1c76f5</stream:ProcessID>
     </stream:OutputRequestMessage>
   </soap:Body>
