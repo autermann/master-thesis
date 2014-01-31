@@ -27,9 +27,7 @@
 \begin{frame}[t]{Lake Analyzer}
   \begin{itemize}
     \item Developed at University of Wisconsin/USGS
-    \pause
     \item Analysis of high-frequency lake buoys data
-    \pause
     \item Written in Matlab (R version with less features exist)
     \pause
     \item[]
@@ -81,11 +79,11 @@
 
 \begin{frame}[c]{Lake Analyzer}
   \begin{itemize}
-    \item How to analyze hundreds, thousands, or millions of lakes?
+    \item How to to integreate Lake Analyzer into web-processing chains?
     \pause
     \item How to offer live analysis of real-time data?
     \pause
-    \item How to to integreate Lake Analyzer into web-processing chains?
+    \item How to analyze hundreds, thousands, or millions of lakes?
   \end{itemize}
 \end{frame}
 
@@ -94,16 +92,11 @@
 \begin{frame}[t]{Matlab WPS}
   \begin{itemize}
     \item Offering Matlab functions as WPS processes
-    \pause
     \item Implemented as a 52\textdegree{}N WPS backend (and standalone version)
-    \pause
     \item Configuration with simple YAML file
-    \pause
     \item Similar approach to WPS4R, but\dots
-    \pause
     \begin{itemize}
       \item uses seperated configuration file for each script
-      \pause
       \item complex inputs/outputs are handled in Matlab
       \pause
       \arrow tradeoff: no output conversion between different formats
@@ -122,6 +115,32 @@
     \lstinputlisting[language=XML]{listings/matlab-add-process-description.xml}
   \end{columns}
 \end{frame}
+
+\begin{frame}[c,fragile]{Matlab WPS --- Accessing Matlab from the Web}
+  \begin{columns}
+    \column{.37\textwidth}
+    \lstinputlisting[language=Matlab]{listings/matlab-add-function.m}
+    \pause
+    \lstinputlisting{listings/matlab-connector.sh}
+    \pause
+    \column{.63\textwidth}
+    \lstinputlisting[language=JavaScript]{listings/matlab-add-javascript-client.js}
+  \end{columns}
+\end{frame}
+
+%\begin{frame}[t]{Matlab WPS --- Accessing Matlab from the Web}
+%  \begin{itemize}
+%    \item Matlab is proprietary and commercial software
+%    \pause
+%    \item Accessing Matlab in this manner only allowed \dots
+%    \begin{itemize}
+%      \item for the \emph{Network Concurrent User Activation Type}
+%      \pause
+%      \item for the \emph{Standalone Named User Activation Type}
+%      \item for the \emph{Network Named User Activation Type}
+%    \end{itemize}
+%  \end{itemize}
+%\end{frame}
 
 \begin{frame}[c,fragile]{Matlab WPS --- Websockets}
   \begin{columns}
@@ -148,40 +167,12 @@
   \end{columns}
 \end{frame}
 
-\begin{frame}[c,fragile]{Matlab WPS --- Accessing Matlab from the Web}
-  \begin{columns}
-    \column{.37\textwidth}
-    \lstinputlisting[language=Matlab]{listings/matlab-add-function.m}
-    \pause
-    \lstinputlisting{listings/matlab-connector.sh}
-    \pause
-    \column{.63\textwidth}
-    \lstinputlisting[language=JavaScript]{listings/matlab-add-javascript-client.js}
-  \end{columns}
-\end{frame}
-
-\begin{frame}[t]{Matlab WPS --- Accessing Matlab from the Web}
-  \begin{itemize}
-    \item Matlab is proprietary and commercial software
-    \pause
-    \item Accessing Matlab in this manner only allowed \dots
-    \begin{itemize}
-      \item for the \emph{Network Concurrent User Activation Type}
-      \pause
-      \item for the \emph{Standalone Named User Activation Type}
-      \item for the \emph{Network Named User Activation Type}
-    \end{itemize}
-  \end{itemize}
-\end{frame}
-
 \titleframe{Lake Analyzer WPS}
 
 \begin{frame}[t]{Lake Analyzer WPS}
   \begin{itemize}
     \item simple implementation using the \emph{Matlab WPS}
-    \pause
     \item small modifications to the script to allow file transfers
-    \pause
     \item wrapper function to get rid of configuration files
   \end{itemize}
 \end{frame}
@@ -256,27 +247,20 @@
 
 \begin{frame}[t]{Streaming WPS}
   \begin{itemize}
-    \item Allows streaming of of inputs and outputs to any WPS process
+    \item Allows streaming of of inputs and outputs to a WPS process
     \pause
     \item Previous approach:
-    \pause
     \begin{itemize}
       \item WPS is splitting inputs
-      \pause
       \item publishing results in a playlist that has to be checked constantly
     \end{itemize}
     \pause
     \item This approach:
-    \pause
     \begin{itemize}
-      \item Sender splits Inputs
-      \pause
+      \item Sender splits inputs
       \item Sender starts a WPS streaming process
-      \pause
       \item Receiver connects to the WPS process
-      \pause
       \item Sender sends small chunks to the streaming process
-      \pause
       \item Streaming process pushes the results to the receiver
     \end{itemize}
   \end{itemize}
@@ -289,8 +273,7 @@
       \item[\dots] does not allow subsequent inputs
       \item[\dots] does not allow intermediate outputs
     \end{itemize}
-    \pause
-    \item Only possible with input/output references and long-lasting requests
+    \item Only possible with input/output references and long-lasting requests/polling
     \pause
     \item Solution: break out of the WPS interface
     \begin{itemize}
@@ -300,60 +283,32 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}[t]{Streaming WPS --- Default Implementation}
-  \begin{itemize}
-    \item Single process
-    \pause
-    \item Delegate processing to a remote WPS process
-    \pause
-    \item Can turn any process into a streaming process
-    \pause
-    \item Can run forever
-  \end{itemize}
-\end{frame}
+%\begin{frame}[t]{Streaming WPS --- Default Implementation}
+%  \begin{itemize}
+%    \item Single process
+%    \pause
+%    \item Delegate processing to a remote WPS process
+%    \pause
+%    \item Can turn any process into a streaming process
+%    \pause
+%    \item Can run forever
+%  \end{itemize}
+%\end{frame}
 
-\begin{frame}[c,fragile]{Streaming WPS --- Sequence Diagram}
-  \begin{figure}
-    \begin{center}
-      \includegraphics[width=\textwidth]{figures/sequence-diagram.pdf}
-    \end{center}
-  \end{figure}
-\end{frame}
+%\begin{frame}[c,fragile]{Streaming WPS --- Sequence Diagram}
+  %\begin{figure}
+    %\begin{center}
+      %\includegraphics[width=\textwidth]{figures/sequence-diagram.pdf}
+    %\end{center}
+  %\end{figure}
+%\end{frame}
 
-\begin{frame}[c,fragile]{Streaming WPS --- Sequence Diagram}
+\begin{frame}[c,fragile,label=sequencediagram]{Streaming WPS --- Sequence Diagram}
   \begin{figure}
     \begin{center}
       \includegraphics[width=\textwidth]{figures/sequence-diagram2.pdf}
     \end{center}
   \end{figure}
-\end{frame}
-
-\begin{frame}{Streaming WPS --- Input Types}
-  \begin{itemize}
-    \item Streaming Inputs
-    \pause
-    \begin{itemize}
-      \item submitted with \texttag{stream}{InputMessage}
-      \item of type \texttag{wps}{Input}
-    \end{itemize}
-    \pause
-    \item Static Inputs
-    \pause
-    \begin{itemize}
-      \item submitted with initial \texttag{wps}{Execute}
-      \item merged with inputs of every streaming iteration
-      \item of type \texttag{wps}{Input}
-    \end{itemize}
-    \pause
-    \item Reference Inputs
-    \pause
-    \begin{itemize}
-      \item submitted with \texttag{stream}{InputMessage}
-      \item references the output of a previous or upcoming streaming iteration
-    \end{itemize}
-    \pause
-    \item Polling Inputs
-  \end{itemize}
 \end{frame}
 
 \begin{frame}[c,fragile]{Streaming WPS --- Execute Request}
@@ -368,11 +323,15 @@
     \end{center}
 \end{frame}
 
+\againframe{sequencediagram}
+
 \begin{frame}[c,fragile]{Streaming WPS --- Output Request Message}
     \begin{center}
       \lstinputlisting[language=XML]{listings/streaming-output-request-message.xml}
     \end{center}
 \end{frame}
+
+\againframe{sequencediagram}
 
 \begin{frame}[c,fragile]{Streaming WPS --- Input Message}
     \begin{center}
@@ -380,11 +339,15 @@
     \end{center}
 \end{frame}
 
+\againframe{sequencediagram}
+
 \begin{frame}[c,fragile]{Streaming WPS --- Output Message}
     \begin{center}
       \lstinputlisting[language=XML]{listings/streaming-output-message.xml}
     \end{center}
 \end{frame}
+
+\againframe{sequencediagram}
 
 \begin{frame}[c,fragile]{Streaming WPS --- Stop Message}
     \begin{center}
@@ -392,14 +355,36 @@
     \end{center}
 \end{frame}
 
+\begin{frame}{Streaming WPS --- Input Types}
+  \begin{itemize}
+    \item Streaming Inputs
+    \begin{itemize}
+      \item submitted with \texttag{stream}{InputMessage}
+      \item of type \texttag{wps}{Input}
+    \end{itemize}
+    \pause
+    \item Static Inputs
+    \begin{itemize}
+      \item submitted with initial \texttag{wps}{Execute}
+      \item merged with inputs of every streaming iteration
+      \item of type \texttag{wps}{Input}
+    \end{itemize}
+    \pause
+    \item Reference Inputs
+    \begin{itemize}
+      \item submitted with \texttag{stream}{InputMessage}
+      \item references the output of a previous or upcoming streaming iteration
+    \end{itemize}
+    \pause
+    \item Polling Inputs
+  \end{itemize}
+\end{frame}
+
 \begin{frame}[t]{Streaming WPS --- Handling Dependencies}
   \begin{itemize}
     \item Clients declare dependencies to other streaming iterations (or their outputs)
-    \pause
     \item Automatic declaration of (spatial) dependencies not possibe as it is use case and format specific
-    \pause
     \item Process waits for all dependencies to become available
-    \pause
     \item Checking for cyclic dependencies/execution ordering
     \pause
     \begin{itemize}
@@ -410,10 +395,10 @@
 
 \begin{frame}[c,fragile]{Streaming WPS --- Handling Dependencies}
   \begin{center}
-      \lstinputlisting[language=XML,firstline=3,lastline=3]{listings/streaming-input-message.xml}
-      \pause
-      \lstinputlisting[language=XML,firstline=11,lastline=17]{listings/streaming-input-message.xml}
-    \end{center}
+    \lstinputlisting[language=XML,firstline=11,lastline=17]{listings/streaming-input-message.xml}
+    \pause
+    \lstinputlisting[language=XML,firstline=3,lastline=3]{listings/streaming-input-message.xml}
+  \end{center}
 \end{frame}
 
 \titleframe{Current Status}
@@ -421,21 +406,17 @@
 \begin{frame}[t]{Current Status}
   \begin{itemize}
     \item Done:
-    \pause
     \begin{itemize}
       \done Matlab WPS
-      \pause
       \done Lake Analyzer WPS
     \end{itemize}
     \pause
     \item WIP:
-    \pause
     \begin{itemize}
       \missing Streaming WPS
     \end{itemize}
     \pause
     \item Upcoming:
-    \pause
     \begin{itemize}
       \missing Webapp showcasing the process chain
     \end{itemize}
