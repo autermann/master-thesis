@@ -1,4 +1,4 @@
-\documentclass[xcolor=svgnames,professionalfonts,11pt,aspectratio=43]{beamer}
+\documentclass[xcolor=svgnames,professionalfonts,11pt,aspectratio=43,handout]{beamer}
 
 \input{preamble}
 
@@ -116,17 +116,17 @@
   \end{columns}
 \end{frame}
 
-\begin{frame}[c,fragile]{Matlab WPS --- Accessing Matlab from the Web}
-  \begin{columns}
-    \column{.37\textwidth}
-    \lstinputlisting[language=Matlab]{listings/matlab-add-function.m}
-    \pause
-    \lstinputlisting{listings/matlab-connector.sh}
-    \pause
-    \column{.63\textwidth}
-    \lstinputlisting[language=JavaScript]{listings/matlab-add-javascript-client.js}
-  \end{columns}
-\end{frame}
+%\begin{frame}[c,fragile]{Matlab WPS --- Accessing Matlab from the Web}
+%  \begin{columns}
+%    \column{.37\textwidth}
+%    \lstinputlisting[language=Matlab]{listings/matlab-add-function.m}
+%    \pause
+%    \lstinputlisting{listings/matlab-connector.sh}
+%    \pause
+%    \column{.63\textwidth}
+%    \lstinputlisting[language=JavaScript]{listings/matlab-add-javascript-client.js}
+%  \end{columns}
+%\end{frame}
 
 %\begin{frame}[t]{Matlab WPS --- Accessing Matlab from the Web}
 %  \begin{itemize}
@@ -311,49 +311,49 @@
   \end{figure}
 \end{frame}
 
-\begin{frame}[c,fragile]{Streaming WPS --- Execute Request}
-    \begin{center}
-      \lstinputlisting[language=XML]{listings/streaming-execute.xml}
-    \end{center}
-\end{frame}
+%\begin{frame}[c,fragile]{Streaming WPS --- Execute Request}
+%    \begin{center}
+%      \lstinputlisting[language=XML]{listings/streaming-execute.xml}
+%    \end{center}
+%\end{frame}
 
-\begin{frame}[c,fragile]{Streaming WPS --- Execute Response}
-    \begin{center}
-      \lstinputlisting[language=XML]{listings/streaming-execute-response.xml}
-    \end{center}
-\end{frame}
+%\begin{frame}[c,fragile]{Streaming WPS --- Execute Response}
+%    \begin{center}
+%      \lstinputlisting[language=XML]{listings/streaming-execute-response.xml}
+%    \end{center}
+%\end{frame}
+%
+%\againframe{sequencediagram}
 
-\againframe{sequencediagram}
-
-\begin{frame}[c,fragile]{Streaming WPS --- Output Request Message}
-    \begin{center}
-      \lstinputlisting[language=XML]{listings/streaming-output-request-message.xml}
-    \end{center}
-\end{frame}
-
-\againframe{sequencediagram}
-
-\begin{frame}[c,fragile]{Streaming WPS --- Input Message}
-    \begin{center}
-      \lstinputlisting[language=XML]{listings/streaming-input-message.xml}
-    \end{center}
-\end{frame}
-
-\againframe{sequencediagram}
-
-\begin{frame}[c,fragile]{Streaming WPS --- Output Message}
-    \begin{center}
-      \lstinputlisting[language=XML]{listings/streaming-output-message.xml}
-    \end{center}
-\end{frame}
-
-\againframe{sequencediagram}
-
-\begin{frame}[c,fragile]{Streaming WPS --- Stop Message}
-    \begin{center}
-      \lstinputlisting[language=XML]{listings/streaming-stop-message.xml}
-    \end{center}
-\end{frame}
+%\begin{frame}[c,fragile]{Streaming WPS --- Output Request Message}
+%    \begin{center}
+%      \lstinputlisting[language=XML]{listings/streaming-output-request-message.xml}
+%    \end{center}
+%\end{frame}
+%
+%\againframe{sequencediagram}
+%
+%\begin{frame}[c,fragile]{Streaming WPS --- Input Message}
+%    \begin{center}
+%      \lstinputlisting[language=XML]{listings/streaming-input-message.xml}
+%    \end{center}
+%\end{frame}
+%
+%\againframe{sequencediagram}
+%
+%\begin{frame}[c,fragile]{Streaming WPS --- Output Message}
+%    \begin{center}
+%      \lstinputlisting[language=XML]{listings/streaming-output-message.xml}
+%    \end{center}
+%\end{frame}%
+%
+%\againframe{sequencediagram}
+%
+%\begin{frame}[c,fragile]{Streaming WPS --- Stop Message}
+%    \begin{center}
+%      \lstinputlisting[language=XML]{listings/streaming-stop-message.xml}
+%    \end{center}
+%\end{frame}
 
 \begin{frame}{Streaming WPS --- Input Types}
   \begin{itemize}
