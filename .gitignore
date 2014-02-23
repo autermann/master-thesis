@@ -23,7 +23,6 @@
 *.out
 *.synctex.gz
 *.fdb_latexmk
-*.pdf
 *.dvi
 *.brf
 *.lol
