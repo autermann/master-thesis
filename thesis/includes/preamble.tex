@@ -1,0 +1,33 @@
+%!TEX root = ../thesis.tex
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{libertine}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage[hyphens]{url}
+\usepackage{hyperref}
+\usepackage{listings}
+\setlength{\parindent}{0em}
+
+\setlist{nolistsep}
+\urlstyle{same}
+\hypersetup{unicode,
+            breaklinks,
+            colorlinks=true,
+            urlcolor=black,
+            linkcolor=black,
+            citecolor=black}
+
+\makeatletter
+\AtBeginDocument{
+    \hypersetup{
+        pdftitle={Streaming Web-Services for Calculating Live Hydrological Derivatives},
+        pdfsubject={Master Thesis},
+        pdfauthor={Christian Autermann}
+    }
+}
+\makeatother
+
+\newcommand{\fu}[1]{\footnote{\url{#1}}}
+\newcommand{\mail}[1]{\href{mailto:#1}{#1}}
