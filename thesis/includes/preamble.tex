@@ -1,33 +1,59 @@
 %!TEX root = ../thesis.tex
 
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage[english]{babel}
+
+
 \usepackage{libertine}
+\usepackage{beramono}
+\usepackage{textcomp}
 \usepackage{setspace}
-\usepackage{enumitem}
-\usepackage[hyphens]{url}
-\usepackage{hyperref}
-\usepackage{listings}
 \setlength{\parindent}{0em}
+\usepackage[svgnames]{xcolor}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{lipsum}
+\usepackage{multicol}
 
+\usepackage{listings}
+\input{includes/listings}
+
+\usepackage{enumitem}
 \setlist{nolistsep}
-\urlstyle{same}
-\hypersetup{unicode,
-            breaklinks,
-            colorlinks=true,
-            urlcolor=black,
-            linkcolor=black,
-            citecolor=black}
 
-\makeatletter
-\AtBeginDocument{
-    \hypersetup{
-        pdftitle={Streaming Web-Services for Calculating Live Hydrological Derivatives},
-        pdfsubject={Master Thesis},
-        pdfauthor={Christian Autermann}
-    }
+\usepackage[hyphens]{url}
+\urlstyle{same}
+\renewcommand{\UrlBreaks}{%
+\do\a\do\b\do\c\do\d\do\e\do\f%
+\do\g\do\h\do\i\do\j\do\k\do\l%
+\do\m\do\n\do\o\do\p\do\q\do\r%
+\do\u\do\v\do\w\do\x\do\y\do\z%
+\do\A\do\B\do\C\do\D\do\E\do\F%
+\do\G\do\H\do\I\do\J\do\K\do\L%
+\do\M\do\N\do\O\do\P\do\Q\do\R%
+\do\U\do\V\do\W\do\X\do\Y\do\Z%
+\do\_\do\/\do\-}
+
+%\usepackage{titlesec}
+%\titleformat{\paragraph}[hang]{\sffamily\bfseries}{\theparagraph}{.5em}{}
+%\titleformat{\subparagraph}[hang]{\sffamily\bfseries}{\thesubparagraph}{.5em}{}
+
+\usepackage[unicode,breaklinks,hidelinks,colorlinks=true,urlcolor=black,linkcolor=black,citecolor=black]{hyperref}
+
+\usepackage[authoryear,round,comma,sort&compress]{natbib}
+
+\usepackage[margin=10pt,labelfont={bf},format=plain]{caption}
+
+\bibliographystyle{plainnat}
+
+\usepackage{listings}
+
+\hypersetup{
+    pdftitle={Streaming Web-Services for Calculating Live Hydrological Derivatives},
+    pdfsubject={Master Thesis},
+    pdfauthor={Christian Autermann}
 }
-\makeatother
 
 \newcommand{\fu}[1]{\footnote{\url{#1}}}
 \newcommand{\mail}[1]{\href{mailto:#1}{#1}}

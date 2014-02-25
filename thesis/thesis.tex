@@ -1,29 +1,29 @@
-\documentclass[paper=a4,fontsize=12pt,parskip]{scrartcl}
-
+\documentclass[%
+		paper=a4,
+		bibliography=totoc,
+		fontsize=12pt,
+		parskip
+	]{scrartcl}
 \input{includes/preamble}
-
 \begin{document}
 	\input{includes/titlepage}
 
 	\pagestyle{plain}
 	\pagenumbering{roman}
 
-	\tableofcontents
-	\clearpage
-	\listoftables
-	\clearpage
-	\listoffigures
-	\clearpage
-	\lstlistoflistings
-	\clearpage
+	\tableofcontents\clearpage
+	\listoftables\clearpage
+	\listoffigures\clearpage
+	\lstlistoflistings\clearpage
 
 	\pagenumbering{arabic}
 	\section{Introduction}
 	\clearpage
-
-	\appendix
-	\pagenumbering{Roman}
-
+	\bibliography{thesis}
+	\clearpage
+	\begin{appendix}
+		\pagenumbering{Roman}
+	\end{appendix}
 	\clearpage
 	\pagenumbering{gobble}
 	\input{includes/plagiatserklaerung}
