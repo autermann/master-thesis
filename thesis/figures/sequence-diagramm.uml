@@ -1,0 +1,58 @@
+@startuml
+hide footbox
+skinparam defaultFontName "Linux Biolinum"
+
+participant "Sender"
+participant "Streaming WPS"
+participant "Streaming Process"
+participant "Matlab WPS"
+participant "Matlab"
+participant "Receiver 1"
+participant "Receiver 2"
+
+activate "Sender"
+activate "Receiver 1"
+activate "Receiver 2"
+
+"Sender" -> "Streaming WPS": Execute
+activate "Streaming WPS"
+
+create "Streaming Process"
+"Streaming WPS" -> "Streaming Process": new
+
+"Streaming WPS" --> "Sender": ProcessID
+deactivate "Streaming WPS"
+
+"Receiver 1" ->> "Streaming Process": RequestOutput
+activate "Streaming Process"
+deactivate "Streaming Process"
+
+"Receiver 2" ->> "Streaming Process": RequestOutput
+activate "Streaming Process"
+deactivate "Streaming Process"
+
+loop
+	"Sender" ->> "Streaming Process": Input
+	activate "Streaming Process"
+	"Streaming Process" -> "Matlab WPS": Execute
+	activate "Matlab WPS"
+	"Matlab WPS" -> "Matlab": Request
+	activate "Matlab"
+	"Matlab" --> "Matlab WPS": Response
+	deactivate "Matlab"
+	"Matlab WPS" --> "Streaming Process": Execute Response
+	deactivate "Matlab WPS"
+	"Streaming Process" ->> "Receiver 1": Output
+	"Streaming Process" ->> "Receiver 2": Output
+	deactivate "Streaming Process"
+end
+
+"Sender" ->> "Streaming Process": Stop
+activate "Streaming Process"
+
+"Streaming Process" ->> "Receiver 1": Stop
+"Streaming Process" ->> "Receiver 2": Stop
+
+destroy "Streaming Process"
+
+@enduml

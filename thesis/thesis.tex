@@ -4,27 +4,40 @@
 		fontsize=12pt,
 		parskip
 	]{scrartcl}
+
 \input{includes/preamble}
+
 \begin{document}
 	\input{includes/titlepage}
 
 	\pagestyle{plain}
 	\pagenumbering{roman}
 
-	\tableofcontents\clearpage
-	\listoftables\clearpage
-	\listoffigures\clearpage
-	\lstlistoflistings\clearpage
+	\tableofcontents
+	\clearpage
+
+	\listoftables
+	\clearpage
+
+	\listoffigures
+	\clearpage
+
+	\lstlistoflistings
+	\clearpage
 
 	\pagenumbering{arabic}
-	\section{Introduction}
+	\input{content}
 	\clearpage
+
+	\nocite{*}
 	\bibliography{thesis}
 	\clearpage
+
 	\begin{appendix}
 		\pagenumbering{Roman}
 	\end{appendix}
 	\clearpage
+
 	\pagenumbering{gobble}
 	\input{includes/plagiatserklaerung}
 \end{document}
