@@ -13,8 +13,14 @@
 \usepackage[svgnames]{xcolor}
 \usepackage{graphicx}
 \usepackage{tabularx}
-\usepackage{lipsum}
+
+\newcolumntype{b}{>{\bfseries}c}
+
+\usepackage{booktabs}
+\usepackage{multirow}
+
 \usepackage{multicol}
+\usepackage{lipsum}
 
 \usepackage{listings}
 \input{includes/listings}
@@ -57,3 +63,12 @@
 
 \newcommand{\fu}[1]{\footnote{\url{#1}}}
 \newcommand{\mail}[1]{\href{mailto:#1}{#1}}
+
+
+
+\newsavebox\mybox
+\newenvironment{signedquote}[1]
+  {\savebox\mybox{\small\textup{--- #1}}\begin{quote}\itshape}
+  {{\leavevmode\unskip\nobreak\hfil\penalty50\hskip2em
+  	\hbox{}\nobreak\hfil\usebox\mybox\parfillskip=0pt
+    \finalhyphendemerits=0\endgraf}\end{quote}}
