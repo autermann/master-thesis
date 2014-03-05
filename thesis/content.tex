@@ -26,6 +26,37 @@
 			{\label{lst:matlab:example:desc}Process description generated from the configuration in Listing \ref{lst:matlab:example:yaml}.}
 
 		\subsection{Type Mapping}
+		\begin{table}[!htb]
+			\sffamily\centering
+			\caption{\label{tab:matlab:typemapping}Type Mapping between Matlab and WPS Data}
+			\begin{tabular}{@{}llcc@{}}
+				\toprule
+				&
+				& \multicolumn{2}{b}{Matlab Type}\\
+				\cmidrule(l){3-4}
+				\multicolumn{1}{@{}b}{}
+				& \multicolumn{1}{b}{Data}
+				& \multicolumn{1}{b}{For single inputs}
+				& \multicolumn{1}{b@{}}{For multiple inputs}\\
+				\cmidrule(rl){2-2}
+				\cmidrule(rl){3-3}
+				\cmidrule(l){4-4}
+				\textbf{Complex}      & \textit{any} & String  & Cell \\\midrule
+				\textbf{Bounding Box} & -            & -       & -    \\\midrule
+				\textbf{Literal}      & xs:int       & Numeric & Array\\
+								      & xs:boolean   & Numeric & Array\\
+								      & xs:dateTime  & Numeric & Array\\
+								      & xs:double    & Numeric & Array\\
+								      & xs:float     & Numeric & Array\\
+								      & xs:byte      & Numeric & Array\\
+								      & xs:short     & Numeric & Array\\
+								      & xs:int       & Numeric & Array\\
+								      & xs:long      & Numeric & Array\\
+								      & xs:string    & String  & Cell \\
+								      & xs:anyURI    & String  & Cell \\
+				\bottomrule
+			\end{tabular}
+		\end{table}
 		\subsection{Pooling}
 		\subsection{License Issues}
 		\subsection{Implementation}
