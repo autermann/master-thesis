@@ -1,7 +1,7 @@
 digraph g {
 	graph [fontname = "Linux Biolinum"];
  	node [fontname = "Linux Biolinum"];
- 	edge [color=blue fontname = "Linux Biolinum"];
+ 	edge [fontname = "Linux Biolinum"];
 	A -> {B C} -> D;
 	E -> F;
 }

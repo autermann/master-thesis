@@ -1,9 +1,9 @@
 digraph g {
 	graph [rankdir = LR fontname = "Linux Biolinum"];
  	node [fontname = "Linux Biolinum"];
- 	edge [color=blue fontname = "Linux Biolinum"];
+ 	edge [fontname = "Linux Biolinum"];
 	nowhere [style=invis margin=0 label="" height=0 width=0];
 	A -> { B C } -> D[constraint=false];
 	E -> F[constraint=false];
-  	nowhere -> D -> F -> C -> B -> E -> A [color=red];
+  	nowhere -> D -> F -> C -> B -> E -> A [color="#881280"];
 }
