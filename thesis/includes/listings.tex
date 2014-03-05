@@ -52,6 +52,24 @@
   {σ}{{$\mathrm{\sigma}$}}1
   {⋅}{{$\cdot$}}1
 }
+
+\lstdefinelanguage{yaml}{
+  keywords={true,false,null,y,n},
+  sensitive=false,
+  comment=[l]{\#},
+  morecomment=[s]{/*}{*/},
+  moredelim=[l][\color{ndkeyword}]{\&},
+  moredelim=[l][\color{ndkeyword}]{*},
+  moredelim=**[il][\textcolor{ndkeyword}{:}]{:},
+  morestring=[b]',
+  morestring=[b]",
+  literate = {---}{{\textcolor{ndkeyword}{-{-}-}}}3
+             {...}{{\textcolor{ndkeyword}{...}}}3
+             {>}{{\textcolor{ndkeyword}\textgreater}}1
+             {|}{{\textcolor{ndkeyword}\textbar}}1
+             {\ -\ }{{\textcolor{ndkeyword}{\ -\ }}}3,
+}
+
 \lstdefinelanguage{JavaScript}{
   morekeywords={break, case, catch, continue, debugger, default, delete, do, else, finally, for, function, if, in, instanceof, new, return, switch, this, throw, try, typeof, var, while, with, null, throw, this},
   morendkeywords={Object,Array,Boolean,Date,window,Number,String,Math,XMLHttpRequest,document,prototype,undefined,Infinity,NaN,import,export,this,console,Error},
@@ -162,4 +180,4 @@
   }
 }
 \newcommand{\texttag}[2]{\texttt{\tiny{\textless\textcolor{keyword}{#1:#2}\textgreater}}}
-\newcommand{\includecode}[2][xml]{\lstinputlisting[]}
+\newcommand{\includecode}[3][]{\lstinputlisting[float=!htb,caption=#3,language=#1]{listings/#2}}
