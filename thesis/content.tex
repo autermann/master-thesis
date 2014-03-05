@@ -10,17 +10,53 @@
 		\subsection{WPS4R}
 		\subsection{Previous approaches}
 	\section{Matlab WPS}
-		\subsection{WPS4R}
+
+
+		\newcommand{\listing}
+
+		\subsection{Configuration}
+		\includecode[Matlab]
+			{matlab-add-function.m}
+			{\label{lst:matlab:example:fun}Matlab example function.}
+		\includecode[YAML,morekeywords={function,connection,identifier,version,inputs,outputs,type}]
+			{matlab-add-process-configuration.yaml}
+			{\label{lst:matlab:example:yaml}Matlab process configuration describing the function in Listing \ref{lst:matlab:example:fun}.}
+		\includecode[XML]
+			{matlab-add-process-description.xml}
+			{\label{lst:matlab:example:desc}Process description generated from the configuration in Listing \ref{lst:matlab:example:yaml}.}
+
 		\subsection{Type Mapping}
 		\subsection{Pooling}
 		\subsection{License Issues}
 		\subsection{Implementation}
+		\begin{figure}[!htb]
+			\centering
+			\includegraphics[width=.8125\textwidth]{figures/sequence-diagramm-mwps.pdf}
+			\caption{\label{fig:sd:mwps} Sequence diagram of the Matlab WPS.} %182x194
+		\end{figure}
 		\subsection{Lake-Analyzer WPS}
 	\section{Streaming WPS}
 		\subsection{Input Types}
 		\subsection{Dependencies}
+		\begin{figure}[!htb]
+			\centering
+			\includegraphics[width=.4474\textwidth]{figures/unordered-graph.pdf} % 98x92
+			\caption{\label{fig:graph:unordered} Example for a dependency graph.}
+		\end{figure}
+		\begin{figure}[!htb]
+			\centering
+			\includegraphics[width=1\textwidth]{figures/ordered-graph.pdf} % 219x58
+			\caption{\label{fig:graph:ordered} Topological ordering for of the dependency graph in Figure \ref{fig:graph:unordered}.}
+		\end{figure}
+
 		\subsection{Protocoll}
 		\subsection{Implementation}
+		\begin{figure}[!htb]
+			\centering
+			\includegraphics[width=1\textwidth]{figures/sequence-diagramm-swps.pdf}
+			% 224x293
+			\caption{\label{fig:sd:swps} Sequence diagram of the Streaming WPS.}
+		\end{figure}
 		\subsection{Client Implementation}
 		\subsection{Streaming Lake-Analyzer WPS}
 	\section{Future Work}
