@@ -1,6 +1,7 @@
 \documentclass[%
 		paper=a4,
 		bibliography=totoc,
+		%listof=totoc,
 		fontsize=12pt,
 		parskip
 	]{scrartcl}
@@ -8,24 +9,22 @@
 \input{includes/preamble}
 
 \begin{document}
+	\onehalfspacing
 	\input{includes/titlepage}
 
 	\pagestyle{plain}
 	\pagenumbering{roman}
+	\singlespacing
 
 	\tableofcontents
 	\clearpage
-
 	\listoftables
-	\clearpage
-
 	\listoffigures
-	\clearpage
-
 	\lstlistoflistings
 	\clearpage
 
 	\pagenumbering{arabic}
+	\onehalfspacing
 	\input{content}
 	\clearpage
 
