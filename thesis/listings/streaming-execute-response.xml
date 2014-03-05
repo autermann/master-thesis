@@ -1,0 +1,18 @@
+<wps:ExecuteResponse xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" serviceInstance="http://localhost:12321/WebProcessingService?REQUEST=GetCapabilities&amp;SERVICE=WPS" xml:lang="en-US" service="WPS" version="1.0.0">
+  <wps:Process wps:processVersion="1.0.0">
+    <ows:Identifier>com.github.autermann.wps.streaming.delegate.DelegatingStreamingAlgorithm</ows:Identifier>
+    <ows:Title>Delegating Streaming Algorithm</ows:Title>
+  </wps:Process>
+  <wps:Status creationTime="2014-01-29T12:22:21.836+01:00">
+    <wps:ProcessSucceeded>Process successful</wps:ProcessSucceeded>
+  </wps:Status>
+  <wps:ProcessOutputs>
+    <wps:Output>
+      <ows:Identifier>process-id</ows:Identifier>
+      <ows:Title>The Process ID</ows:Title>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:anyURI">uuid:37591eb2-d936-4df7-bd7f-5fd626d2cd7d</wps:LiteralData>
+      </wps:Data>
+    </wps:Output>
+  </wps:ProcessOutputs>
+</wps:ExecuteResponse>

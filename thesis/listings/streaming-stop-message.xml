@@ -1,0 +1,11 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:stream="https://github.com/autermann/streaming-wps">
+  <soap:Header>
+    <wsa:MessageID>uuid:01ea8dab-5da9-46eb-81b4-06dcea32ca01</wsa:MessageID>
+    <wsa:Action>https://github.com/autermann/streaming-wps/stop</wsa:Action>
+  </soap:Header>
+  <soap:Body>
+    <stream:StopMessage>
+      <stream:ProcessID>uuid:773c3e5f-8c20-4fe2-825c-4af949f17685</stream:ProcessID>
+    </stream:StopMessage>
+  </soap:Body>
+</soap:Envelope>

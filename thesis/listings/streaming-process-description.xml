@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProcessDescription xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" statusSupported="true" storeSupported="false" wps:processVersion="1.0.0">
+  <ows:Identifier>com.github.autermann.wps.streaming.delegate.DelegatingStreamingAlgorithm</ows:Identifier>
+  <ows:Title>Delegating Streaming Algorithm</ows:Title>
+  <ows:Abstract>Generic Streaming Algorithm to convert any existing WPS process into a streaming process.</ows:Abstract>
+  <DataInputs>
+    <Input minOccurs="1" maxOccurs="1">
+      <ows:Identifier>remote-process-description</ows:Identifier>
+      <ows:Title>Remote Process Description</ows:Title>
+      <ows:Abstract>Process description of the process to proxy</ows:Abstract>
+      <ComplexData>
+        <Default>
+          <Format>
+            <MimeType>application/xml</MimeType>
+            <Encoding>UTF-8</Encoding>
+            <Schema>http://schemas.opengis.net/wps/1.0.0/wpsDescribeProcess_response.xsd</Schema>
+          </Format>
+        </Default>
+        <Supported>
+          <Format>
+            <MimeType>application/xml</MimeType>
+            <Encoding>UTF-8</Encoding>
+            <Schema>http://schemas.opengis.net/wps/1.0.0/wpsDescribeProcess_response.xsd</Schema>
+          </Format>
+        </Supported>
+      </ComplexData>
+    </Input>
+    <Input minOccurs="1" maxOccurs="1">
+      <ows:Identifier>remote-wps-url</ows:Identifier>
+      <ows:Title>Remote WPS URL</ows:Title>
+      <ows:Abstract>The URL of the WPS server to proxy</ows:Abstract>
+      <LiteralData>
+        <ows:DataType ows:reference="xs:anyURI"/>
+        <ows:AnyValue/>
+      </LiteralData>
+    </Input>
+    <Input minOccurs="0" maxOccurs="1">
+      <ows:Identifier>static-inputs</ows:Identifier>
+      <ows:Title>Static Inputs</ows:Title>
+      <ows:Abstract>Common inputs for all streaming iterations</ows:Abstract>
+      <ComplexData>
+        <Default>
+          <Format>
+            <MimeType>application/xml</MimeType>
+            <Encoding>UTF-8</Encoding>
+            <Schema>https://autermann.github.com/streaming-wps/staticInputs.xsd</Schema>
+          </Format>
+        </Default>
+        <Supported>
+          <Format>
+            <MimeType>application/xml</MimeType>
+            <Encoding>UTF-8</Encoding>
+            <Schema>https://autermann.github.com/streaming-wps/staticInputs.xsd</Schema>
+          </Format>
+        </Supported>
+      </ComplexData>
+    </Input>
+  </DataInputs>
+  <ProcessOutputs>
+    <Output>
+      <ows:Identifier>process-id</ows:Identifier>
+      <ows:Title>The Process ID</ows:Title>
+      <ows:Abstract>The process id of this instance.</ows:Abstract>
+      <LiteralOutput>
+        <ows:DataType ows:reference="xs:anyURI"/>
+      </LiteralOutput>
+    </Output>
+  </ProcessOutputs>
+</ProcessDescription>

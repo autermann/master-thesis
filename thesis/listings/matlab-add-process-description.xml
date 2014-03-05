@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProcessDescription xmlns:wps="http://www.opengis.net/wps/1.0.0"
+  xmlns:ows="http://www.opengis.net/ows/1.1" wps:processVersion="1.0.0">
+  <ows:Identifier>matlab.add</ows:Identifier>
+  <ows:Title>matlab.add</ows:Title>
+  <DataInputs>
+    <Input minOccurs="1" maxOccurs="1">
+      <ows:Identifier>a</ows:Identifier>
+      <ows:Title>a</ows:Title>
+      <LiteralData>
+        <ows:DataType ows:reference="xs:double"/>
+        <ows:AnyValue/>
+      </LiteralData>
+    </Input>
+    <Input minOccurs="1" maxOccurs="1">
+      <ows:Identifier>b</ows:Identifier>
+      <ows:Title>b</ows:Title>
+      <LiteralData>
+        <ows:DataType ows:reference="xs:double"/>
+        <ows:AnyValue/>
+      </LiteralData>
+    </Input>
+  </DataInputs>
+  <ProcessOutputs>
+    <Output>
+      <ows:Identifier>result</ows:Identifier>
+      <ows:Title>result</ows:Title>
+      <LiteralOutput>
+        <ows:DataType ows:reference="xs:double"/>
+      </LiteralOutput>
+    </Output>
+  </ProcessOutputs>
+</ProcessDescription>

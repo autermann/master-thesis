@@ -1,0 +1,15 @@
+<wps:Execute xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" service="WPS" version="1.0.0">
+  <ows:Identifier>com.github.autermann.wps.streaming.delegate.DelegatingStreamingAlgorithm</ows:Identifier>
+  <wps:DataInputs>
+    <wps:Input>
+      <ows:Identifier>remote-wps-url</ows:Identifier>
+      <wps:Data>
+        <wps:LiteralData dataType="xs:anyURI">http://localhost:12321/WebProcessingService</wps:LiteralData>
+      </wps:Data>
+    </wps:Input>
+    <wps:Input>
+      <ows:Identifier>remote-process-description</ows:Identifier>
+      <wps:Reference method="GET" xlink:href="http://localhost:12321/WebProcessingService?service=WPS&amp;version=1.0.0&amp;request=DescribeProcess&amp;identifier=com.github.autermann.wps.streaming.test.TestAlgorithm" mimeType="application/xml" encoding="UTF-8" schema="http://schemas.opengis.net/wps/1.0.0/wpsDescribeProcess_response.xsd"/>
+    </wps:Input>
+  </wps:DataInputs>
+</wps:Execute>
