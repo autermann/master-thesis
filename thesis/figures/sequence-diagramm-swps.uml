@@ -1,7 +1,22 @@
 @startuml
 hide footbox
-skinparam monochrome true
 skinparam defaultFontName "Linux Biolinum"
+skinparam note {
+	BackgroundColor white
+	BorderColor black
+}
+skinparam sequence {
+	ArrowColor black
+	ActorBorderColor black
+	LifeLineBorderColor black
+	ParticipantBorderColor black
+	BoxLineColor black
+	ActorBackgroundColor wihte
+	ParticipantBackgroundColor white
+	GroupBackgroundColor white
+	DividerBackgroundColor white
+	BoxBackgroundColor white
+}
 
 participant "Sender" as s
 participant "Receiver" as r
@@ -9,6 +24,7 @@ participant "Streaming WPS" as swps
 participant "Streaming Process" as sp
 participant "Database" as db
 participant "Remote WPS" as rwps
+
 activate s
 activate r
 
