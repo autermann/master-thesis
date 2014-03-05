@@ -1,0 +1,81 @@
+@startuml
+hide footbox
+skinparam monochrome true
+skinparam defaultFontName "Linux Biolinum"
+
+participant "Sender" as s
+participant "Receiver" as r
+participant "Streaming WPS" as swps
+participant "Streaming Process" as sp
+participant "Database" as db
+participant "Remote WPS" as rwps
+activate s
+activate r
+
+s -> swps: Execute
+activate swps
+
+create sp
+swps -> sp: new
+activate sp
+create db
+sp -> db: new
+deactivate sp
+
+s <-- swps: Execute Response
+deactivate swps
+
+|||
+
+r ->> sp: Request Output
+activate sp
+deactivate sp
+
+loop
+	s ->> sp: Input
+	activate sp
+	sp -> sp: check for cyclic\ndependencies
+
+	sp -> db: save input
+	activate db
+	sp <-- db
+	deactivate db
+
+	sp -> sp: queue
+	...
+
+	sp -> db: load input
+	activate db
+	sp <-- db
+	deactivate db
+
+	sp -> db: load dependencies
+	activate db
+	sp <-- db
+	deactivate db
+
+	sp -> rwps: Execute
+	activate rwps
+	sp <-- rwps: Execute Reponse
+	deactivate rwps
+
+	sp -> db: save output
+	activate db
+	sp <-- db
+	deactivate db
+
+	sp ->> r: Output
+	deactivate sp
+end
+
+s ->> sp: Stop
+activate sp
+sp ->> r: Stop
+
+sp -> db: destroy
+activate db
+sp <-- db
+destroy db
+
+destroy sp
+@enduml

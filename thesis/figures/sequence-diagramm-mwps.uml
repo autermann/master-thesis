@@ -1,0 +1,34 @@
+@startuml
+hide footbox
+skinparam monochrome true
+skinparam defaultFontName "Linux Biolinum"
+autonumber
+
+participant "Matlab WPS" as mwps
+participant "Matlab Server" as ms
+participant "Matlab Instance" as mi
+participant "Matlab" as m
+note over mi: pooled
+
+[-> mwps: Execute
+activate mwps
+mwps -> mwps: build Matlab\nrequest
+mwps ->> ms: Request
+activate ms
+ms -> mi: Request
+activate mi
+mi -> mi: create function\ncall
+mi -> m: fun()
+activate m
+mi <-- m:
+deactivate m
+mi -> mi: parse return\nvalues
+ms <-- mi: Response
+deactivate mi
+mwps <<-- ms: Response
+deactivate ms
+mwps -> mwps: parse Matlab\nresponse
+[<-- mwps: Execute Response
+deactivate mwps
+
+@enduml
