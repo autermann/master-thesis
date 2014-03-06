@@ -18,80 +18,71 @@ skinparam sequence {
 	BoxBackgroundColor white
 }
 
-participant "Sender" as s
-participant "Receiver" as r
-participant "Streaming WPS" as swps
-participant "Streaming Process" as sp
-participant "Database" as db
-participant "Remote WPS" as rwps
+participant "Sender" as sender
+participant "Receiver" as receiver
+participant "Streaming WPS" as wps
+participant "Streaming Process" as process
+participant "Delegate" as delegate
 
-activate s
-activate r
 
-s -> swps: Execute
-activate swps
+!define HTTP [#000]
+!define WS [#000]
 
-create sp
-swps -> sp: new
-activate sp
-create db
-sp -> db: new
-deactivate sp
+activate sender
+activate receiver
 
-s <-- swps: Execute Response
-deactivate swps
+sender -HTTP> wps: Execute
+activate wps
+create delegate
+wps -> delegate: create
+create process
+wps -> process: create
+sender <-HTTP- wps: Execute Response
+deactivate wps
 
 |||
 
-r ->> sp: Request Output
-activate sp
-deactivate sp
+receiver -WS>> process: Request Output
+activate process
+deactivate process
 
 loop
-	s ->> sp: Input
-	activate sp
-	sp -> sp: check for cyclic\ndependencies
+	sender -WS>> process: Input
+	activate process
+	process -> process: check for cyclic\ndependencies
 
-	sp -> db: save input
-	activate db
-	sp <-- db
-	deactivate db
-
-	sp -> sp: queue
+	process -> process: queue
 	...
 
-	sp -> db: load input
-	activate db
-	sp <-- db
-	deactivate db
+	process -> delegate: execute
+	activate delegate
+	process <-- delegate:
+	deactivate delegate
 
-	sp -> db: load dependencies
-	activate db
-	sp <-- db
-	deactivate db
+	opt delegate has intermediate result
+		process -WS>> receiver: Output
+	end
+	deactivate process
 
-	sp -> rwps: Execute
-	activate rwps
-	sp <-- rwps: Execute Reponse
-	deactivate rwps
-
-	sp -> db: save output
-	activate db
-	sp <-- db
-	deactivate db
-
-	sp ->> r: Output
-	deactivate sp
 end
 
-s ->> sp: Stop
-activate sp
-sp ->> r: Stop
+sender -WS>> process: Stop
+activate process
+process -> delegate: finish
+activate delegate
+process <-- delegate:
+deactivate delegate
+opt delegate has final result
+	process -WS>> receiver: Output
+end
 
-sp -> db: destroy
-activate db
-sp <-- db
-destroy db
+process -> delegate: destroy
+activate delegate
+process <-- delegate
+destroy delegate
 
-destroy sp
+
+
+process -WS>> receiver: Stop
+destroy process
 @enduml
