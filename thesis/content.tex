@@ -107,7 +107,45 @@
 	\end{figure}
 	\subsection{Lake-Analyzer WPS}
 \section{Streaming WPS}
-	\subsection{Input Types}
+	\subsection{Input Types}\label{sec:streaming:input-types}
+	\subsubsection{Static Inputs}
+		\begin{itemize}
+			\item see Listing \ref{lst:streaming:input:static}
+			\item inputs common to every streaming iteration
+			\item supplied when starting the streaming process
+			\item merged with streaming inputs and forwarded to delegate
+			\item configuration parameters, etc.
+		\end{itemize}
+		\includecode[XML]{streaming-input-static.xml}{\label{lst:streaming:input:static}Example for a Streaming WPS static inputs.}
+	\subsubsection{Streaming Inputs}
+		\begin{itemize}
+			\item see Listing \ref{lst:streaming:input:streaming}
+			\item provided for a single streaming iteration
+			\item features all WPS input data types
+		\end{itemize}
+		\includecode[XML]{streaming-input-streaming.xml}{\label{lst:streaming:input:streaming}Example for a Streaming WPS streaming inputs.}
+	\subsubsection{Reference Inputs}
+		\begin{itemize}
+			\item see Listing \ref{lst:streaming:input:reference}
+			\item references the output of a previous or upcoming streaming iteration as an input for this iteration
+			\item used to model dependencies between iterations/features/etc.
+		\end{itemize}
+		\includecode[XML]{streaming-input-reference.xml}{\label{lst:streaming:input:reference}Example for a Streaming WPS reference input.}
+	\subsubsection{Polling inputs}
+		\begin{itemize}
+			\item Not implemented inside the streaming WPS.
+			\item what to do if multiple polling inputs are defined?
+			\item how to define polling frequency?
+			\item how to define notifications?
+			\item better handled on client side (see Figure \ref{fig:sd:polling})
+		\end{itemize}
+		\begin{figure}[!htb]
+			\centering
+			\includegraphics[width=.7868\textwidth]{figures/sequence-diagramm-polling.pdf}
+			% 179x274
+			\caption{\label{fig:sd:polling} Sequence diagram of the Streaming WPS.}
+		\end{figure}
+
 	\subsection{Dependencies}
 	\begin{figure}[!htb]
 		\centering
