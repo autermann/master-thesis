@@ -1,0 +1,35 @@
+<stream:StaticInputs
+    xmlns:stream="https://github.com/autermann/streaming-wps"
+    xmlns:wps="http://www.opengis.net/wps/1.0.0"
+    xmlns:ows="http://www.opengis.net/ows/1.1"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+  <wps:Input>
+    <ows:Identifier>intput1</ows:Identifier>
+    <wps:Data>
+      <wps:LiteralData dataType="xs:string">input1</wps:LiteralData>
+    </wps:Data>
+  </wps:Input>
+  <wps:Input>
+    <ows:Identifier>intput2</ows:Identifier>
+    <wps:Data>
+      <wps:ComplexData mimeType="application/xml" encoding="UTF-8">
+        <hello>world</hello>
+      </wps:ComplexData>
+    </wps:Data>
+  </wps:Input>
+  <wps:Input>
+    <ows:Identifier>intput3</ows:Identifier>
+    <wps:Data>
+      <wps:BoundingBoxData>
+        <wps:BoundingBoxData crs="EPSG:4326" dimensions="2">
+          <ows:LowerCorner>52.2 7.0</ows:LowerCorner>
+          <ows:UpperCorner>55.2 15.0</ows:UpperCorner>
+        </wps:BoundingBoxData>
+      </wps:BoundingBoxData>
+    </wps:Data>
+  </wps:Input>
+  <wps:Input>
+    <ows:Identifier>input4</ows:Identifier>
+    <wps:Reference mimeType="application/xml" encoding="UTF-8" schema="http://schemas.opengis.net/gml/3.1.1/base/gml.xsd" xlink:href="http://geoprocessing.demo.52north.org:8080/geoserver/wfs?service=WFS&amp;version=1.0.0&amp;request=GetFeature&amp;typeName=topp:tasmania_roads&amp;srs=EPSG:4326&amp;outputFormat=GML3"/>
+  </wps:Input>
+</stream:StaticInputs>
