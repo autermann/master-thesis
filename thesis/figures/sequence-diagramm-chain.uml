@@ -72,6 +72,8 @@ end
 sender ->> process1: Stop
 activate process1
 process1 ->> translator: Stop
+deactivate process1
+destroy process1
 activate translator
 translator ->> process2: Stop
 deactivate translator
@@ -79,5 +81,4 @@ destroy translator
 activate process2
 process2 ->> receiver: Stop
 destroy process2
-destroy process1
 @enduml
