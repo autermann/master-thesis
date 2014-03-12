@@ -187,5 +187,14 @@
 	\end{figure}
 	\subsection{Client Implementation}
 	\subsection{Streaming Lake-Analyzer WPS}
+	\subsection{Limitations}
+	\begin{itemize}
+		\item No input/output conversion
+		\item Only default format is requested from delegate
+		\item process will not fail fast in under every condition
+		\begin{itemize}
+			\item inputs first are checked at execution time
+		\end{itemize}
+	\end{itemize}
 \section{Future Work}
 \section{Conclusion}
