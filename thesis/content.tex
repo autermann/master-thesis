@@ -147,6 +147,25 @@
 		\end{figure}
 
 	\subsection{Dependencies}
+
+	\begin{itemize}
+		\item Directed acyclic graph $D=(V,E)$ with mutliple not interconnected subgraphs, probably quite sparse graphs.
+		\item vertices are tasks, edges are dependencies to other tasks
+		\item graph has to be acyclic as a cylce would produce a cyclic dependency that can not be resolved/executed
+		\item see Figure \ref{fig:graph:unordered}
+		\item topological ordering provides execution order see Figure \ref{fig:graph:ordered}
+		\begin{itemize}
+			\item ``A topological ordering, $ord_D$, of a directed acyclic graph $D = (V, E)$ maps each vertex to a priority value such that $ord_{D}(x) < ord_{D}(y)$ holds for all edges $x \rightarrow y \in E$.'' \citep{pearce2007dynamic}
+			\item execution order = nodes sorted by descending $ord_D$
+		 	\item linear time \citep{cormen2001introduction}: $\mathcal O(|V|+|E|)$  $\mathcal O(|E|)$ may vary between $\mathcal O(|V|)$ and  $O(|V|^2)$
+		 \end{itemize}
+		\item in contrast to e.g. package managers: non static graph, nodes and edges are added
+		\item Recreating the topological ordering for every insertion can be costly \cite{pearce2007dynamic}
+		\item \cite{pearce2007dynamic} provides dynamic algoritm for creating and maintaining the topological order, efficient on sparse graphs and constant factor slower on dense graphs
+		\item graph only used to check for cyclic dependencies
+		\item implementation listener based -> easier parallelization of execution
+		\item streaming iterations are considered as tasks and can declare dependencies to other streaming iterations either by declaring mapping an input to the output of another streaming iteration (see Section \ref{sec:streaming:input-types}) or by declaring a explicit dependency on another streaming iteration
+	\end{itemize}
 	\begin{figure}[!htb]
 		\centering
 		\includegraphics[width=.4474\textwidth]{figures/unordered-graph.pdf} % 98x92
