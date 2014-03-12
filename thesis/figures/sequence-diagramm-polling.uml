@@ -1,0 +1,57 @@
+@startuml
+hide footbox
+skinparam defaultFontName "Linux Biolinum"
+skinparam note {
+	BackgroundColor white
+	BorderColor black
+}
+skinparam sequence {
+	ArrowColor black
+	ActorBorderColor black
+	LifeLineBorderColor black
+	ParticipantBorderColor black
+	BoxLineColor black
+	ActorBackgroundColor wihte
+	ParticipantBackgroundColor white
+	GroupBackgroundColor white
+	DividerBackgroundColor white
+	BoxBackgroundColor white
+}
+participant "Data Provider" as cloud
+participant "Client" as client
+participant "Streaming WPS" as wps
+participant "Streaming Process" as process
+
+
+!define HTTP [#000]
+!define WS [#000]
+
+activate client
+
+client -HTTP> wps: Execute
+activate wps
+create process
+wps -> process: create
+client <-HTTP- wps: Execute Response
+deactivate wps
+
+|||
+
+client -WS>> process: Request Output
+activate process
+deactivate process
+
+loop true
+	client -> cloud: has new input?
+	activate cloud
+	client <-- cloud: Input
+	deactivate cloud
+	client -WS>> process: Input
+	activate process
+	...
+
+	process -WS>> client: Output
+	deactivate process
+
+end
+@enduml
