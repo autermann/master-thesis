@@ -14,11 +14,59 @@
 	\subsection{Previous approaches}
 	\begin{itemize}
 		\item heavily format specific
+		\begin{itemize}
+			\item parsing of GML/etc in the WPS and translation to R structures
+		\end{itemize}
 		\item publishing results in a playlist that has to be checked constantly
 		\item WPS splits inputs
+		\item configuration as comments in R scripts
+		\item focussing on scripts and not on functions
 	\end{itemize}
 \section{Matlab WPS}
+\begin{itemize}
+	\item matlab function <-> wps process
+	\item not format specific
+	\item no conversion of complex inputs/outputs
+	\begin{itemize}
+		\item single output formats
+	\end{itemize}
+	\item matlab program has to parse inputs
+	\item easy to publish existing scripts and functions as WPS processes
+	\item multi-tier implementation
+	\begin{itemize}
+		\item Matlab WPS
+		\begin{itemize}
+			\item Translates WPS Execute requests to Matlab client requests
+			\item Translates Matlab client responses to WPS Execute responses
+			\item configurationn with YAML file to create description and translate inputs/outputs
+		\end{itemize}
+		\item Matlab Client
+		\begin{itemize}
+			\item WebSocket client to access the Matlab server.
+			\item offers simple request building API
+		\end{itemize}
+		\item Matlab Server
+		\begin{itemize}
+			\item WebSocket server that pools multiple Matlab Instances
+			\item delegates requests to free instances
+		\end{itemize}
+		\item Matlab Instance
+		\begin{itemize}
+			\item a Java wrapper around a Matlab instance
+		\end{itemize}
+		\item Matlab
+		\begin{itemize}
+			\item A headless intance of the Matlab software
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
 	\subsection{Configuration}
+	\begin{itemize}
+		\item Can not be used to offer any function as process
+		\item would not conform to Mathworks license
+		\item configuring of a single function as a process
+		\item configuration YAML file
+	\end{itemize}
 	\includecode[Matlab]
 		{matlab-add-function.m}
 		{\label{lst:matlab:example:fun}Matlab example function.}
@@ -62,43 +110,48 @@
 		\end{tabular}
 	\end{table}
 	\subsection{Pooling}
+	\begin{itemize}
+		\item matlab instances are pooled
+		\item reduced starting time of instances
+		\item limitation of instances
+	\end{itemize}
 	\subsection{License Issues}
 
-	\begin{signedquote}{The MathWorks, Inc. Software License Agreement}
-		4. LICENSE RESTRICTIONS.  The License is subject to the express restrictions
-		set forth below. Licensee shall not, and shall not permit any Affiliate or any
-		Third Party to:
-			[...]
-		    4.8. provide access (directly or indirectly) to the Programs via a web or
-		    network Application, except as permitted in Article 8 of the Deployment
-		    Addendum;
-	\end{signedquote}
+		\begin{signedquote}{The MathWorks, Inc. Software License Agreement}
+			4. LICENSE RESTRICTIONS.  The License is subject to the express restrictions
+			set forth below. Licensee shall not, and shall not permit any Affiliate or any
+			Third Party to:
+				[...]
+			    4.8. provide access (directly or indirectly) to the Programs via a web or
+			    network Application, except as permitted in Article 8 of the Deployment
+			    Addendum;
+		\end{signedquote}
 
-	\begin{signedquote}{The MathWorks, Inc. Software License Agreement - Deployment Addendum}
-		8. WEB APPLICATIONS.  Licensee may not provide access to an entire Program
-		or a substantial portion of a Program by means of a web interface.
+		\begin{signedquote}{The MathWorks, Inc. Software License Agreement - Deployment Addendum}
+			8. WEB APPLICATIONS.  Licensee may not provide access to an entire Program
+			or a substantial portion of a Program by means of a web interface.
 
-		For the Network Concurrent User Activation Type.  Programs licensed under the
-		Network Concurrent User Activation Type may be called via a web application,
-		provided the web application does not provide access to the MATLAB command
-		line, or any of the licensed Programs with code generation capabilities.  In
-		addition, Licensed Users may not provide access to an entire Program or a
-		substantial portion of a Program.  Such operation of an application via a web
-		interface may be provided to an unlimited number of web browser clients, at no
-		additional cost, for Licensee's own use for its Internal Operations, and for
-		use by Third Parties.
+			For the Network Concurrent User Activation Type.  Programs licensed under the
+			Network Concurrent User Activation Type may be called via a web application,
+			provided the web application does not provide access to the MATLAB command
+			line, or any of the licensed Programs with code generation capabilities.  In
+			addition, Licensed Users may not provide access to an entire Program or a
+			substantial portion of a Program.  Such operation of an application via a web
+			interface may be provided to an unlimited number of web browser clients, at no
+			additional cost, for Licensee's own use for its Internal Operations, and for
+			use by Third Parties.
 
-		For the Network Named User and Standalone Named User Activation Types.
-		Programs licensed under the Network Named User and Standalone Named User
-		Activation Types may be called via a web application, provided the web
-		application does not provide access to the MATLAB command line, or any of the
-		licensed Programs with code generation capabilities, and such application is
-		only accessed by designated Network Named User or Standalone Named User
-		licensees of such Programs.
+			For the Network Named User and Standalone Named User Activation Types.
+			Programs licensed under the Network Named User and Standalone Named User
+			Activation Types may be called via a web application, provided the web
+			application does not provide access to the MATLAB command line, or any of the
+			licensed Programs with code generation capabilities, and such application is
+			only accessed by designated Network Named User or Standalone Named User
+			licensees of such Programs.
 
-		Programs licensed under any other Activation Type may not be called via a web
-		interface.
-	\end{signedquote}
+			Programs licensed under any other Activation Type may not be called via a web
+			interface.
+		\end{signedquote}
 	\subsection{Implementation}
 	\begin{figure}[!htb]
 		\centering
@@ -107,6 +160,17 @@
 	\end{figure}
 	\subsection{Lake-Analyzer WPS}
 \section{Streaming WPS}
+	\begin{itemize}
+		\item full input/output streaming support
+		\item easy wrapping of existing process into streming process
+		\item easy wrapping of streaming process into standard WPS processes
+		\item stateful streaming processes
+		\item dependencies by referencing prevsious iterations or their outputs
+		\item storage of every output (currently in memory)
+		\begin{itemize}
+			\item saving results in a database easily possible
+		\end{itemize}
+	\end{itemize}
 	\subsection{Input Types}\label{sec:streaming:input-types}
 	\subsubsection{Static Inputs}
 		\begin{itemize}
@@ -178,7 +242,49 @@
 	\end{figure}
 
 	\subsection{Protocoll}
+	\begin{itemize}
+		\item Starting of Streaming Process by executing a WPS process
+		\item providing inputs and receiving outputs over WebSockets
+		\item SOAP based message formats
+		\item Messages:
+		\begin{itemize}
+			\item InputMessage
+			\begin{itemize}
+				\item used to provide inputs to a streaming iteration to the process
+			\end{itemize}
+			\item OutputMessage
+			\begin{itemize}
+				\item used to send outputs of a streaming iteration to the client
+			\end{itemize}
+			\item OutputRequestMessage
+			\begin{itemize}
+				\item used to request the outputs of a process from the process
+			\end{itemize}
+			\item ErrorMessage
+			\begin{itemize}
+				\item used to transport errors to the clients
+			\end{itemize}
+			\item DescribeMessage
+			\begin{itemize}
+				\item used to request a description of a streaming process from the process
+			\end{itemize}
+			\item DescriptionMessage
+			\begin{itemize}
+				\item used to describe a process to the client
+			\end{itemize}
+			\item StopMessage
+			\begin{itemize}
+				\item used to stop the streaming process, to indicate no further inputs will become available
+				\item used to to notify any listening clients that no more outputs become available
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
 	\subsection{Implementation}
+	\begin{itemize}
+		\item based on the 52°North WPS
+		\item includeable module
+		\item default implementation uses another WPS process as delegate
+	\end{itemize}
 	\begin{figure}[!htb]
 		\centering
 		\includegraphics[width=.7868\textwidth]{figures/sequence-diagramm-swps.pdf}
@@ -186,7 +292,19 @@
 		\caption{\label{fig:sd:swps} Sequence diagram of the Streaming WPS.}
 	\end{figure}
 	\subsection{Client Implementation}
+	\begin{itemize}
+		\item small JavaScript library
+		\item abstracts the message generation and websocket interaction
+		\item may be used to start generic delegation processes
+	\end{itemize}
 	\subsection{Streaming Lake-Analyzer WPS}
+	\begin{itemize}
+		\item simple application of the Streaming WPS and Matlab WPS
+		\item LakeAnalyzer may need further adjustements to allow live analysis
+		\item remove downsampling code
+		\item operate on single point in time
+		\item etc
+	\end{itemize}
 	\subsection{Limitations}
 	\begin{itemize}
 		\item No input/output conversion
@@ -194,6 +312,10 @@
 		\item process will not fail fast in under every condition
 		\begin{itemize}
 			\item inputs first are checked at execution time
+		\end{itemize}
+		\item receivers are only provided with upcoming
+		\begin{itemize}
+			\item no replay queue
 		\end{itemize}
 	\end{itemize}
 \section{Future Work}
