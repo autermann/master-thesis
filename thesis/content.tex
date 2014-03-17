@@ -38,43 +38,47 @@
 		\item focussing on scripts and not on functions
 	\end{itemize}
 \section{Matlab WPS}
-\begin{itemize}
-	\item matlab function <-> wps process
-	\item not format specific
-	\item no conversion of complex inputs/outputs
 	\begin{itemize}
-		\item single output formats
+		\item weakly typed language
+		\item functions with multiple return values
 	\end{itemize}
-	\item matlab program has to parse inputs
-	\item easy to publish existing scripts and functions as WPS processes
-	\item multi-tier implementation
 	\begin{itemize}
-		\item Matlab WPS
+		\item matlab function <-> wps process
+		\item not format specific
+		\item no conversion of complex inputs/outputs
 		\begin{itemize}
-			\item Translates WPS Execute requests to Matlab client requests
-			\item Translates Matlab client responses to WPS Execute responses
-			\item configurationn with YAML file to create description and translate inputs/outputs
+			\item single output formats
 		\end{itemize}
-		\item Matlab Client
+		\item matlab program has to parse inputs
+		\item easy to publish existing scripts and functions as WPS processes
+		\item multi-tier implementation
 		\begin{itemize}
-			\item WebSocket client to access the Matlab server.
-			\item offers simple request building API
-		\end{itemize}
-		\item Matlab Server
-		\begin{itemize}
-			\item WebSocket server that pools multiple Matlab Instances
-			\item delegates requests to free instances
-		\end{itemize}
-		\item Matlab Instance
-		\begin{itemize}
-			\item a Java wrapper around a Matlab instance
-		\end{itemize}
-		\item Matlab
-		\begin{itemize}
-			\item A headless intance of the Matlab software
+			\item Matlab WPS
+			\begin{itemize}
+				\item Translates WPS Execute requests to Matlab client requests
+				\item Translates Matlab client responses to WPS Execute responses
+				\item configurationn with YAML file to create description and translate inputs/outputs
+			\end{itemize}
+			\item Matlab Client
+			\begin{itemize}
+				\item WebSocket client to access the Matlab server.
+				\item offers simple request building API
+			\end{itemize}
+			\item Matlab Server
+			\begin{itemize}
+				\item WebSocket server that pools multiple Matlab Instances
+				\item delegates requests to free instances
+			\end{itemize}
+			\item Matlab Instance
+			\begin{itemize}
+				\item a Java wrapper around a Matlab instance
+			\end{itemize}
+			\item Matlab
+			\begin{itemize}
+				\item A headless intance of the Matlab software
+			\end{itemize}
 		\end{itemize}
 	\end{itemize}
-\end{itemize}
 	\subsection{Configuration}
 	\begin{itemize}
 		\item Can not be used to offer any function as process
@@ -84,7 +88,7 @@
 	\end{itemize}
 	\includecode[Matlab]
 		{matlab-add-function.m}
-		{\label{lst:matlab:example:fun}Matlab example function.}
+		{\label{lst:matlab:example:fun}Matlab example function that represents a simple addition.}
 	\includecode[YAML,morekeywords={function,connection,identifier,version,inputs,outputs,type}]
 		{matlab-add-process-configuration.yaml}
 		{\label{lst:matlab:example:yaml}Matlab process configuration describing the function in Listing \ref{lst:matlab:example:fun}.}
@@ -131,7 +135,6 @@
 		\item limitation of instances
 	\end{itemize}
 	\subsection{License Issues}
-
 		\begin{signedquote}{The MathWorks, Inc. Software License Agreement}
 			4. LICENSE RESTRICTIONS.  The License is subject to the express restrictions
 			set forth below. Licensee shall not, and shall not permit any Affiliate or any
@@ -167,6 +170,7 @@
 			Programs licensed under any other Activation Type may not be called via a web
 			interface.
 		\end{signedquote}
+
 	\subsection{Implementation}
 	\begin{figure}[!htb]
 		\centering
@@ -187,6 +191,7 @@
 		\end{itemize}
 	\end{itemize}
 	\subsection{Input Types}\label{sec:streaming:input-types}
+
 	\subsubsection{Static Inputs}
 		\begin{itemize}
 			\item see Listing \ref{lst:streaming:input:static}
@@ -203,7 +208,7 @@
 			\item features all WPS input data types
 		\end{itemize}
 		\includecode[XML]{streaming-input-streaming.xml}{\label{lst:streaming:input:streaming}Example for a Streaming WPS streaming inputs.}
-	\subsubsection{Reference Inputs}
+	\subsubsection{Reference Inputs}\label{sec:stream:input:reference}
 		\begin{itemize}
 			\item see Listing \ref{lst:streaming:input:reference}
 			\item references the output of a previous or upcoming streaming iteration as an input for this iteration
@@ -224,37 +229,61 @@
 			% 179x274
 			\caption{\label{fig:sd:polling} Sequence diagram of the Streaming WPS.}
 		\end{figure}
-
+		\clearpage
 	\subsection{Dependencies}
+		From definition of Reference Inputs in Section \ref{sec:stream:input:reference} implies a mechanism to resolve dependencies and to order the execution of streaming iterations. These are considered as tasks and can declare dependencies to other streaming iterations either by mapping an input to the output of another streaming iteration or by declaring a explicit dependency on another streaming iteration.
 
+		Dependencies can be best modeled using a \ac{DAG}. A \ac{DAG} is a structure $D=(V, E)$ consisting of a set of vertices (or nodes) $V$ and edges (or arcs) $E$ where every edge $e\in E$ is a ordered pair $v_1 \rightarrow v_2$ with $v_1, v_2 \in V$. The distinct vertices $v_1,\dots,v_n\in V$ are called a path if for all successive vertices $v_i, v_{i+1}$ exists a edge $v_i \rightarrow v_{i+1} \in E$. A directed graph is called acyclic if there exists no path in $G$ with $v_1 = v_n$. A subgraph of a graph is the graph $G' = (V', E')$ with $V'\subseteq V$ and $E' = \{v_1 \rightarrow v_2 \in E | v_1, v_2\in V'\}$. Two subgraphs $G_1 = (V_1, E_1), G_2 = (V_2, E_2)$ are independent if $V_1 \cap V_2 = \emptyset$ and there exists no edge $v_1\rightarrow v_2\in E$ with $v_1\in V_1 \wedge v_2\in V_2$ or $v_2\in V_1 \wedge v_1\in V_2$.
+
+
+		In a dependency graph, vertices represent a task, package or other entity that has dependencies and edges represent these dependencies ($v_1$ depends on $v_2$). Dependency graphs have to be acyclic as a cycle would introduce a cyclic dependency, that can not be resolved.
+
+		\begin{figure}[!htb]
+			\centering
+			\includegraphics[width=.4474\textwidth]{figures/unordered-graph.pdf} % 98x92
+			\caption{\label{fig:graph:unordered} Example for a dependency graph consisting of two independent subgraphs.}
+		\end{figure}
+		A system containing the tasks $A, B, C, D, E, F$ and the dependencies $A\rightarrow B, A\rightarrow C, B\rightarrow D, C\rightarrow D$ and $E\rightarrow F$ will result in a \ac{DAG} consisting of two independent subgraphs (see Figure \ref{fig:graph:unordered}).
+
+		The execution order of a dependency graph can be derived from the topological ordering of the graph: a ``topological ordering, $ord_D$, of a directed acyclic graph $D = (V, E)$ maps each vertex to a priority value such that $ord_{D}(x) < ord_{D}(y)$ holds for all edges $x \rightarrow y \in E$'' \citep{pearce2007dynamic}, a possible execution order is the list of all vertices sorted by descending $ord_D$. The topological order of a \ac{DAG} can be computed using e.g. \ac{BFS} in linear time \citep{cormen2001introduction}. In most cases the topological ordering is not unique, Figure \ref{fig:graph:ordered} shows one possible execution order for the before mentioned graph.
+		\begin{figure}[!htb]
+			\centering
+			\includegraphics[width=1\textwidth]{figures/ordered-graph.pdf} % 219x58
+			\caption{\label{fig:graph:ordered} Possible execution/topological order of the dependency graph in Figure \ref{fig:graph:unordered}. Black arrows represent dependence to another vertex, colored arrows the execution order.}
+		\end{figure}
+
+		In contrast to conventional dependency systems like package managers the Streaming \ac{WPS} can not operate on a static graph of dependencies but on a graph to which vertices and edges are added constantly. Conventional topological sorting algorithms have to recompute the ordering for every insertion from scratch which will have a big performance impact for the scenario of a great number of small streaming iterations. There exist few dynamic topological sort algorithms that will maintain the topological order across edge and node insertions and will only recompute the ordering if necessary.
+
+		Most dependency graphs generated using the Streaming \ac{WPS} will probably consist of multiple independent subgraphs, no dependencies at all would be the most extreme example, or quite sparse graphs. For this the algorithm described by \citet{pearce2007dynamic} seems to be appropriate. Even it is theoretically as it inferior to other algorithms for dynamic topological sorting, it especially performs better on sparse graphs and on dense graphs only a constant factor slower than other algorithms \citep{pearce2007dynamic}.
+
+		The actual implementation uses a \ac{DAG} only for a cyclic dependency check. Execution ordering is listener based to allow a better parallelization of streaming iterations.
+
+	\subsection{Process Description}
+		The conventional process description mechanism of the \ac{WPS} is not sufficient to describe streaming processes.
+
+		It consists of a \texttt{DescribeProcess} request issued to the \ac{WPS} and the retrieval of one or more process descriptions of the specified process. These descriptions contain detailed descriptions of input and output parameters of the process and information about the supported formats, units of measurement or coordinate reference systems of each parameter. They also include details about allowed values, default value and multiplicity of input parameters \citep{ogc:wps}.
+
+		Because the Streaming \ac{WPS} uses the \ac{WPS} interface only to start a Streaming Process and the \ac{WPS} interface does not provide any extension points for process descriptions, the \texttt{DescribeProcess} operation can only be used to describe the starting process, but not the input or output parameters of a streaming process.
+
+		In case of generic processes, e.g. processes that delegate to other \ac{WPS} processes, information about input and output parameters is not even available prior to the execution of the streaming process. Furthermore input parameter cardinalities may change due to the use of static inputs. By this a valid input parameter for a delegate process may not be used in subsequent inputs because the maximal occurrence of the parameter is already exhausted using static input parameters. By this a process description for a streaming process will always be instance specific and can not be generated by the associated \ac{WPS} process.
+
+		With knowledge of the delegate process a client may has enough information to facilitate the streaming process but for other streaming process there is no way for a generic client to know the input parameters of the process.
+
+		To compensate this shortcoming a method is needed to describe a Streaming Process instance at runtime.
 	\begin{itemize}
-		\item Directed acyclic graph $D=(V,E)$ with mutliple not interconnected subgraphs, probably quite sparse graphs.
-		\item vertices are tasks, edges are dependencies to other tasks
-		\item graph has to be acyclic as a cylce would produce a cyclic dependency that can not be resolved/executed
-		\item see Figure \ref{fig:graph:unordered}
-		\item topological ordering provides execution order see Figure \ref{fig:graph:ordered}
+		\item WPS Process description
 		\begin{itemize}
-			\item ``A topological ordering, $ord_D$, of a directed acyclic graph $D = (V, E)$ maps each vertex to a priority value such that $ord_{D}(x) < ord_{D}(y)$ holds for all edges $x \rightarrow y \in E$.'' \citep{pearce2007dynamic}
-			\item execution order = nodes sorted by descending $ord_D$
-		 	\item linear time \citep{cormen2001introduction}: $\mathcal O(|V|+|E|)$  $\mathcal O(|E|)$ may vary between $\mathcal O(|V|)$ and  $O(|V|^2)$
-		 \end{itemize}
-		\item in contrast to e.g. package managers: non static graph, nodes and edges are added
-		\item Recreating the topological ordering for every insertion can be costly \cite{pearce2007dynamic}
-		\item \cite{pearce2007dynamic} provides dynamic algoritm for creating and maintaining the topological order, efficient on sparse graphs and constant factor slower on dense graphs
-		\item graph only used to check for cyclic dependencies
-		\item implementation listener based -> easier parallelization of execution
-		\item streaming iterations are considered as tasks and can declare dependencies to other streaming iterations either by declaring mapping an input to the output of another streaming iteration (see Section \ref{sec:streaming:input-types}) or by declaring a explicit dependency on another streaming iteration
+			\item not extendable
+			\item no subsequent inputs/outputs
+		\end{itemize}
+		\item Streaming inputs can not be described there
+		\item descriptions may change with different static inputs
+		\item not important when delegating but other processes need to describe themself aswell
+		\item subsequent outputs/final result
+		\item description runtime
+		\item description of instances
+		\item currently only a boolean flag/no differentiation between final/subsequent
 	\end{itemize}
-	\begin{figure}[!htb]
-		\centering
-		\includegraphics[width=.4474\textwidth]{figures/unordered-graph.pdf} % 98x92
-		\caption{\label{fig:graph:unordered} Example for a dependency graph.}
-	\end{figure}
-	\begin{figure}[!htb]
-		\centering
-		\includegraphics[width=1\textwidth]{figures/ordered-graph.pdf} % 219x58
-		\caption{\label{fig:graph:ordered} Topological ordering for of the dependency graph in Figure \ref{fig:graph:unordered}.}
-	\end{figure}
 
 	\subsection{Protocoll}
 	\begin{itemize}
