@@ -179,6 +179,63 @@
 	\end{figure}
 	\subsection{Lake-Analyzer WPS}
 \section{Streaming WPS}
+
+	\begin{figure}[!htb]
+		\centering
+		\begin{tikzpicture}
+			\tikzset{
+			  ibox/.style = {draw, fill=string!50,  minimum width=4cm},
+			  pbox/.style = {draw, fill=comment!50, minimum width=4cm},
+			  obox/.style = {draw, fill=keyword!50, minimum width=4cm},
+			  every node/.style={font=\sffamily},
+			}
+			\draw[>->] (-2.4,3.6) -- (11.4,3.6);
+			%\draw[]   (-2.4,3.6) -- (-2.4, -6);
+			\draw[>->] (-2.4, -6) -- (11.4, -6) node [below] {Time};
+
+			\draw[dotted] (-2.0,-6) -- (-2.0,3.6);
+			\draw[dotted] (-1.0,-6) -- (-1.0,3.6);
+			\draw[dotted] (-0.0,-6) -- (-0.0,3.6);
+			\draw[dotted] (1.0,-6) -- (1.0,3.6);
+			\draw[dotted] (2.0,-6) -- (2.0,3.6);
+			\draw[dotted] (3.0,-6) -- (3.0,3.6);
+			\draw[dotted] (4.0,-6) -- (4.0,3.6);
+			\draw[dotted] (5.0,-6) -- (5.0,3.6);
+			\draw[dotted] (6.0,-6) -- (6.0,3.6);
+			\draw[dotted] (7.0,-6) -- (7.0,3.6);
+			\draw[dotted] (8.0,-6) -- (8.0,3.6);
+			\draw[dotted] (9.0,-6) -- (9.0,3.6);
+			\draw[dotted] (10.0,-6) -- (10.0,3.6);
+			\draw[dotted] (11.0,-6) -- (11.0,3.6);
+
+			\node [xshift=-1.5cm,yshift=2.4cm] {a)};
+			\node [ibox,yshift=3.0cm,xshift=1cm] (input1) {Input};
+			\node [pbox,yshift=2.4cm,xshift=5cm] (processing1) {Processing};
+			\node [obox,yshift=1.8cm,xshift=9cm] (output1) {Output};
+
+			\draw[dashed] (-2.4, 1.2) -- (11.4, 1.2);
+
+			\node [xshift=-1.5cm,yshift=0cm] {b)};
+			\node [ibox,yshift= .6cm,xshift=1cm] (input2) {Input};
+			\node [pbox,yshift= .0cm,xshift=2cm] (processing2) {Processing};
+			\node [obox,yshift=-.6cm,xshift=6cm] (output2) {Output};
+
+			\draw[dashed] (-2.4, -1.2) -- (11.4, -1.2);
+
+			\node [xshift=-1.5cm,yshift=-2.4cm] {c)};
+			\node [ibox,yshift=-1.8cm,xshift=1cm] (input3) {Input};
+			\node [pbox,yshift=-2.4cm,xshift=5cm] (processing3) {Processing};
+			\node [obox,yshift=-3.0cm,xshift=6cm] (output3) {Output};
+
+			\draw[dashed] (-2.4, -3.6) -- (11.4, -3.6);
+
+			\node [xshift=-1.5cm,yshift=-4.8cm] {d)};
+			\node [ibox,yshift=-4.2cm,xshift=1cm] (input4) {Input};
+			\node [pbox,yshift=-4.8cm,xshift=2cm] (processing4) {Processing};
+			\node [obox,yshift=-5.4cm,xshift=3cm] (output4) {Output};
+		\end{tikzpicture}
+		\caption{\label{fig:streaming}Four different types of processing data: a) conventional processing, b) streaming input data c) streaming output data, d) full input and output streaming \citep[based on][]{foerster2012live}.}
+	\end{figure}
 	\begin{itemize}
 		\item full input/output streaming support
 		\item easy wrapping of existing process into streming process
