@@ -1,0 +1,19 @@
+<soap:Envelope
+    xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+    xmlns:wsa="http://www.w3.org/2005/08/addressing"
+    xmlns:stream="https://github.com/autermann/streaming-wps"
+    xmlns:ows="http://www.opengis.net/ows/1.1">
+    <soap:Header>
+        <wsa:RelatesTo RelationshipType="http://www.w3.org/2005/08/addressing/reply">urn:stream:fib:93</wsa:RelatesTo>
+        <wsa:MessageID>uuid:dc640a0a-d505-4591-baea-2a556412237e</wsa:MessageID>
+        <wsa:Action>https://github.com/autermann/streaming-wps/error</wsa:Action>
+    </soap:Header>
+    <soap:Body>
+        <stream:ErrorMessage>
+            <stream:ProcessID>uuid:4ab9ea1f-35ff-4ca6-93ba-22dbb13aa511</stream:ProcessID>
+            <ows:Exception exceptionCode="RemoteComputationError">
+                <ows:ExceptionText>Remote computation failed</ows:ExceptionText>
+            </ows:Exception>
+        </stream:ErrorMessage>
+    </soap:Body>
+</soap:Envelope>

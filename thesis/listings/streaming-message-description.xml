@@ -1,0 +1,51 @@
+<soap:Envelope
+    xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:wsa="http://www.w3.org/2005/08/addressing"
+    xmlns:stream="https://github.com/autermann/streaming-wps"
+    xmlns:wps="http://www.opengis.net/wps/1.0.0"
+    xmlns:ows="http://www.opengis.net/ows/1.1">
+  <soap:Header>
+    <wsa:RelatesTo>uuid:9ca0ed4a-0e24-4843-bb81-da2af3e23d8c</wsa:RelatesTo>
+    <wsa:MessageID>uuid:5ba3d87b-85d0-47eb-9dac-57cf193abd06</wsa:MessageID>
+    <wsa:Action>https://github.com/autermann/streaming-wps/description</wsa:Action>
+  </soap:Header>
+  <soap:Body>
+    <stream:DescriptionMessage>
+      <stream:ProcessID>uuid:f7683417-ab11-4317-a833-d73aa443443d</stream:ProcessID>
+      <stream:StreamingProcessDescription wps:processVersion="1.0.0"
+          finalResult="false" intermediateResults="false"
+          statusSupported="false" storeSupported="true">
+        <ows:Identifier>uuid:f7683417-ab11-4317-a833-d73aa443443d</ows:Identifier>
+        <ows:Title>com.github.autermann.wps.streaming.example.AddAlgorithm</ows:Title>
+        <DataInputs>
+          <Input maxOccurs="1" minOccurs="1">
+            <ows:Identifier>a</ows:Identifier>
+            <ows:Title>a</ows:Title>
+            <LiteralData>
+              <ows:DataType ows:reference="xs:long"/>
+              <ows:AnyValue/>
+            </LiteralData>
+          </Input>
+          <Input maxOccurs="1" minOccurs="1">
+            <ows:Identifier>b</ows:Identifier>
+            <ows:Title>b</ows:Title>
+            <LiteralData>
+              <ows:DataType ows:reference="xs:long"/>
+              <ows:AnyValue/>
+            </LiteralData>
+          </Input>
+        </DataInputs>
+        <ProcessOutputs>
+          <Output>
+            <ows:Identifier>result</ows:Identifier>
+            <ows:Title>result</ows:Title>
+            <LiteralOutput>
+              <ows:DataType ows:reference="xs:long"/>
+            </LiteralOutput>
+          </Output>
+        </ProcessOutputs>
+      </stream:StreamingProcessDescription>
+    </stream:DescriptionMessage>
+  </soap:Body>
+</soap:Envelope>

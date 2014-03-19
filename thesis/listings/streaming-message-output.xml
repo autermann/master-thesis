@@ -1,4 +1,9 @@
-<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:stream="https://github.com/autermann/streaming-wps" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:wps="http://www.opengis.net/wps/1.0.0">
+<soap:Envelope
+    xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+    xmlns:wsa="http://www.w3.org/2005/08/addressing"
+    xmlns:stream="https://github.com/autermann/streaming-wps"
+    xmlns:ows="http://www.opengis.net/ows/1.1"
+    xmlns:wps="http://www.opengis.net/wps/1.0.0">
   <soap:Header>
     <wsa:MessageID>uuid:ef9676f0-13b1-473b-a783-8fed8cbd6513</wsa:MessageID>
     <wsa:RelatesTo>uuid:6a0e50c7-85c4-448c-962d-894c41c441bf</wsa:RelatesTo>
@@ -6,7 +11,7 @@
   </soap:Header>
   <soap:Body>
     <stream:OutputMessage>
-      <stream:ProcessID>uuid:15f85dd5-98d4-49b2-a804-d821afa9440b</stream:ProcessID>
+      <stream:ProcessID>uuid:c99e6f21-f0a0-4770-9615-db3501490f0a</stream:ProcessID>
       <stream:Outputs>
         <stream:Output>
           <ows:Identifier>output1</ows:Identifier>

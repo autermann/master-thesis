@@ -346,36 +346,43 @@
 			\item Messages:
 			\begin{itemize}
 				\item InputMessage
+				\includecode[XML]{streaming-message-input.xml}{\label{lst:streaming:message:input}Example for a Streaming WPS input message.}
 				\begin{itemize}
 					\item used to provide inputs to a streaming iteration to the process
 					\item comparable to a wps:Execute
 				\end{itemize}
 				\item OutputMessage
+				\includecode[XML]{streaming-message-output.xml}{\label{lst:streaming:message:output}Example for a Streaming WPS output message.}
 				\begin{itemize}
 					\item used to send outputs of a streaming iteration to the client
 					\item comparable to a wps:ExecuteResponse
 				\end{itemize}
 				\item OutputRequestMessage
+				\includecode[XML]{streaming-message-output-request.xml}{\label{lst:streaming:message:output-request}Example for a Streaming WPS output request message.}
 				\begin{itemize}
 					\item used to request the outputs of a process from the process
 					\item no direct counterpart in the WPS
 				\end{itemize}
 				\item ErrorMessage
+				\includecode[XML]{streaming-message-error.xml}{\label{lst:streaming:message:error}Example for a Streaming WPS error message.}
 				\begin{itemize}
 					\item used to transport errors to the clients
 					\item comparable to ows:ExceptionReport
 				\end{itemize}
 				\item DescribeMessage
+				\includecode[XML]{streaming-message-describe.xml}{\label{lst:streaming:message:describe}Example for a Streaming WPS describe message.}
 				\begin{itemize}
 					\item used to request a description of a streaming process from the process
 					\item comparable to DescribeProcess
 				\end{itemize}
 				\item DescriptionMessage
+				\includecode[XML]{streaming-message-description.xml}{\label{lst:streaming:message:description}Example for a Streaming WPS description message.}
 				\begin{itemize}
 					\item used to describe a process to the client
 					\item comparable to ProcessDescription
 				\end{itemize}
 				\item StopMessage
+				\includecode[XML]{streaming-message-stop.xml}{\label{lst:streaming:message:stop}Example for a Streaming WPS stop message.}
 				\begin{itemize}
 					\item used to stop the streaming process, to indicate no further inputs will become available
 					\item used to to notify any listening clients that no more outputs become available
