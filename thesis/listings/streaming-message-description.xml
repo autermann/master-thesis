@@ -16,7 +16,7 @@
       <stream:StreamingProcessDescription wps:processVersion="1.0.0"
           finalResult="false" intermediateResults="false"
           statusSupported="false" storeSupported="true">
-        <ows:Identifier>uuid:f7683417-ab11-4317-a833-d73aa443443d</ows:Identifier>
+        <ows:Identifier>uuid:c99e6f21-f0a0-4770-9615-db3501490f0a</ows:Identifier>
         <ows:Title>com.github.autermann.wps.streaming.example.AddAlgorithm</ows:Title>
         <DataInputs>
           <Input maxOccurs="1" minOccurs="1">
