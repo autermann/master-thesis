@@ -153,65 +153,238 @@
 	\end{figure}
 	\subsection{Lake-Analyzer WPS}
 \section{Streaming WPS}
-
-	\begin{figure}[!htb]
-		\centering
-		\input{figures/streaming-types}
-		\caption{\label{fig:streaming}Four different types of processing data: a) conventional processing, b) streaming input data c) streaming output data, d) full input and output streaming \citep[based on][]{foerster2012live}.}
-	\end{figure}
 	\begin{itemize}
-		\item full input/output streaming support
-		\item easy wrapping of existing process into streming process
-		\item easy wrapping of streaming process into standard WPS processes
-		\item stateful streaming processes
-		\item dependencies by referencing prevsious iterations or their outputs
-		\item storage of every output (currently in memory)
+		\item the concept of streaming describes the sequential processing of data in contrast to random access processing
+		\item processing takes place on small chunks instead of the complete dataset
+		\item reduced processing resources needed to process smaller chunks
+		\item reduced latency to see the output
+		\item enables processing of indefinite large datasets (e.g. live analysis)
+		\item widely known:
 		\begin{itemize}
-			\item saving results in a database easily possible
+			\item media streaming (live/on-demand) video/audio streaming
+			\begin{itemize}
+				\item RTP and RTCP \citep{ietf:rfc3550}, RTSP \citep{ietf:rfc2326}, SIP \citep{ietf:rfc3261}
+			\end{itemize}
+			\item inter process communication
+			\begin{itemize}
+				\item pipes/sockets (local or network) \citep{buschmann1996pattern}
+			\end{itemize}
 		\end{itemize}
-	\end{itemize}
-	\subsection{Input Types}\label{sec:streaming:input-types}
+		\item the system should extends the traditional processing paradigm  (see Figure \ref{fig:streaming} (a))\dots
+		\begin{itemize}
+			\item \dots to enable input only streaming (see Figure \ref{fig:streaming} (b))
+			\begin{itemize}
+				\item input should be supplied subsequently
+			\end{itemize}
+			\item \dots to enable output only streaming  (see Figure \ref{fig:streaming} (c))
+			\begin{itemize}
+				\item intermediate outputs should be published as they come available
+			\end{itemize}
+			\item \dots to enable full input and output streaming  (see Figure \ref{fig:streaming} (c))
+			\begin{itemize}
+				\item input should be supplied subsequently
+				\item intermediate outputs should be published as they come available
+			\end{itemize}
+			\begin{figure}[!htb]
+				\centering
+				\input{figures/streaming-types}
+				\caption{\label{fig:streaming}Four different types of processing data: (a) conventional processing, (b) streaming input data (c) streaming output data, (d) full input and output streaming \citep[based on][]{foerster2012live}.}
+			\end{figure}
+		\end{itemize}
+		\item it should\dots
+		\begin{itemize}
+			\item \dots not rely on inefficient polling techniques
+			\item \dots be deployable in a web browser environment
+			\item \dots should rely on open and widely used standards
+			\item \dots be as inter operable as possible with the existing WPS standard
+			\item \dots allow not only sequential analysis but should also take dependencies between spatio-temporal features into account
+			\item \dots be not dependent on the data format
+			\item \dots should allow live analysis of data
+			\item \dots should allow analysis of great data sets
+			\item \dots should allow chaining
+			\item \dots should allow to easily transform existing WPS processes into streaming processes
+		\end{itemize}
 
-	\subsubsection{Static Inputs}
+		\item previous approaches \citep{foerster2012live}
 		\begin{itemize}
-			\item see Listing \ref{lst:streaming:input:static}
-			\item inputs common to every streaming iteration
-			\item supplied when starting the streaming process
-			\item merged with streaming inputs and forwarded to delegate
-			\item configuration parameters, etc.
+			\item in strong correlation to media streaming \citep{ietf:draft-pantos-http-live-streaming-12}
+			\item publishing data chunks in playlists
+			\item client/wps polling playlist and fetches data chunks when they become available
+			\item big overhead of continuous fetching (in what frequency?)
+			\item asynchronous WPS Execute
+			\item output playlist is transported by wps:ProcessStarted: ``A human-readable text string whose contents are left open to definition by each WPS server, but is expected to include any messages the server may wish to let the clients know. Such information could include how much longer the process may take to execute, or any warning conditions that may have been encountered to date. The client may display this text to a human user.''
+			\item WPS standard highly constraining
+			\item approach still stick to it for the sake of interoperability
 		\end{itemize}
-		\includecode[XML]{streaming-input-static.xml}{\label{lst:streaming:input:static}Example for a Streaming WPS static inputs.}
-	\subsubsection{Streaming Inputs}
+		\item previous approach is highly limited
 		\begin{itemize}
-			\item see Listing \ref{lst:streaming:input:streaming}
-			\item provided for a single streaming iteration
-			\item features all WPS input data types
+			\item implementation only supports output streaming (\ref{fig:streaming}) (c))
+			\item WPS/algorithm is splitting outputs $\Rightarrow$ highly format specific
+			\item splitting of complex data is often a complex procedure that can not be automated
+			\item each data items context important
+			\item dependencies between data chunks can not be considered
+			\item automatic splitting of e.g. features in a Feature Collection is highly format dependent
+			\item browser based clients can not use streaming inputs
+			\item they can not offer a file under a URL
+			\item multiple outputs to stream?
+			\item how to connect/coordinate multiple streamed inputs?
 		\end{itemize}
-		\includecode[XML]{streaming-input-streaming.xml}{\label{lst:streaming:input:streaming}Example for a Streaming WPS streaming inputs.}
-	\subsubsection{Reference Inputs}\label{sec:stream:input:reference}
+		\item this approach\dots
 		\begin{itemize}
-			\item see Listing \ref{lst:streaming:input:reference}
-			\item references the output of a previous or upcoming streaming iteration as an input for this iteration
-			\item used to model dependencies between iterations/features/etc.
+			\item will fulfill all above mentioned requirements
+			\item break out of the constraints imposed by the WPS standard
+			\item while reusing terminology and technology of the WPS standard
+			\item use modern web browser compatible technologies
 		\end{itemize}
-		\includecode[XML]{streaming-input-reference.xml}{\label{lst:streaming:input:reference}Example for a Streaming WPS reference input.}
-	\subsubsection{Polling inputs}
+		\item create a messaging based architecture
+		\item use WebSockets to accomplish true full-duplex streaming of data
+		\item WPS is highly XML based: use widely known SOAP+WSA on top of WebSockets
+	\end{itemize}
+
+	\subsection{Protocol}
 		\begin{itemize}
-			\item Not implemented inside the streaming WPS.
-			\item what to do if multiple polling inputs are defined?
-			\item how to define polling frequency?
-			\item how to define notifications?
-			\item better handled on client side (see Figure \ref{fig:sd:polling})
+			\item A streaming process is identifiable instance of a streaming enabled process
+			\item core of the Streaming WPS
+			\item will receive inputs process them, and emit the outputs
+			\item Starting of Streaming Process by executing a WPS process
+			\item after starting of a streaming process the WPS execute will return immediately
+			\item WPS outputs are identifier and WebSocket URL of the streaming process
+			\item providing inputs and receiving outputs over WebSockets
+			\begin{figure}[!htb]
+				\centering
+				\includegraphics[width=.7868\textwidth]{figures/sequence-diagramm-swps.pdf} % 179x274
+				\caption{\label{fig:sd:swps} Sequence diagram of the Streaming WPS.}
+			\end{figure}
+			\item detailed description (despicted in Figure \ref{fig:sd:swps})
+			\begin{itemize}
+				\item A client (Sender) issues a Execute to a streaming enables WPS process (step 1)
+				\item the streaming WPS will instantiate a Streaming Process and a Delegate the will process data chunks (step 2 \& 3)
+				\item The Streaming WPS returns the identifier and endpoint URL of the created Streaming Process in the ExecuteResponse
+				\item One or more clients (which may also be the sender) connects to this endpoint URL and requests the outputs of the Streaming Process (step 5)
+				\item One or multiple clients start sending chunks of data to the Streaming Process using Input Messages over WebSockets. The connection may stay open while feeding (step 6)
+				\item the Streaming Process will check the inputs (especially whether the supplied input introduce a cycle (see section \ref{sec:stream:dependencies})) (step 8) and will enqueue them until they can be processed
+				\item When the inputs can be processes the processing will be delegated to the delegate, which may or may not return a intermediate output  (step 9 \& 10)
+				\item if theres is a intermediate result, the Streaming Process will push it to the listening clients (step 11)
+				\item Steps 6--11 may be repeated until there are no more inputs available
+				\item the sender will inform the Streaming Process by sending a stop message (step 12)
+				\item the Streaming Process asks the delegate for a final result and will publish it, if is available (step 13--15)
+				\item after this the Streaming Process will tell all listening clients that there will be no further outputs and will stop (step 18)
+			\end{itemize}
+			\item allows full input/output streaming: every input message results in a output message
+			\item allows input only streaming: no intermediate outputs, only final output message
+			\item allows output only streaming: even not depicted in the diagram, step 11 may be repeated
+			\item multiple streaming inputs/outputs are possible
+			\item encapsulated in a streaming iteration (1 InputMessage + (optional) OutputMessage)
+			\item chaining of Streaming Processes possible
+			\begin{itemize}
+				\item can be implemented as a streaming Process that simply maps input to output names
+				\item requires mediator between two streaming process that translates input messages into output messages
+				\item see Figure \ref{fig:sd:chain}
+				\item even simpler: delegate is a WPS process chain
+			\end{itemize}
+			\begin{figure}[!htb]
+				\centering
+				\includegraphics[width=\textwidth]{figures/sequence-diagramm-chain.pdf} % 179x274
+				\caption{\label{fig:sd:chain} Sequence diagram of chaining two different streaming processes.}
+			\end{figure}
 		\end{itemize}
-		\begin{figure}[!htb]
-			\centering
-			\includegraphics[width=.7868\textwidth]{figures/sequence-diagramm-polling.pdf}
-			% 179x274
-			\caption{\label{fig:sd:polling} Sequence diagram of the Streaming WPS.}
-		\end{figure}
-		\clearpage
-	\subsection{Dependencies}
-		From definition of Reference Inputs in Section \ref{sec:stream:input:reference} implies a mechanism to resolve dependencies and to order the execution of streaming iterations. These are considered as tasks and can declare dependencies to other streaming iterations either by mapping an input to the output of another streaming iteration or by declaring a explicit dependency on another streaming iteration.
+	\subsection{Input Types}\label{sec:streaming:input-types}
+		\begin{itemize}
+			\item three basic types of inputs
+			\item difference when they are supplied
+			\item and in which scope they are used
+			\item all based on WPS data types
+			\begin{itemize}
+				\item Complex
+				\item Literal
+				\item Reference
+				\item BoundingBox
+			\end{itemize}
+		\end{itemize}
+		\subsubsection{Static Inputs}
+			\begin{itemize}
+				\item see Listing \ref{lst:streaming:input:static}
+				\item inputs common to every streaming iteration
+				\item supplied when starting the streaming process
+				\item merged with streaming inputs and forwarded to delegate
+				\item configuration parameters, etc.
+				\item
+			\end{itemize}
+			\includecode[XML]{streaming-input-static.xml}{\label{lst:streaming:input:static}Example for a Streaming WPS static inputs.}
+		\subsubsection{Streaming Inputs}
+			\begin{itemize}
+				\item see Listing \ref{lst:streaming:input:streaming}
+				\item provided for a single streaming iteration
+			\end{itemize}
+			\includecode[XML]{streaming-input-streaming.xml}{\label{lst:streaming:input:streaming}Example for a Streaming WPS streaming inputs.}
+		\subsubsection{Reference Inputs}\label{sec:stream:input:reference}
+			\begin{itemize}
+				\item see Listing \ref{lst:streaming:input:reference}
+				\item references the output of a previous or upcoming streaming iteration as an input for this iteration
+				\item used to model dependencies between iterations/features/etc.
+				\item breaks out of the classical non-random access paradigm of streaming
+			\end{itemize}
+			\includecode[XML]{streaming-input-reference.xml}{\label{lst:streaming:input:reference}Example for a Streaming WPS reference input.}
+		\subsubsection{Polling inputs}
+			\begin{itemize}
+				\item Not implemented inside the streaming WPS.
+				\item what to do if multiple polling inputs are defined?
+				\item how to define polling frequency?
+				\item how to define notifications?
+				\item better handled on client side (see Figure \ref{fig:sd:polling})
+			\end{itemize}
+			\begin{figure}[!htb]
+				\centering
+				\includegraphics[width=.7868\textwidth]{figures/sequence-diagramm-polling.pdf}
+				% 179x274
+				\caption{\label{fig:sd:polling} Sequence diagram of polling inputs of the Streaming WPS.}
+			\end{figure}
+	\subsection{Messages}
+		\begin{itemize}
+			\item SOAP based message formats
+			\item allows messages over an asynchronous protocol like WebSockets
+			\item Messages:
+			\begin{itemize}
+				\item InputMessage
+				\begin{itemize}
+					\item used to provide inputs to a streaming iteration to the process
+					\item comparable to a wps:Execute
+				\end{itemize}
+				\item OutputMessage
+				\begin{itemize}
+					\item used to send outputs of a streaming iteration to the client
+					\item comparable to a wps:ExecuteResponse
+				\end{itemize}
+				\item OutputRequestMessage
+				\begin{itemize}
+					\item used to request the outputs of a process from the process
+					\item no direct counterpart in the WPS
+				\end{itemize}
+				\item ErrorMessage
+				\begin{itemize}
+					\item used to transport errors to the clients
+					\item comparable to ows:ExceptionReport
+				\end{itemize}
+				\item DescribeMessage
+				\begin{itemize}
+					\item used to request a description of a streaming process from the process
+					\item comparable to DescribeProcess
+				\end{itemize}
+				\item DescriptionMessage
+				\begin{itemize}
+					\item used to describe a process to the client
+					\item comparable to ProcessDescription
+				\end{itemize}
+				\item StopMessage
+				\begin{itemize}
+					\item used to stop the streaming process, to indicate no further inputs will become available
+					\item used to to notify any listening clients that no more outputs become available
+					\item no direct counterpart in the WPS
+				\end{itemize}
+			\end{itemize}
+		\end{itemize}
+	\subsection{Dependencies}\label{sec:stream:dependencies}
+		The definition of Reference Inputs in Section \ref{sec:stream:input:reference} implies a mechanism to resolve dependencies and to order the execution of streaming iterations. These are considered as tasks and can declare dependencies to other streaming iterations either by mapping an input to the output of another streaming iteration or by declaring a explicit dependency on another streaming iteration.
 
 		Dependencies can be best modeled using a \ac{DAG}. A \ac{DAG} is a structure $D=(V, E)$ consisting of a set of vertices (or nodes) $V$ and edges (or arcs) $E$ where every edge $e\in E$ is a ordered pair $v_1 \rightarrow v_2$ with $v_1, v_2 \in V$. The distinct vertices $v_1,\dots,v_n\in V$ are called a path if for all successive vertices $v_i, v_{i+1}$ exists a edge $v_i \rightarrow v_{i+1} \in E$. A directed graph is called acyclic if there exists no path in $G$ with $v_1 = v_n$. A subgraph of a graph is the graph $G' = (V', E')$ with $V'\subseteq V$ and $E' = \{v_1 \rightarrow v_2 \in E | v_1, v_2\in V'\}$. Two subgraphs $G_1 = (V_1, E_1), G_2 = (V_2, E_2)$ are independent if $V_1 \cap V_2 = \emptyset$ and there exists no edge $v_1\rightarrow v_2\in E$ with $v_1\in V_1 \wedge v_2\in V_2$ or $v_2\in V_1 \wedge v_1\in V_2$.
 
@@ -265,56 +438,12 @@
 		\item currently only a boolean flag/no differentiation between final/subsequent
 	\end{itemize}
 
-	\subsection{Protocol}
-	\begin{itemize}
-		\item Starting of Streaming Process by executing a WPS process
-		\item providing inputs and receiving outputs over WebSockets
-		\item SOAP based message formats
-		\item Messages:
-		\begin{itemize}
-			\item InputMessage
-			\begin{itemize}
-				\item used to provide inputs to a streaming iteration to the process
-			\end{itemize}
-			\item OutputMessage
-			\begin{itemize}
-				\item used to send outputs of a streaming iteration to the client
-			\end{itemize}
-			\item OutputRequestMessage
-			\begin{itemize}
-				\item used to request the outputs of a process from the process
-			\end{itemize}
-			\item ErrorMessage
-			\begin{itemize}
-				\item used to transport errors to the clients
-			\end{itemize}
-			\item DescribeMessage
-			\begin{itemize}
-				\item used to request a description of a streaming process from the process
-			\end{itemize}
-			\item DescriptionMessage
-			\begin{itemize}
-				\item used to describe a process to the client
-			\end{itemize}
-			\item StopMessage
-			\begin{itemize}
-				\item used to stop the streaming process, to indicate no further inputs will become available
-				\item used to to notify any listening clients that no more outputs become available
-			\end{itemize}
-		\end{itemize}
-	\end{itemize}
 	\subsection{Implementation}
 	\begin{itemize}
 		\item based on the 52°North WPS
 		\item includeable module
 		\item default implementation uses another WPS process as delegate
 	\end{itemize}
-	\begin{figure}[!htb]
-		\centering
-		\includegraphics[width=.7868\textwidth]{figures/sequence-diagramm-swps.pdf}
-		% 179x274
-		\caption{\label{fig:sd:swps} Sequence diagram of the Streaming WPS.}
-	\end{figure}
 	\subsection{Client Implementation}
 	\begin{itemize}
 		\item small JavaScript library

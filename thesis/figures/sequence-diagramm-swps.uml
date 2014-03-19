@@ -1,4 +1,5 @@
 @startuml
+autonumber
 hide footbox
 skinparam defaultFontName "Linux Biolinum"
 skinparam note {
@@ -19,11 +20,10 @@ skinparam sequence {
 }
 
 participant "Sender" as sender
-participant "Receiver" as receiver
 participant "Streaming WPS" as wps
 participant "Streaming Process" as process
 participant "Delegate" as delegate
-
+participant "Receiver" as receiver
 
 !define HTTP [#000]
 !define WS [#000]
