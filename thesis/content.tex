@@ -144,6 +144,7 @@
 				\item intermediate outputs should be published as they come available
 			\end{itemize}
 		\end{itemize}
+		\item Many processes accept inputs that are aggregates of smaller inputs (such as rasters and tiles, feature collections and features, etc.). Often these inputs are processed separately
 		\item it should\dots
 		\begin{itemize}
 			\item \dots not rely on inefficient polling techniques
@@ -156,6 +157,7 @@
 			\item \dots should allow analysis of great data sets
 			\item \dots should allow chaining
 			\item \dots should allow to easily transform existing WPS processes into streaming processes
+			\item \dots should process data chunks in parallel if possible while maintaining provenance
 		\end{itemize}
 
 		\item previous approaches \citep{foerster2012live}
@@ -312,6 +314,9 @@
 				\begin{itemize}
 					\item used to transport errors to the clients
 					\item comparable to ows:ExceptionReport
+					\item errors during input validation -> sender
+					\item errors during processing -> clients (\& sender)
+					\item source of error can be determined by WSA headers
 				\end{itemize}
 				\item DescribeMessage
 
@@ -364,6 +369,12 @@
 		With knowledge of the delegate process a client may has enough information to facilitate the streaming process but for other streaming process there is no way for a generic client to know the input parameters of the process.
 
 		To compensate this shortcoming a method is needed to describe a Streaming Process instance at runtime.
+	\subsection{Stateful vs. Stateless}
+	\begin{itemize}
+		\item stateful: iterative convexhull
+		\item stateless: every delegating
+	\end{itemize}
+
 	\begin{itemize}
 		\item WPS Process description
 		\begin{itemize}
