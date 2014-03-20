@@ -1,4 +1,4 @@
-%!TEX root = thesis.tex
+% !TEX root = thesis.tex
 \section{Introduction}
 \section{Lake-Analyzer}
 \section{Foundations}
@@ -338,7 +338,6 @@
 		The definition of Reference Inputs in Section \ref{sec:stream:input:reference} implies a mechanism to resolve dependencies and to order the execution of streaming iterations. These are considered as tasks and can declare dependencies to other streaming iterations either by mapping an input to the output of another streaming iteration or by declaring a explicit dependency on another streaming iteration.
 
 		Dependencies can be best modeled using a \ac{DAG}. A \ac{DAG} is a structure $D=(V, E)$ consisting of a set of vertices (or nodes) $V$ and edges (or arcs) $E$ where every edge $e\in E$ is a ordered pair $v_1 \rightarrow v_2$ with $v_1, v_2 \in V$. The distinct vertices $v_1,\dots,v_n\in V$ are called a path if for all successive vertices $v_i, v_{i+1}$ exists a edge $v_i \rightarrow v_{i+1} \in E$. A directed graph is called acyclic if there exists no path in $G$ with $v_1 = v_n$. A subgraph of a graph is the graph $G' = (V', E')$ with $V'\subseteq V$ and $E' = \{v_1 \rightarrow v_2 \in E | v_1, v_2\in V'\}$. Two subgraphs $G_1 = (V_1, E_1), G_2 = (V_2, E_2)$ are independent if $V_1 \cap V_2 = \emptyset$ and there exists no edge $v_1\rightarrow v_2\in E$ with $v_1\in V_1 \wedge v_2\in V_2$ or $v_2\in V_1 \wedge v_1\in V_2$.
-
 
 		In a dependency graph, vertices represent a task, package or other entity that has dependencies and edges represent these dependencies ($v_1$ depends on $v_2$). Dependency graphs have to be acyclic as a cycle would introduce a cyclic dependency, that can not be resolved.
 
