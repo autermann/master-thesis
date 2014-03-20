@@ -60,48 +60,10 @@
 		\item configuring of a single function as a process
 		\item configuration YAML file
 	\end{itemize}
-	\includecode[Matlab]
-		{matlab-add-function.m}
-		{\label{lst:matlab:example:fun}Matlab example function that represents a simple addition.}
-	\includecode[YAML,morekeywords={function,connection,identifier,version,inputs,outputs,type}]
-		{matlab-add-process-configuration.yaml}
-		{\label{lst:matlab:example:yaml}Matlab process configuration describing the function in Listing \ref{lst:matlab:example:fun}.}
-	\includecode[XML]
-		{matlab-add-process-description.xml}
-		{\label{lst:matlab:example:desc}Process description generated from the configuration in Listing \ref{lst:matlab:example:yaml}.}
+
 
 	\subsection{Type Mapping}
-	\begin{table}[!htb]
-		\sffamily\centering
-		\caption{\label{tab:matlab:typemapping}Type Mapping between Matlab and WPS Data}
-		\begin{tabular}{@{}llcc@{}}
-			\toprule
-			&
-			& \multicolumn{2}{b}{Matlab Type}\\
-			\cmidrule(l){3-4}
-			\multicolumn{1}{@{}b}{}
-			& \multicolumn{1}{b}{Data}
-			& \multicolumn{1}{b}{For single inputs}
-			& \multicolumn{1}{b@{}}{For multiple inputs}\\
-			\cmidrule(rl){2-2}
-			\cmidrule(rl){3-3}
-			\cmidrule(l){4-4}
-			\textbf{Complex}      & \textit{any} & String  & Cell \\\midrule
-			\textbf{Bounding Box} & -            & -       & -    \\\midrule
-			\textbf{Literal}      & xs:int       & Numeric & Array\\
-							      & xs:boolean   & Numeric & Array\\
-							      & xs:dateTime  & Numeric & Array\\
-							      & xs:double    & Numeric & Array\\
-							      & xs:float     & Numeric & Array\\
-							      & xs:byte      & Numeric & Array\\
-							      & xs:short     & Numeric & Array\\
-							      & xs:int       & Numeric & Array\\
-							      & xs:long      & Numeric & Array\\
-							      & xs:string    & String  & Cell \\
-							      & xs:anyURI    & String  & Cell \\
-			\bottomrule
-		\end{tabular}
-	\end{table}
+
 	\subsection{Pooling}
 	\begin{itemize}
 		\item matlab instances are pooled
@@ -146,11 +108,7 @@
 		\end{signedquote}
 
 	\subsection{Implementation}
-	\begin{figure}[!htb]
-		\centering
-		\includegraphics[width=.8\textwidth]{figures/sequence-diagramm-mwps.pdf}
-		\caption{\label{fig:sd:mwps} Sequence diagram of the Matlab WPS.} %182x194
-	\end{figure}
+
 	\subsection{Lake-Analyzer WPS}
 \section{Streaming WPS}
 	\begin{itemize}
@@ -185,11 +143,6 @@
 				\item input should be supplied subsequently
 				\item intermediate outputs should be published as they come available
 			\end{itemize}
-			\begin{figure}[!htb]
-				\centering
-				\input{figures/streaming-types}
-				\caption{\label{fig:streaming}Four different types of processing data: (a) conventional processing, (b) streaming input data (c) streaming output data, (d) full input and output streaming \citep[based on][]{foerster2012live}.}
-			\end{figure}
 		\end{itemize}
 		\item it should\dots
 		\begin{itemize}
@@ -250,11 +203,7 @@
 			\item after starting of a streaming process the WPS execute will return immediately
 			\item WPS outputs are identifier and WebSocket URL of the streaming process
 			\item providing inputs and receiving outputs over WebSockets
-			\begin{figure}[!htb]
-				\centering
-				\includegraphics[width=.7868\textwidth]{figures/sequence-diagramm-swps.pdf} % 179x274
-				\caption{\label{fig:sd:swps} Sequence diagram of the Streaming WPS.}
-			\end{figure}
+
 			\item detailed description (despicted in Figure \ref{fig:sd:swps})
 			\begin{itemize}
 				\item A client (Sender) issues a Execute to a streaming enables WPS process (step 1)
@@ -282,11 +231,6 @@
 				\item see Figure \ref{fig:sd:chain}
 				\item even simpler: delegate is a WPS process chain
 			\end{itemize}
-			\begin{figure}[!htb]
-				\centering
-				\includegraphics[width=\textwidth]{figures/sequence-diagramm-chain.pdf} % 179x274
-				\caption{\label{fig:sd:chain} Sequence diagram of chaining two different streaming processes.}
-			\end{figure}
 		\end{itemize}
 	\subsection{Input Types}\label{sec:streaming:input-types}
 		\begin{itemize}
@@ -346,43 +290,43 @@
 			\item Messages:
 			\begin{itemize}
 				\item InputMessage
-				\includecode[XML]{streaming-message-input.xml}{\label{lst:streaming:message:input}Example for a Streaming WPS input message.}
+
 				\begin{itemize}
 					\item used to provide inputs to a streaming iteration to the process
 					\item comparable to a wps:Execute
 				\end{itemize}
 				\item OutputMessage
-				\includecode[XML]{streaming-message-output.xml}{\label{lst:streaming:message:output}Example for a Streaming WPS output message.}
+
 				\begin{itemize}
 					\item used to send outputs of a streaming iteration to the client
 					\item comparable to a wps:ExecuteResponse
 				\end{itemize}
 				\item OutputRequestMessage
-				\includecode[XML]{streaming-message-output-request.xml}{\label{lst:streaming:message:output-request}Example for a Streaming WPS output request message.}
+
 				\begin{itemize}
 					\item used to request the outputs of a process from the process
 					\item no direct counterpart in the WPS
 				\end{itemize}
 				\item ErrorMessage
-				\includecode[XML]{streaming-message-error.xml}{\label{lst:streaming:message:error}Example for a Streaming WPS error message.}
+
 				\begin{itemize}
 					\item used to transport errors to the clients
 					\item comparable to ows:ExceptionReport
 				\end{itemize}
 				\item DescribeMessage
-				\includecode[XML]{streaming-message-describe.xml}{\label{lst:streaming:message:describe}Example for a Streaming WPS describe message.}
+
 				\begin{itemize}
 					\item used to request a description of a streaming process from the process
 					\item comparable to DescribeProcess
 				\end{itemize}
 				\item DescriptionMessage
-				\includecode[XML]{streaming-message-description.xml}{\label{lst:streaming:message:description}Example for a Streaming WPS description message.}
+
 				\begin{itemize}
 					\item used to describe a process to the client
 					\item comparable to ProcessDescription
 				\end{itemize}
 				\item StopMessage
-				\includecode[XML]{streaming-message-stop.xml}{\label{lst:streaming:message:stop}Example for a Streaming WPS stop message.}
+
 				\begin{itemize}
 					\item used to stop the streaming process, to indicate no further inputs will become available
 					\item used to to notify any listening clients that no more outputs become available
@@ -398,19 +342,9 @@
 
 		In a dependency graph, vertices represent a task, package or other entity that has dependencies and edges represent these dependencies ($v_1$ depends on $v_2$). Dependency graphs have to be acyclic as a cycle would introduce a cyclic dependency, that can not be resolved.
 
-		\begin{figure}[!htb]
-			\centering
-			\includegraphics[width=.4474\textwidth]{figures/unordered-graph.pdf} % 98x92
-			\caption{\label{fig:graph:unordered} Example for a dependency graph consisting of two independent subgraphs.}
-		\end{figure}
 		A system containing the tasks $A, B, C, D, E, F$ and the dependencies $A\rightarrow B, A\rightarrow C, B\rightarrow D, C\rightarrow D$ and $E\rightarrow F$ will result in a \ac{DAG} consisting of two independent subgraphs (see Figure \ref{fig:graph:unordered}).
 
 		The execution order of a dependency graph can be derived from the topological ordering of the graph: a ``topological ordering, $ord_D$, of a directed acyclic graph $D = (V, E)$ maps each vertex to a priority value such that $ord_{D}(x) < ord_{D}(y)$ holds for all edges $x \rightarrow y \in E$'' \citep{pearce2007dynamic}, a possible execution order is the list of all vertices sorted by descending $ord_D$. The topological order of a \ac{DAG} can be computed using e.g. \ac{BFS} in linear time \citep{cormen2001introduction}. In most cases the topological ordering is not unique, Figure \ref{fig:graph:ordered} shows one possible execution order for the before mentioned graph.
-		\begin{figure}[!htb]
-			\centering
-			\includegraphics[width=1\textwidth]{figures/ordered-graph.pdf} % 219x58
-			\caption{\label{fig:graph:ordered} Possible execution/topological order of the dependency graph in Figure \ref{fig:graph:unordered}. Black arrows represent dependence to another vertex, colored arrows the execution order.}
-		\end{figure}
 
 		In contrast to conventional dependency systems like package managers the Streaming \ac{WPS} can not operate on a static graph of dependencies but on a graph to which vertices and edges are added constantly. Conventional topological sorting algorithms have to recompute the ordering for every insertion from scratch which will have a big performance impact for the scenario of a great number of small streaming iterations. There exist few dynamic topological sort algorithms that will maintain the topological order across edge and node insertions and will only recompute the ordering if necessary.
 
