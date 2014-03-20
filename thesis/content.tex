@@ -31,7 +31,7 @@
 			\begin{itemize}
 				\item Translates WPS Execute requests to Matlab client requests
 				\item Translates Matlab client responses to WPS Execute responses
-				\item configurationn with YAML file to create description and translate inputs/outputs
+				\item configuration with YAML file to create description and translate inputs/outputs
 			\end{itemize}
 			\item Matlab Client
 			\begin{itemize}
@@ -49,7 +49,7 @@
 			\end{itemize}
 			\item Matlab
 			\begin{itemize}
-				\item A headless intance of the Matlab software
+				\item A headless instance of the Matlab software
 			\end{itemize}
 		\end{itemize}
 	\end{itemize}
@@ -348,7 +348,7 @@
 
 		In contrast to conventional dependency systems like package managers the Streaming \ac{WPS} can not operate on a static graph of dependencies but on a graph to which vertices and edges are added constantly. Conventional topological sorting algorithms have to recompute the ordering for every insertion from scratch which will have a big performance impact for the scenario of a great number of small streaming iterations. There exist few dynamic topological sort algorithms that will maintain the topological order across edge and node insertions and will only recompute the ordering if necessary.
 
-		Most dependency graphs generated using the Streaming \ac{WPS} will probably consist of multiple independent subgraphs, no dependencies at all would be the most extreme example, or quite sparse graphs. For this the algorithm described by \citet{pearce2007dynamic} seems to be appropriate. Even it is theoretically it is inferior to other algorithms for dynamic topological sorting, it especially performs better on sparse graphs and on dense graphs only a constant factor slower than other algorithms \citep{pearce2007dynamic}.
+		Most dependency graphs generated using the Streaming \ac{WPS} will probably consist of multiple independent subgraphs, no dependencies at all would be the most extreme example, or quite sparse graphs. For this the algorithm described by \citet{pearce2007dynamic} seems to be appropriate. Even it is theoretically it is inferior to other algorithms for dynamic topological sorting, it especially performs better on sparse graphs and on dense graphs only a constant factor slower than other algorithms \citep{pearce2007dynamic}. %wörtliches zitat?
 
 		The actual implementation uses a \ac{DAG} only for a cyclic dependency check. Execution ordering is listener based to allow a better parallelization of streaming iterations.
 
@@ -393,7 +393,7 @@
 	\end{itemize}
 	\subsection{Streaming Lake-Analyzer WPS}
 	\begin{itemize}
-		\item simple application of the Streaming WPS and Matlab WPS
+		\item simple application of the Streaming WPS and \textsc{Matlab} WPS
 		\item LakeAnalyzer may need further adjustments to allow live analysis
 		\item remove down sampling code
 		\item operate on single point in time
