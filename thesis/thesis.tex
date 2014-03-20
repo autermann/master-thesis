@@ -25,7 +25,9 @@
 
 	\pagenumbering{arabic}
 	\onehalfspacing
+	\pretocmd{\section}{\clearpage}{}{}
 	\input{content}
+
 	\clearpage
 
 	\nocite{*}
