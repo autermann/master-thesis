@@ -234,57 +234,6 @@
 				\item even simpler: delegate is a WPS process chain
 			\end{itemize}
 		\end{itemize}
-	\subsection{Input Types}\label{sec:streaming:input-types}
-		\begin{itemize}
-			\item three basic types of inputs
-			\item difference when they are supplied
-			\item and in which scope they are used
-			\item all based on WPS data types
-			\begin{itemize}
-				\item Complex
-				\item Literal
-				\item Reference
-				\item BoundingBox
-			\end{itemize}
-		\end{itemize}
-		\subsubsection{Static Inputs}
-			\begin{itemize}
-				\item see Listing \ref{lst:streaming:input:static}
-				\item inputs common to every streaming iteration
-				\item supplied when starting the streaming process
-				\item merged with streaming inputs and forwarded to delegate
-				\item configuration parameters, etc.
-				\item
-			\end{itemize}
-			\includecode[XML]{streaming-input-static.xml}{\label{lst:streaming:input:static}Example for a Streaming WPS static inputs.}
-		\subsubsection{Streaming Inputs}
-			\begin{itemize}
-				\item see Listing \ref{lst:streaming:input:streaming}
-				\item provided for a single streaming iteration
-			\end{itemize}
-			\includecode[XML]{streaming-input-streaming.xml}{\label{lst:streaming:input:streaming}Example for a Streaming WPS streaming inputs.}
-		\subsubsection{Reference Inputs}\label{sec:stream:input:reference}
-			\begin{itemize}
-				\item see Listing \ref{lst:streaming:input:reference}
-				\item references the output of a previous or upcoming streaming iteration as an input for this iteration
-				\item used to model dependencies between iterations/features/etc.
-				\item breaks out of the classical non-random access paradigm of streaming
-			\end{itemize}
-			\includecode[XML]{streaming-input-reference.xml}{\label{lst:streaming:input:reference}Example for a Streaming WPS reference input.}
-		\subsubsection{Polling inputs}
-			\begin{itemize}
-				\item Not implemented inside the streaming WPS.
-				\item what to do if multiple polling inputs are defined?
-				\item how to define polling frequency?
-				\item how to define notifications?
-				\item better handled on client side (see Figure \ref{fig:sd:polling})
-			\end{itemize}
-			\begin{figure}[!htb]
-				\centering
-				\includegraphics[width=.7868\textwidth]{figures/sequence-diagramm-polling.pdf}
-				% 179x274
-				\caption{\label{fig:sd:polling} Sequence diagram of polling inputs of the Streaming WPS.}
-			\end{figure}
 	\subsection{Messages}
 		\begin{itemize}
 			\item SOAP based message formats
@@ -339,6 +288,52 @@
 				\end{itemize}
 			\end{itemize}
 		\end{itemize}
+	\subsection{Input Types}
+		\label{sec:streaming:input}
+		The before mentioned requirements imply three different types of input for a Streaming Process. They differ in the aspect of time (when are they supplied) and scope (where are they used). Besides that all of them are based on the very same input types the \ac{WPS} standard defines:
+		\begin{description}
+			\item[Complex Input] Complex data structures that can be described by a mime type, an encoding and a schema. They can represent raster data, XML structures such as GML feature collections, CSV or any type of data. This data can be supplied inline or as reference to an external HTTP resource.
+			\item[Literal Input] Data that can be represented by a single string value and can be described by data type and a unit of measurement.
+			\item[Bounding Box Input] Data that represents a multi dimensional bounding box with a associated coordinate reference system.
+		\end{description}
+		\subsubsection{Streaming Inputs}
+			\label{sec:streaming:input:streaming}
+			The first and most obvious type of input are streaming inputs. They are provided for a single streaming iteration and will only be used in that iteration and are the core of a streaming enabled process (see Listing \ref{lst:streaming:input:streaming}).
+
+			A traditional algorithm to compute the histogram of a raster (e.g. a satellite image) would need the complete raster as a single complex input for processing. A streaming enabled variant would split the raster in several smaller tiles and supply each of in a single input message to the streaming process. The process can process each tile on it's own and update the global histogram. Besides that the process never has to store the complete raster, it is also able to output intermediate histograms to the client.
+
+		\subsubsection{Static Inputs}
+			\label{sec:stream:input:static}
+			Algorithms that operate on a streaming input often need inputs that are common to every iteration. It would be redundant and inefficient to transfer inputs like configuration parameters in every input message for every streaming iteration. For this the concept of static inputs has to be introduced. Static inputs are parameters that are supplied when a streaming process is created and apply to every streaming iteration (see Listing \ref{lst:streaming:input:static}). While the streaming process processes a streaming iteration, the static inputs are merged with the inputs of the causing input message and transparently supplied to the process's delegate. This way a conventional process can be easily converted into a streaming enabled process.
+
+			For example a traditional process implementation of the Douglas–Peucker algorithm \citep{douglas1973algorithms} would require a feature collection and a $\epsilon$ value as inputs. In a streaming environment one would model the $\epsilon$ input as a static input supplied at process creation and stream the feature collection as single features in streaming inputs. Other examples are a coordinate transformation process, that accepts a feature collection and a target \ac{CRS} or a buffer algorithm that accepts a feature collection and a buffer size. Buffer size and \ac{CRS} would be supplied as static inputs and the feature collection would be split into several streaming inputs and supplied in independent streaming iterations.
+
+		\subsubsection{Reference Inputs}
+			\label{sec:stream:input:reference}
+			While streaming offers no real benefit to algorithms that require global knowledge of the data set, there are often cases where algorithms only require knowledge about few other chunks of the dataset or even only about the result of their processing.
+			\begin{itemize}
+				\item see Listing \ref{lst:streaming:input:reference}
+				\item references the output of a previous or upcoming streaming iteration as an input for this iteration
+				\item used to model dependencies between iterations/features/etc.
+				\item breaks out of the classical non-random access paradigm of streaming
+				\item example: analyzing a river system where each processing of a river depends on results of rivers flowing into it
+				\begin{itemize}
+					\item conventional: the complete river system is a single input
+					\item streaming: each river is pushed separately referencing the output of the rivers it depends on
+				\end{itemize}
+			\end{itemize}
+
+		\subsubsection{Polling inputs}
+			\label{sec:stream:input:polling}
+			\begin{itemize}
+				\item Not implemented inside the streaming WPS.
+				\item what to do if multiple polling inputs are defined?
+				\item how to combine them?
+				\item how to define polling frequency?
+				\item how to define notifications?
+				\item better handled on client side (see Figure \ref{fig:sd:polling}) and transformed to streaming inputs
+			\end{itemize}
+
 	\subsection{Dependencies}\label{sec:stream:dependencies}
 		The definition of Reference Inputs in Section \ref{sec:stream:input:reference} implies a mechanism to resolve dependencies and to order the execution of streaming iterations. These are considered as tasks and can declare dependencies to other streaming iterations either by mapping an input to the output of another streaming iteration or by declaring a explicit dependency on another streaming iteration.
 
