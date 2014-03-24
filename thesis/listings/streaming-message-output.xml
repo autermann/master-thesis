@@ -7,6 +7,7 @@
   <soap:Header>
     <wsa:MessageID>uuid:ef9676f0-13b1-473b-a783-8fed8cbd6513</wsa:MessageID>
     <wsa:RelatesTo>uuid:6a0e50c7-85c4-448c-962d-894c41c441bf</wsa:RelatesTo>
+    <wsa:RelatesTo RelationshipType="https://github.com/autermann/streaming-wps/used">uuid:cf19d698-f288-477b-a4ff-39611b46920e</wsa:RelatesTo>
     <wsa:Action>https://github.com/autermann/streaming-wps/output</wsa:Action>
   </soap:Header>
   <soap:Body>
