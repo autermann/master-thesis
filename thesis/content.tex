@@ -294,59 +294,47 @@
 			\end{itemize}
 		\end{itemize}
 	\subsection{Messages}
-		\begin{itemize}
-			\item SOAP based message formats
-			\item allows messages over an asynchronous protocol like WebSockets that has no concept of reply
-			\item Messages:
-			\begin{itemize}
-				\item InputMessage
+		To fulfill the above defined protocol several messages have to be exchanged between sender, streaming process and receiver. In order to correlate input and outputs or to show the source of an error, the message format has to have a concept of message references. WebSockets do not have such a concept as it is only a thin layer on top of TCP, that introduces handshake and addressing mechanism to be compatible with HTTP and a minimal framing of messages. This framing is merely needed to establish a message-based instead of a stream-based protocol, as the latter would make it hard to differentiate between individual messages \citep{ietf:rfc6455}. To enable referencing of messages, and by this a asynchronous reply mechanism, another layer is needed. As the \ac{WPS} is mostly based on \ac{XML}, the message format should also be \ac{XML} based. This enables the usage of large parts of the \ac{WPS} schema and allows the reuse of many components written to interact with the \ac{WPS}.
 
-				\begin{itemize}
-					\item used to provide inputs to a streaming iteration to the process
-					\item comparable to a wps:Execute
-				\end{itemize}
-				\item OutputMessage
+		The widely known SOAP protocol \citep{w3c:soap1}, which may also be used as an optional binding of the \ac{WPS} and thus can be easily adopted, is a ideal candidate for this. In combination with \ac{WSA} \citep{w3c:wsa} it creates a \ac{XML} based message framework, that allows asynchronous requests and responses over a arbitrary protocol. Besides introducing a concept of addressing and routing of messages (that will not be used in the Streaming \ac{WPS}), one can assign a globally unique identifier to any message using \ac{WSA}, that can be referenced with arbitrary semantics (e.g. reply).
 
-				\begin{itemize}
-					\item used to send outputs of a streaming iteration to the client
-					\item comparable to a wps:ExecuteResponse
-				\end{itemize}
-				\item OutputRequestMessage
+		The Streaming \ac{WPS} defines seven SOAP messages.
 
-				\begin{itemize}
-					\item used to request the outputs of a process from the process
-					\item no direct counterpart in the WPS
-				\end{itemize}
-				\item ErrorMessage
+		\paragraph{Input Message}
+			Input messages are used by clients to supply subsequent inputs to a streaming iteration of a streaming process. They loosely resemble a \ac{WPS} Execute request by consisting of any number of inputs and a identifier, which references the streaming process to which the inputs should be supplied. An example can be seen in Listing \ref{lst:streaming:message:input}, possible inputs can be seen in section \ref{sec:streaming:input}.
+			\lstinputlisting[label={lst:streaming:message:input},
+			                 caption={[Example for a Streaming WPS input message.]Example for a Streaming WPS input message (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
+			                 float=!htb,language=XML]{listings/streaming-message-input.xml}
+		\paragraph{Output Messages}
+			Output messages are used by the streaming process to transport intermediate results at the end of a streaming iteration or a final result at the end of the streaming process to listening clients. They loosely resemble a \ac{WPS} Execute response by containing a arbitrary number of outputs and the identifier of the process, that produced the outputs. Output messages containing intermediate result are replies to their corresponding input message and reference them using \ac{WSA}. If the processing used the output of any other streaming iteration (see sections \ref{sec:stream:input:reference} and \ref{sec:stream:dependencies}) the corresponding output messages are also referenced. An example can be seen in Listing \ref{lst:streaming:message:output}.
+			\lstinputlisting[label={lst:streaming:message:output},
+			                 caption={[Example for a Streaming WPS output message.]Example for a Streaming WPS output message (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
+			                 float=!htb,language=XML]{listings/streaming-message-output.xml}
+		\paragraph{Output Request Message}
+			A output request message is used by client to let a streaming process know, that it would like to receive outputs from the process. There is no direct counter part in the \ac{WPS} specification but the concept is similar to the continuous request of the \ac{WPS} response during a asynchronous process execution. As WebSockets offer a full-duplex messaging channel a continuous polling of outputs is not needed, but the streaming process can push outputs directly to listening clients. To initialize this listening the client register to one or more streaming processes using their corresponding identifiers. An example can be seen in Listing \ref{lst:streaming:message:output-request}.
+			\lstinputlisting[label={lst:streaming:message:output-request},
+			                 caption={[Example for a Streaming WPS output request message.]Example for a Streaming WPS output request message (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
+			                 float=!htb,language=XML]{listings/streaming-message-output-request.xml}
+		\paragraph{Stop Message}
+			As streaming process can run indefinitely long, input supplying clients need to be able to let the streaming process know, that there will be no further inputs become available. To achieve this a stop message (see Listing \ref{lst:streaming:message:stop}) is send to the streaming process. The process will propagate the stop message to all listening clients to let them know there will be no further outputs. Before the stop message is propagated all streaming iterations, that are not yet processed will be finished but the process will not accept any further inputs. If there are still unresolved dependencies (see sections \ref{sec:stream:input:reference} and \ref{sec:stream:dependencies}) the streaming process will fail with an error message.
+			\lstinputlisting[label={lst:streaming:message:stop},
+			                 caption={[Example for a Streaming WPS stop message]Example for a Streaming WPS stop message (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
+			                 float=!htb,language=XML]{listings/streaming-message-stop.xml}
+		\paragraph{Error Message}
+			Errors are transported, as in the \ac{WPS} specification, using \ac{OWS} exception reports \citep{ogc:wps}. If the delegate of a process fails or a supplied input message can not be processed due to whatever conditions, the error is propagated to listening clients. The error is always send to the client that send the message causing the error (if the client is still connected) and in case the error is caused during the execution of a streaming iteration also to all listening clients, that registered through a output request message. In contrast to failures during input validation, due to constraints imposed by dependencies (see sections \ref{sec:stream:input:reference} and \ref{sec:stream:dependencies}), errors raised during the execution of a streaming iteration can not be compensated, but will stop the streaming process. The causing message of a failure may obtained from the reply relation encoded using \ac{WSA}. An example of an error message can be found in Listing \ref{lst:streaming:message:error}.
+			\lstinputlisting[label={lst:streaming:message:error},
+			                 caption={[Example for a Streaming WPS error message.]Example for a Streaming WPS error message (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
+			                 float=!htb,language=XML]{listings/streaming-message-error.xml}
+		\paragraph{Describe \& Description Message}
+			Describe messages are directly adopted from the \ac{WPS} Describe Process operation. Due to conditions described in section \ref{sec:stream:processdescription} a client needs to able to retrieve a description from a running streaming process. The message simply contains the identifier of the process the clients wants to have the description from (an example can be seen in Listing \ref{lst:streaming:message:describe}).
+			\lstinputlisting[label={lst:streaming:message:describe},
+							 caption={[Example for a Streaming WPS describe message.]Example for a Streaming WPS describe message (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
+							 float=!htb,language=XML]{listings/streaming-message-describe.xml}
+			The reply resembles a Describe Process response and is encoded in a description message referencing the describe message and containing the streaming process description and (see Listing \ref{lst:streaming:message:description}).
+			\lstinputlisting[label={lst:streaming:message:description},
+							 caption={[Example for a Streaming WPS description message.]Example for a Streaming WPS description message (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
+							 float=!htb,language=XML]{listings/streaming-message-description.xml}
 
-				\begin{itemize}
-					\item used to transport errors to the clients
-					\item comparable to ows:ExceptionReport
-					\item errors during input validation -> sender
-					\item errors during processing -> clients (\& sender)
-					\item source of error can be determined by WSA headers
-				\end{itemize}
-				\item DescribeMessage
-
-				\begin{itemize}
-					\item used to request a description of a streaming process from the process
-					\item comparable to DescribeProcess
-				\end{itemize}
-				\item DescriptionMessage
-
-				\begin{itemize}
-					\item used to describe a process to the client
-					\item comparable to ProcessDescription
-				\end{itemize}
-				\item StopMessage
-
-				\begin{itemize}
-					\item used to stop the streaming process, to indicate no further inputs will become available
-					\item used to to notify any listening clients that no more outputs become available
-					\item no direct counterpart in the WPS
-				\end{itemize}
-			\end{itemize}
-		\end{itemize}
 	\subsection{Input Types}
 		\label{sec:streaming:input}
 		The before mentioned requirements imply three different types of input for a Streaming Process. They differ in the aspect of time (when are they supplied) and scope (where are they used). Besides that all of them are based on the very same input types the \ac{WPS} standard defines:
