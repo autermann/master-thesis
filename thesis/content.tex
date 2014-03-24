@@ -291,11 +291,12 @@
 	\subsection{Input Types}
 		\label{sec:streaming:input}
 		The before mentioned requirements imply three different types of input for a Streaming Process. They differ in the aspect of time (when are they supplied) and scope (where are they used). Besides that all of them are based on the very same input types the \ac{WPS} standard defines:
-		\begin{description}
-			\item[Complex Input] Complex data structures that can be described by a mime type, an encoding and a schema. They can represent raster data, XML structures such as GML feature collections, CSV or any type of data. This data can be supplied inline or as reference to an external HTTP resource.
-			\item[Literal Input] Data that can be represented by a single string value and can be described by data type and a unit of measurement.
-			\item[Bounding Box Input] Data that represents a multi dimensional bounding box with a associated coordinate reference system.
-		\end{description}
+		\paragraph{Complex Input}
+			Complex data structures that can be described by a mime type, an encoding and a schema. They can represent raster data, XML structures such as GML feature collections, CSV or any type of data. This data can be supplied inline or as reference to an external HTTP resource.
+		\paragraph{Literal Input}
+			Data that can be represented by a single string value and can be described by data type and a unit of measurement.
+		\paragraph{Bounding Box Input}
+			Data that represents a multi dimensional bounding box with a associated coordinate reference system.
 		\subsubsection{Streaming Inputs}
 			\label{sec:streaming:input:streaming}
 			The first and most obvious type of input are streaming inputs. They are provided for a single streaming iteration and will only be used in that iteration and are the core of a streaming enabled process (see Listing \ref{lst:streaming:input:streaming}).
