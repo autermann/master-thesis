@@ -4,13 +4,13 @@
     xmlns:ows="http://www.opengis.net/ows/1.1"
     xmlns:xlink="http://www.w3.org/1999/xlink">
   <wps:Input>
-    <ows:Identifier>intput1</ows:Identifier>
+    <ows:Identifier>input1</ows:Identifier>
     <wps:Data>
       <wps:LiteralData dataType="xs:string">input1</wps:LiteralData>
     </wps:Data>
   </wps:Input>
   <wps:Input>
-    <ows:Identifier>intput2</ows:Identifier>
+    <ows:Identifier>input2</ows:Identifier>
     <wps:Data>
       <wps:ComplexData mimeType="application/xml" encoding="UTF-8">
         <hello>world</hello>
@@ -18,7 +18,7 @@
     </wps:Data>
   </wps:Input>
   <wps:Input>
-    <ows:Identifier>intput3</ows:Identifier>
+    <ows:Identifier>input3</ows:Identifier>
     <wps:Data>
       <wps:BoundingBoxData>
         <wps:BoundingBoxData crs="EPSG:4326" dimensions="2">
