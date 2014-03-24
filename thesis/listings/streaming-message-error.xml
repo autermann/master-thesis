@@ -1,8 +1,4 @@
-<soap:Envelope
-    xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
-    xmlns:wsa="http://www.w3.org/2005/08/addressing"
-    xmlns:stream="https://github.com/autermann/streaming-wps"
-    xmlns:ows="http://www.opengis.net/ows/1.1">
+<soap:Envelope>
     <soap:Header>
         <wsa:RelatesTo>uuid:6a0e50c7-85c4-448c-962d-894c41c441bf</wsa:RelatesTo>
         <wsa:MessageID>uuid:dc640a0a-d505-4591-baea-2a556412237e</wsa:MessageID>

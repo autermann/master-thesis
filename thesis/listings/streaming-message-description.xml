@@ -1,10 +1,4 @@
-<soap:Envelope
-    xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:wsa="http://www.w3.org/2005/08/addressing"
-    xmlns:stream="https://github.com/autermann/streaming-wps"
-    xmlns:wps="http://www.opengis.net/wps/1.0.0"
-    xmlns:ows="http://www.opengis.net/ows/1.1">
+<soap:Envelope>
   <soap:Header>
     <wsa:RelatesTo>uuid:9ca0ed4a-0e24-4843-bb81-da2af3e23d8c</wsa:RelatesTo>
     <wsa:MessageID>uuid:5ba3d87b-85d0-47eb-9dac-57cf193abd06</wsa:MessageID>

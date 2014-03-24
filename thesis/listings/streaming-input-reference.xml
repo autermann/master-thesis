@@ -1,7 +1,4 @@
-<stream:Inputs
-    xmlns:stream="https://github.com/autermann/streaming-wps"
-    xmlns:wsa="http://www.w3.org/2005/08/addressing"
-    xmlns:ows="http://www.opengis.net/ows/1.1">
+<stream:Inputs>
   <stream:ReferenceInput>
     <ows:Identifier>input3</ows:Identifier>
     <stream:Reference>

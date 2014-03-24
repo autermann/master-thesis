@@ -1,7 +1,4 @@
-<soap:Envelope
-    xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
-    xmlns:wsa="http://www.w3.org/2005/08/addressing"
-    xmlns:stream="https://github.com/autermann/streaming-wps">
+<soap:Envelope>
   <soap:Header>
     <wsa:MessageID>uuid:9ca0ed4a-0e24-4843-bb81-da2af3e23d8c</wsa:MessageID>
     <wsa:Action>https://github.com/autermann/streaming-wps/describe</wsa:Action>
