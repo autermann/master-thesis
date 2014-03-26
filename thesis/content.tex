@@ -264,26 +264,22 @@
 		Processing takes places asynchronously in parallel manner and there is no guarantee of order (besides restrictions imposed by dependencies, see sections \ref{sec:stream:input:reference} and \ref{sec:stream:dependencies}). When the are free capacities to process the data and all other requirements are met, the delegate will tasked to process the data (step 9). The delegate implementation can return a intermediate result in step 10, which will be forwarded to all registered receivers in step 11.
 		Steps 6 to 11 may be repeated indefinitely (e.g. live analysis of data) or until the sending client has no more inputs to feed. As the streaming process would wait in this case for ever (or at least until some timeout interferes), the client has to stop the streaming process explicitly (step 12).
 		This will cause the streaming process to stop accepting inputs, to process all not yet processed inputs and to request a last potential output from the delegate (step 13 \& 14), which will be forwarded to all listening clients (step 15). After this it will destruct the delegate (steps 16 \& 17) and will notify all registered listeners, that there will be no further outputs become available by publish forwarding the stop message (step 18). The streaming process will destroy itself after this.
-		\begin{itemize}
-			\item allows full input/output streaming: every input message results in a output message
-			\item allows input only streaming: no intermediate outputs, only final output message
-			\item allows output only streaming: even not depicted in the diagram, step 11 may be repeated
-			\item multiple streaming inputs/outputs are possible
-			\item encapsulated in a streaming iteration (1 InputMessage + (optional) OutputMessage)
-			\item chaining of Streaming Processes possible
-			\begin{figure}[!htb]
-				\centering
-				\includegraphics[width=\textwidth]{figures/sequence-diagramm-chain.pdf} % 179x274
-				\caption{\label{fig:sd:chain} Sequence diagram of chaining two different streaming processes.}
-			\end{figure}
-			\begin{itemize}
-				\item can be implemented as a streaming Process that simply maps input to output names
-				\item requires mediator between two streaming process that translates input messages into output messages
-				\item see Figure \ref{fig:sd:chain}
-				\item even simpler: delegate is a WPS process chain
-			\end{itemize}
-		\end{itemize}
+
+		A detailed description of the various messages of this protocol can be found in section~\ref{sec:streaming:messages}.
+
+		The protocol permits various streaming usage scenarios. A delegate, that produces a output for every input message creates a full input/output streaming process (see Figure~\ref{fig:streaming} (d)), a delegate that produces only a final output results in a input only streaming process (see Figure~\ref{fig:streaming} (b)). By suppling a single input message and repeating step 11, a suitable delegate may create a output streaming process (see Figure~\ref{fig:streaming} (c)) and, although not reasonable, even the traditional processing approach depicted in Figure~\ref{fig:streaming} (a) can be simulated by passing all inputs in a single input message and producing a single output message.
+
+		Using message provoked streaming iterations (the combination of a input message, its processing and (optional) output message) allows the use of multiple streaming inputs and outputs. In contrast to previous approaches it is possible for the streaming process to relate these to a single processing iteration without any knowledge of their semantics, because the client encapsulates them in a single message.
+
+		\begin{figure}[!htb]
+			\centering
+			\includegraphics[width=\textwidth]{figures/sequence-diagramm-chain.pdf} % 179x274
+			\caption{\label{fig:sd:chain} Sequence diagram of chaining two different streaming processes.}
+		\end{figure}
+		The protocol also enables the chaining of processing steps. This can be realized in two ways: a delegate itself may represent a \ac{WPS} process chain and thus chain every processing step or several streaming process are chained itself. A simple mediator translating input messages to output messages (see Figure~\ref{fig:sd:chain}). This mediator can be realized using a dedicated streaming enabled algorithm accepting a input/output mapping and the connection parameters of the streaming processes to connect. After requesting the outputs of the source streaming process it can translate every output message to an input message and forward the stop message. A receiving client will simply connect to the second streaming process and will received the data process by the chain. By requesting the outputs first streaming process even intermediate result of the chain are accessible.
+
 	\subsection{Messages}
+		\label{sec:streaming:messages}
 		To fulfill the above defined protocol several messages have to be exchanged between sender, streaming process and receiver. In order to correlate input and outputs or to show the source of an error, the message format has to have a concept of message references. WebSockets do not have such a concept as it is only a thin layer on top of TCP, that introduces handshake and addressing mechanism to be compatible with HTTP and a minimal framing of messages. This framing is merely needed to establish a message-based instead of a stream-based protocol, as the latter would make it hard to differentiate between individual messages \citep{ietf:rfc6455}. To enable referencing of messages, and by this a asynchronous reply mechanism, another layer is needed. As the \ac{WPS} is mostly based on \ac{XML}, the message format should also be \ac{XML} based. This enables the usage of large parts of the \ac{WPS} schema and allows the reuse of many components written to interact with the \ac{WPS}.
 
 		The widely known SOAP protocol \citep{w3c:soap1}, which may also be used as an optional binding of the \ac{WPS} and thus can be easily adopted, is a ideal candidate for this. In combination with \ac{WSA} \citep{w3c:wsa} it creates a \ac{XML} based message framework, that allows asynchronous requests and responses over a arbitrary protocol. Besides introducing a concept of addressing and routing of messages (that will not be used in the Streaming \ac{WPS}), one can assign a globally unique identifier to any message using \ac{WSA}, that can be referenced with arbitrary semantics (e.g. reply).
