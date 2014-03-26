@@ -22,7 +22,7 @@ participant "Source" as sender
 
 participant "Streaming WPS" as wps
 participant "Streaming Process 1" as process1
-participant "Translator" as translator
+participant "Mediator" as mediator
 participant "Streaming Process 2" as process2
 
 participant "Receiver" as receiver
@@ -37,31 +37,33 @@ wps -> process1: create
 sender <-- wps: Execute Response
 deactivate wps
 
-create translator
-sender -> translator: create
-
 sender -> wps: Execute
 activate wps
 create process2
 wps -> process2: create
 sender <-- wps: Execute Response
 deactivate wps
+
+create mediator
+sender -> mediator: create
 |||
-translator ->> process1: Request Output
-receiver ->> process2: Request Output
+mediator ->> process1: Request Output
 activate process1
 deactivate process1
+receiver ->> process2: Request Output
+activate process2
+deactivate process2
 
 loop
 	sender ->> process1: Input
 	activate process1
 	...
-	process1 ->> translator: Output
+	process1 ->> mediator: Output
 	deactivate process1
-	activate translator
+	activate mediator
 
-	translator ->> process2: Input
-	deactivate translator
+	mediator ->> process2: Input
+	deactivate mediator
 	activate process2
 	...
 	process2 ->> receiver: Output
@@ -71,13 +73,13 @@ end
 
 sender ->> process1: Stop
 activate process1
-process1 ->> translator: Stop
+process1 ->> mediator: Stop
 deactivate process1
 destroy process1
-activate translator
-translator ->> process2: Stop
-deactivate translator
-destroy translator
+activate mediator
+mediator ->> process2: Stop
+deactivate mediator
+destroy mediator
 activate process2
 process2 ->> receiver: Stop
 destroy process2
