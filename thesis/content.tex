@@ -232,7 +232,7 @@
 			\item browser based clients can not use streaming inputs
 			\item they can not offer a file under a URL
 			\item multiple outputs to stream?
-			\item how to connect/coordinate multiple streamed inputs?
+			\item how to correlate/connect/coordinate multiple streamed inputs?
 		\end{itemize}
 		\item this approach\dots
 		\begin{itemize}
@@ -247,34 +247,24 @@
 	\end{itemize}
 
 	\subsection{Protocol}
+		As the the \ac{WPS} specification is not flexible enough to model a full streaming scenario, the \ac{WPS} has to be bypassed. For this a more flexible interaction model was developed, that extends the conventional processing approach. This protocol is message based and enables full-duplex stream processing of spatio-temporal data. A \emph{streaming enabled algorithm} is a \ac{WPS} algorithm that supports the here defined protocol while a \emph{streaming process} is the identifiable instance of an algorithm, created by executing the streaming enabled algorithm using the \ac{WPS} Execute operation. The streaming process is the core of the Streaming \ac{WPS} and receives subsequent inputs and will emit intermediate results. While the execution of the streaming enabled algorithm is fully supported by the \ac{WPS} specification, all interaction with the streaming process is not part of the standard. To communicate with the streaming process, the client needs information on how to connect to the process. As the \ac{WPS} specification does not allow subsequent outputs, the call of the Execute operation will return immediately to transport this information to the client, and can not persist over the lifetime of the streaming process.
+
+		To enable a full duplex communication with the streaming process WebSockets will be used to transport messages. This is needed to \emph{push} messages to clients instead of letting the clients constantly request updates.
+
+		\begin{figure}[!htb]
+			\centering
+			\includegraphics[width=.7868\textwidth]{figures/sequence-diagramm-swps.pdf} % 179x274
+			\caption{\label{fig:sd:swps} Sequence diagram of the Streaming WPS.}
+		\end{figure}
+
+		The detailed interaction protocol is depicted in Figure~\ref{fig:sd:swps}. A client (\emph{Sender}) issues a Execute to a streaming enabled WPS algorithm (step 1). The algorithm will instantiate a delegate (step 2), that is responsible for processing data chunks, and a streaming process (step 3), that is responsible for client interactions and task scheduling. The Execute response will contain the necessary details to connect to the streaming processes, such as the the identifier of the streaming process and the WebSocket endpoint URL (step 4).
+
+		With these details a client can connect directly to the streaming process bypassing the \ac{WPS} interface. In step 5 another client\footnote{Even though sender and receiver are different entities in this diagram, there are no restrictions imposed to the amount of clients, either senders or receivers, or their nature (senders may also be receivers).} (\emph{Receiver}) connects to the streaming process and subscribes to the future outputs of the process. By this the client does not need to constantly issue requests to the streaming process to check for new outputs, but will receive outputs automatically as long as the receiving client stays connected using the WebSocket.
+		After this one or multiple clients start sending chunks of data as input parameters to the streaming process (step 6). The clients may open a new connection for every input or use the same connection over the lifetime of the streaming process. The streaming process will check the inputs for validity (step 7) and will queue them for processing (step 8).
+		Processing takes places asynchronously in parallel manner and there is no guarantee of order (besides restrictions imposed by dependencies, see sections \ref{sec:stream:input:reference} and \ref{sec:stream:dependencies}). When the are free capacities to process the data and all other requirements are met, the delegate will tasked to process the data (step 9). The delegate implementation can return a intermediate result in step 10, which will be forwarded to all registered receivers in step 11.
+		Steps 6 to 11 may be repeated indefinitely (e.g. live analysis of data) or until the sending client has no more inputs to feed. As the streaming process would wait in this case for ever (or at least until some timeout interferes), the client has to stop the streaming process explicitly (step 12).
+		This will cause the streaming process to stop accepting inputs, to process all not yet processed inputs and to request a last potential output from the delegate (step 13 \& 14), which will be forwarded to all listening clients (step 15). After this it will destruct the delegate (steps 16 \& 17) and will notify all registered listeners, that there will be no further outputs become available by publish forwarding the stop message (step 18). The streaming process will destroy itself after this.
 		\begin{itemize}
-			\item A streaming process is identifiable instance of a streaming enabled process
-			\item core of the Streaming WPS
-			\item will receive inputs process them, and emit the outputs
-			\item Starting of Streaming Process by executing a WPS process
-			\item after starting of a streaming process the WPS execute will return immediately
-			\item WPS outputs are identifier and WebSocket URL of the streaming process
-			\item providing inputs and receiving outputs over WebSockets
-			\begin{figure}[!htb]
-				\centering
-				\includegraphics[width=.7868\textwidth]{figures/sequence-diagramm-swps.pdf} % 179x274
-				\caption{\label{fig:sd:swps} Sequence diagram of the Streaming WPS.}
-			\end{figure}
-			\item detailed description (depicted in Figure \ref{fig:sd:swps})
-			\begin{itemize}
-				\item A client (Sender) issues a Execute to a streaming enables WPS process (step 1)
-				\item the streaming WPS will instantiate a Streaming Process and a Delegate the will process data chunks (step 2 \& 3)
-				\item The Streaming WPS returns the identifier and endpoint URL of the created Streaming Process in the ExecuteResponse
-				\item One or more clients (which may also be the sender) connects to this endpoint URL and requests the outputs of the Streaming Process (step 5)
-				\item One or multiple clients start sending chunks of data to the Streaming Process using Input Messages over WebSockets. The connection may stay open while feeding (step 6)
-				\item the Streaming Process will check the inputs (especially whether the supplied input introduce a cycle (see section \ref{sec:stream:dependencies})) (step 8) and will enqueue them until they can be processed
-				\item When the inputs can be processes the processing will be delegated to the delegate, which may or may not return a intermediate output  (step 9 \& 10)
-				\item if theres is a intermediate result, the Streaming Process will push it to the listening clients (step 11)
-				\item Steps 6--11 may be repeated until there are no more inputs available
-				\item the sender will inform the Streaming Process by sending a stop message (step 12)
-				\item the Streaming Process asks the delegate for a final result and will publish it, if is available (step 13--15)
-				\item after this the Streaming Process will tell all listening clients that there will be no further outputs and will stop (step 18)
-			\end{itemize}
 			\item allows full input/output streaming: every input message results in a output message
 			\item allows input only streaming: no intermediate outputs, only final output message
 			\item allows output only streaming: even not depicted in the diagram, step 11 may be repeated
