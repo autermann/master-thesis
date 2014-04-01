@@ -280,8 +280,9 @@
 		\begin{figure}[!htb]
 			\centering
 			\includegraphics[width=\textwidth]{figures/sequence-diagramm-chain.pdf} % 179x274
-			\caption{\label{fig:sd:chain} Sequence diagram of chaining two different streaming processes.}
+			\caption{\label{fig:sd:chain} Sequence diagram of chaining two streaming processes using a generic mediator between the processes to translate output to input messages.}
 		\end{figure}
+
 		The protocol also enables the chaining of processing steps. This can be realized in two ways: a delegate itself may represent a \ac{WPS} process chain and thus chain every processing step or several streaming process are chained itself. A simple mediator translating input messages to output messages (see Figure~\ref{fig:sd:chain}). This mediator can be realized using a dedicated streaming enabled algorithm accepting a input/output mapping and the connection parameters of the streaming processes to connect. After requesting the outputs of the source streaming process it can translate every output message to an input message and forward the stop message. A receiving client will simply connect to the second streaming process and will received the data process by the chain. By requesting the outputs first streaming process even intermediate result of the chain are accessible.
 
 	\subsection{Messages}
@@ -389,7 +390,7 @@
 				\centering
 				\includegraphics[width=.7868\textwidth]{figures/sequence-diagramm-polling.pdf}
 				% 179x274
-				\caption{\label{fig:sd:polling} Sequence diagram of polling inputs of the Streaming WPS.}
+				\caption{\label{fig:sd:polling} Sequence diagram of how to implement polling inputs for a streaming enabled \ac{WPS} algorithm.}
 			\end{figure}
 
 	\subsection{Dependencies}
@@ -403,7 +404,7 @@
 		\begin{figure}[!htb]
 			\centering
 			\includegraphics[width=.4474\textwidth]{figures/unordered-graph.pdf} % 98x92
-			\caption{\label{fig:graph:unordered} Example for a dependency graph consisting of two independent subgraphs.}
+			\caption{\label{fig:graph:unordered} Example for a dependency graph consisting of two independent subgraphs. Arrow denoting a dependency between the nodes.}
 		\end{figure}
 
 		A system containing the tasks $A, B, C, D, E, F$ and the dependencies $A\rightarrow B, A\rightarrow C, B\rightarrow D, C\rightarrow D$ and $E\rightarrow F$ will result in a \ac{DAG} consisting of two independent subgraphs (see Figure \ref{fig:graph:unordered}).
