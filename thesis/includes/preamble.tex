@@ -73,12 +73,16 @@
 
 
 
-\newsavebox\mybox
+
+\newcommand{\sign}[1]{{%
+	\leavevmode\unskip\nobreak\hfil\penalty50\hskip2em\hbox{}\nobreak\hfil%
+	\textup{\small--- #1}\parfillskip=0pt\finalhyphendemerits=0\endgraf%
+}}
+
+\newsavebox\signedbox
 \newenvironment{signedquote}[1]
-  {\savebox\mybox{\small\textup{--- #1}}\begin{quote}\itshape}
-  {{\leavevmode\unskip\nobreak\hfil\penalty50\hskip2em
-  	\hbox{}\nobreak\hfil\usebox\mybox\parfillskip=0pt
-    \finalhyphendemerits=0\endgraf}\end{quote}}
+	{\savebox\signedbox{#1}\begin{quote}\itshape}
+	{\sign{\usebox\signedbox}\end{quote}}
 
 
 \usepackage{tikz}
