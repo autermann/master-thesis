@@ -62,16 +62,45 @@
 
 \usepackage{listings}
 
-\hypersetup{
-    pdftitle={Streaming Web-Services for Calculating Live Hydrological Derivatives},
-    pdfsubject={Master Thesis},
-    pdfauthor={Christian Autermann}
+\newcommand\Originalauthor{}
+\let\Originalauthor\author
+\renewcommand*{\author}[1]{%
+  \Originalauthor{#1}%
+  \renewcommand*{\MyAuthor}{#1}%
+  \hypersetup{pdfauthor={#1}}
 }
+
+\newcommand*{\MyAuthor}{}
+
+\newcommand\Originaltitle{}
+\let\Originaltitle\title
+\renewcommand*{\title}[1]{%
+  \Originaltitle{#1}%
+  \renewcommand*{\MyTitle}{#1}%
+  \hypersetup{pdftitle={#1}}
+}
+\newcommand*{\MyTitle}{}
+
+\newcommand\Originaldate{}
+\let\Originaldate\date
+\renewcommand*{\date}[1]{%
+  \Originaldate{#1}%
+  \renewcommand*{\MyDate}{#1}%
+}
+\newcommand*{\MyDate}{}
+
+
+\newcommand\Originalsubject{}
+\let\Originalsubject\subject
+\renewcommand*{\subject}[1]{%
+  \Originalsubject{#1}%
+  \renewcommand*{\MySubject}{#1}%
+  \hypersetup{pdfsubject={#1}}
+}
+\newcommand*{\MySubject}{}
 
 \newcommand{\fu}[1]{\footnote{\url{#1}}}
 \newcommand{\mail}[1]{\href{mailto:#1}{#1}}
-
-
 
 
 \newcommand{\sign}[1]{{%
