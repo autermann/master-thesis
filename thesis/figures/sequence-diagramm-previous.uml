@@ -1,0 +1,57 @@
+@startuml
+hide footbox
+skinparam defaultFontName "Linux Biolinum"
+skinparam note {
+	BackgroundColor white
+	BorderColor black
+}
+skinparam sequence {
+	ArrowColor black
+	ActorBorderColor black
+	LifeLineBorderColor black
+	ParticipantBorderColor black
+	BoxLineColor black
+	ActorBackgroundColor wihte
+	ParticipantBackgroundColor white
+	GroupBackgroundColor white
+	DividerBackgroundColor white
+	BoxBackgroundColor white
+}
+
+participant "Client" as client
+participant "WPS" as wps
+participant "Playlist" as playlist
+participant "Data" as data
+
+activate client
+
+client -> wps: Execute
+activate wps
+wps -> playlist: create playlist
+wps --> client: playlist location
+wps -> wps: start processing
+activate wps
+
+group while processing
+	wps -> data: store data
+	wps -> playlist: update playlist
+	deactivate wps
+end
+
+wps -> playlist: close playlist
+deactivate wps
+
+group while processing
+	client -> playlist: get playlist
+	activate playlist
+	playlist --> client: playlist
+	deactivate playlist
+	client -> data: get entry
+	activate data
+	data --> client: data chunk
+	deactivate data
+	deactivate client
+end
+
+
+@enduml
