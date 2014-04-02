@@ -8,6 +8,11 @@
 \newcommand{\miniscule}{\@setfontsize\miniscule{5}{6}}% \tiny: 6/7
 \makeatother
 
+\makeatletter
+\def\addToLiterate#1{\edef\lst@literate{\unexpanded\expandafter{\lst@literate}\unexpanded{#1}}}
+\lst@Key{moreliterate}{}{\addToLiterate{#1}}
+\makeatother
+
 \lstset{%
   basicstyle=\ttfamily\scriptsize\mdseries\singlespacing,
   %columns=fullflexible,
@@ -35,7 +40,7 @@
   ndkeywordstyle=\color{ndkeyword},
 }
 
-\lstset{literate=
+\lstset{moreliterate=
   {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
   {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
   {à}{{\`a}}1 {è}{{\'e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
@@ -47,11 +52,12 @@
   {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
   {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
   {€}{{\EUR}}1 {£}{{\pounds}}1 {°}{{\textdegree}}1
-  {µ}{{$\mathrm{\mu}$}}1
-  {±}{{$\pm$}}1
-  {σ}{{$\mathrm{\sigma}$}}1
-  {⋅}{{$\cdot$}}1
+  {µ}{{$\mathrm{\mu}$}}1 {μ}{{$\mathrm{\mu}$}}1
+  {±}{{$\pm$}}1 {σ}{{$\mathrm{\sigma}$}}1
+  {⋅}{{$\cdot$}}1 {‘}{`}1 {’}{'}1
 }
+
+
 
 \lstdefinelanguage{yaml}{
   keywords={true,false,null,y,n},
@@ -59,15 +65,15 @@
   comment=[l]{\#},
   morecomment=[s]{/*}{*/},
   moredelim=[l][\color{ndkeyword}]{\&},
-  moredelim=[l][\color{ndkeyword}]{*},
+  %moredelim=[l][\color{ndkeyword}]{*},
   moredelim=**[il][\textcolor{ndkeyword}{:}]{:},
   morestring=[b]',
   morestring=[b]",
-  literate = {---}{{\textcolor{ndkeyword}{-{-}-}}}3
-             {...}{{\textcolor{ndkeyword}{...}}}3
-             {>}{{\textcolor{ndkeyword}\textgreater}}1
-             {|}{{\textcolor{ndkeyword}\textbar}}1
-             {\ -\ }{{\textcolor{ndkeyword}{\ -\ }}}3,
+  moreliterate = {---}{{\textcolor{ndkeyword}{-{-}-}}}3
+                 {...}{{\textcolor{ndkeyword}{...}}}3
+                 {>}{{\textcolor{ndkeyword}\textgreater}}1
+                 {|}{{\textcolor{ndkeyword}\textbar}}1
+                 {\ -\ }{{\textcolor{ndkeyword}{\ -\ }}}3
 }
 
 \lstdefinelanguage{JavaScript}{
@@ -189,4 +195,4 @@
     xmlns:xlink,
   }
 }
-\newcommand{\texttag}[2]{\texttt{\tiny{\textless\textcolor{keyword}{#1:#2}\textgreater}}}
+\newcommand{\texttag}[2]{{\ttfamily\textless\textcolor{keyword}{#1:#2}\textgreater}}
