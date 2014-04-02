@@ -62,10 +62,11 @@
 	\lstinputlisting[label={lst:matlab:example:fun},
 					 caption={Matlab example function that represents a simple addition.},
 					 float=!htb,language=Matlab]{listings/matlab-add-function.m}
-	\lstinputlisting[label={lst:matlab:example:yaml},
+	\lstinputlisting[language=YAML,float=!htb,
+					 label={lst:matlab:example:yaml},
 					 caption={Matlab process configuration describing the function in Listing \ref{lst:matlab:example:fun}.},
 					 morekeywords={function,connection,identifier,version,inputs,outputs,type},
-					 float=!htb,language=YAML]{listings/matlab-add-process-configuration.yaml}
+					 morendkeywords={double}]{listings/matlab-add-process-configuration.yaml}
 	\lstinputlisting[label={lst:matlab:example:desc},
 					 caption={[Process description generated from the configuration in Listing \ref{lst:matlab:example:yaml}.]Process description generated from the configuration in Listing \ref{lst:matlab:example:yaml} (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
 					 float=!htb,language=XML]{listings/matlab-add-process-description.xml}
