@@ -1,9 +1,8 @@
 \documentclass[%
 		paper=a4,
 		bibliography=totoc,
-		%listof=totoc,
 		fontsize=11pt,
-		parskip
+		parskip=half,
 	]{scrartcl}
 
 \input{includes/preamble}
@@ -12,16 +11,17 @@
 \author{Christian Autermann}
 \date{\today}
 \subject{Master Thesis}
+
 \begin{document}
-	\onehalfspacing
-	\input{includes/titlepage}
+	\maketitle
+	\clearpage
 
 	\pagestyle{plain}
 	\pagenumbering{roman}
 	\singlespacing
-
 	\tableofcontents
 	\clearpage
+
 	\listoftables
 	\listoffigures
 	\lstlistoflistings
@@ -34,7 +34,6 @@
 
 	\clearpage
 
-	\nocite{*}
 	\bibliography{thesis}
 	\clearpage
 
