@@ -236,8 +236,16 @@
 
 	\subsection{Lake-Analyzer WPS}
 \section{Streaming WPS}
+	% dataset vs. data set
+	In contrast to conventional data processing, such as the method used in the \ac{WPS}, streaming processing approaches show considerable benefits. Regarding to time efficiency and with reference to the already mentioned problems of processing substantial large data sets or live data, the development of a streaming enabled \ac{WPS} seems to be of great value.
+
+	Streaming describes the sequential processing, analysis or transfer of chunks of a datasets in contrast to the random access processing of the dataset as a whole.
+
 	\begin{itemize}
-		\item the concept of streaming describes the sequential processing of data in contrast to random access processing
+		\item definition von stream
+		\item definition von chunk
+		\item definition von streaming
+		\item definition von streaming processing
 		\item processing takes place on small chunks instead of the complete dataset
 		\item reduced processing resources needed to process smaller chunks
 		\item reduced latency to see the output
@@ -253,32 +261,18 @@
 				\item pipes/sockets (local or network) \citep{buschmann1996pattern}
 			\end{itemize}
 		\end{itemize}
-		\begin{figure}[!htb]
-			\centering
-			\input{figures/streaming-types}
-			\caption{\label{fig:streaming}Four different types of processing data: (a) conventional processing, (b) streaming input data (c) streaming output data, (d) full input and output streaming \citep[based on][]{foerster2012live}.}
-		\end{figure}
-		\item the system should extends the traditional processing paradigm  (see Figure \ref{fig:streaming} (a))\dots
-		\begin{itemize}
-			\item \dots to enable input only streaming (see Figure \ref{fig:streaming} (b))
-			\begin{itemize}
-				\item input should be supplied subsequently
-			\end{itemize}
-			\item \dots to enable output only streaming  (see Figure \ref{fig:streaming} (c))
-			\begin{itemize}
-				\item intermediate outputs should be published as they come available
-			\end{itemize}
-			\item \dots to enable full input and output streaming  (see Figure \ref{fig:streaming} (c))
-			\begin{itemize}
-				\item input should be supplied subsequently
-				\item intermediate outputs should be published as they come available
-			\end{itemize}
-		\end{itemize}
 		\item Many processes accept inputs that are aggregates of smaller inputs (such as rasters and tiles, feature collections and features, etc.). Often these inputs are processed separately
 	\end{itemize}
-	% TODO: daten hängen von ihrer umgebung ab: quelle?
-	A streaming enabled \ac{WPS} should extends the traditional processing paradigm (see Figure \ref{fig:streaming} (a)) to enable input only streaming (Figure \ref{fig:streaming} (b)), output only streaming (Figure \ref{fig:streaming} (c)), and full input/output streaming (Figure \ref{fig:streaming} (d)), for which input parameters are supplied subsequently and output data chunks is published as it becomes available. To accomplish this, it should not rely on inefficient polling techniques, in which the server or client is requesting a resource continuously over time, but should rely on true streaming technologies, that offer a full-duplex communication channel between client and server. Streaming enabled process should be accessible from the same environments as conventional \ac{WPS} processes. This especially includes web browser environments, that are particular restricted in their possibilities. A streaming enabled \ac{WPS} process should rely on existing widely known and standardized technologies, it should be especially as interoperable as possible to the \ac{WPS} specification, but should not compromise streaming functionality by enforcing incompatible standards. As spatio-temporal and it's processing and analysis often can not be treated independent to surrounding data, dependencies between streamed data chunks have to be considered. This will require the streaming enabled process to be able not only to operate on sequential data but also be able to allow, to some degree, random access to the data. Despite handling of dependencies between spatio-temporal features should be considered, processes and algorithms, that require global knowledge of the dataset may not profit from a streaming enabled WPS and should not be considered relevant for a streaming enabled \ac{WPS}. The system should be as generic as the existing \ac{WPS} specification, so it should not rely on specific data formats and allow easy chaining of streaming processes. As possible use cases include not only live analysis of data, but also the processing of large dataset, data chunks should be processed in parallel if possible. As this may result in a undefined order of outputted data chunks, client need to be able to correlate output data chunks with the input parameter chunks. Existing \ac{WPS} processes should be easily converted to streaming enabled processes, without the need to develop them from scratch.
 
+
+	Streaming processing can be divided into three categories, that differ from conventional processing (see Figure \ref{fig:streaming} (a)). Characteristic for input streaming (b) is the parallel occurrence of input and processing with a subsequent output after processing finished. On the other hand, output streaming processing describes the isolated input supply and parallel processing and output (c). Combining these two approaches results in the third category, full input and output streaming, in which input, processing and output take place concurrently. Despite their respective concurrency, all three categories have the very same advantage. By parallelizing processing and input and/or output, the overall execution and initial response time is appreciably shorter. Full input and output streaming enabled processes have the additional advantage to be able to process indefinite large datasets by processing each input data chunk separately and outputting a output data chunk for each of them. Through this the analysis of live sensor data can be accomplished.
+	Each of these categories of processing demands different requirements from the process or algorithm. To create a stream the dataset needs to divisible into smaller chunks, input streaming enabled algorithms need to be able to operate on each of these chunks separately and output streaming enabled processes need to be able to produce intermediate results. Input streaming would result in no benefits for algorithms requiring global knowledge of the dataset, because they can not start processing prior to all data chunks have arrived. Processes that result in a single output value, for which the processing has to be completed offer no advantage, when they are output streaming enabled.
+
+	\begin{figure}[!htb]
+		\centering
+		\input{figures/streaming-types}
+		\caption{\label{fig:streaming}Four different types of processing data: (a) conventional processing, (b) streaming input data (c) streaming output data, (d) full input and output streaming \citep[based on][]{foerster2012live}.}
+	\end{figure}
 	Previous approaches to combine the concept of streaming and web-based processing of spatio-temporal data using the \ac{WPS} are drafted in strong correlation to media streaming \citep{foerster2012live} by using playlist files \citep{ietf:draft-pantos-http-live-streaming-12} as inputs and outputs of a \ac{WPS} process. The process is executed asynchronously and the output playlist location is published using the \texttag{wps}{ProcessStarted} element of the process status response (see Figure \ref{fig:sd:previous}). As the \ac{WPS} specification is not designed to be extensible, the elements content is restricted to a simple string and can not contain complex \ac{XML} structures. Furthermore the elements definition states, that it is a ``a human-readable text string whose contents are left open to definition by each WPS server, but is expected to include any messages the server may wish to let the clients know. Such information could include how much longer the process may take to execute, or any warning conditions that may have been encountered to date. The client may display this text to a human user'' \citep{ogc:wps}. Despite the goal of maintaining compatibility to \ac{WPS} specification and existing software components, this represents a misappropriation of the element and will result in incompatibilities with existing \ac{WPS} client solutions. Besides that, this solution is only able to transport a single playlist location to the client and thus, a \ac{WPS} process may only have a single streaming output.
 
 	\begin{figure}[!htb]
@@ -292,7 +286,10 @@
 
 	Moreover, realizing streaming by continuous polling of playlists is highly inefficient. Neither can the client know the rate output data is produced nor can the \ac{WPS} process know at which rate input data becomes available. By polling at a too slow rate the arrival of data chunks may be missed, which results in a slower process execution and by polling at a too high rate, network and computation resources are wasted. Adaptive polling rates may be a solution for this problem, but are useless in cases, where the rate of incoming data changes across the process execution. The usage of playlist to transport data from the client to the server, in contrast to transporting data from the server to the client, for which the origin in media streaming playlist was developed, is additionally questionable. Clients need the capability to publish files as resources, that a accessible using a URL (e.g. on a FTP or HTTP server). In a web browser environment, a JavaScript client is only able to do this using an external service, that has to store the data and maintains the playlist. A pure JavaScript browser client is not able to use streaming inputs in this playlist-based streaming \ac{WPS} approach. The implementation of this approach is additionally limited. Input parameter data streams are not implemented and process implementations have to split inputs to create output streams (see Figure \ref{fig:streaming} (c)). Splitting spatio-temporal data into smaller chunks is not as trivial as e.g. splitting a audio or video stream in single frames and so the process implementations become heavily format dependent and dependencies between data chunk can only expressed as part of the data, in a format, that the process is able to understand and to handle. Also this approach requires a reimplementation of already existing processes to achieve streaming outputs.
 
-	The following sections should introduce a approach for a Streaming \ac{WPS}, that will fulfill the above requirements. As seen in previous approaches the constraints imposed by the \ac{WPS} specification are too strict to implement a streaming enabled WPS fulfilling the requirements, that is compatible to the standard. Previous solutions compromised functionalty for sake of (incomplete) compatibility with the inflexible standard. In order to enable true, browser compatible, streaming this approach will break out of the constraining \ac{WPS} standard and develop a message based architecture using WebSockets to accomplish true full-duplex streaming of data while reusing terminology and technology specified by the \ac{WPS} specification.
+	% TODO: daten hängen von ihrer umgebung ab: quelle?
+	A streaming enabled \ac{WPS} should extend the traditional processing paradigm (see Figure \ref{fig:streaming} (a)) to enable input only streaming (Figure \ref{fig:streaming} (b)), output only streaming (Figure \ref{fig:streaming} (c)), and full input/output streaming (Figure \ref{fig:streaming} (d)), for which input parameters are supplied subsequently and output data chunks is published as it becomes available. To accomplish this, it should not rely on inefficient polling techniques, in which the server or client is requesting a resource continuously over time, but should rely on true streaming technologies, that offer a full-duplex communication channel between client and server. Streaming enabled process should be accessible from the same environments as conventional \ac{WPS} processes. This especially includes web browser environments, that are particular restricted in their possibilities. A streaming enabled \ac{WPS} process should rely on existing widely known and standardized technologies, it should be especially as interoperable as possible to the \ac{WPS} specification, but should not compromise streaming functionality by enforcing incompatible standards. As spatio-temporal and it's processing and analysis often can not be treated independent to surrounding data, dependencies between streamed data chunks have to be considered. This will require the streaming enabled process to be able not only to operate on sequential data but also be able to allow, to some degree, random access to the data. Despite handling of dependencies between spatio-temporal features should be considered, processes and algorithms, that require global knowledge of the dataset may not profit from a streaming enabled WPS and should not be considered relevant for a streaming enabled \ac{WPS}. The system should be as generic as the existing \ac{WPS} specification, so it should not rely on specific data formats and allow easy chaining of streaming processes. As possible use cases include not only live analysis of data, but also the processing of large dataset, data chunks should be processed in parallel if possible. As this may result in a undefined order of outputted data chunks, client need to be able to correlate output data chunks with the input parameter chunks. Existing \ac{WPS} processes should be easily converted to streaming enabled processes, without the need to develop them from scratch.
+
+	The following sections should introduce a approach for a Streaming \ac{WPS}, that will fulfill the above requirements. As seen in previous approaches the constraints imposed by the \ac{WPS} specification are too strict to implement a streaming enabled WPS fulfilling the requirements, that is compatible to the standard. Previous solutions compromised functionality for sake of (incomplete) compatibility with the inflexible standard. In order to enable true, browser compatible, streaming this approach will break out of the constraining \ac{WPS} standard and develop a message based architecture using WebSockets to accomplish true full-duplex streaming of data while reusing terminology and technology specified by the \ac{WPS} specification.
 
 \subsection{Protocol}
 	As the the \ac{WPS} specification is not flexible enough to model a full streaming scenario, the \ac{WPS} has to be bypassed. For this a more flexible interaction model was developed, that extends the conventional processing approach. This protocol is message based and enables full-duplex stream processing of spatio-temporal data. A \emph{streaming enabled algorithm} is a \ac{WPS} algorithm that supports the here defined protocol while a \emph{streaming process} is the identifiable instance of an algorithm, created by executing the streaming enabled algorithm using the \ac{WPS} Execute operation. The streaming process is the core of the Streaming \ac{WPS} and receives subsequent inputs and will emit intermediate results. While the execution of the streaming enabled algorithm is fully supported by the \ac{WPS} specification, all interaction with the streaming process is not part of the standard. To communicate with the streaming process, the client needs information on how to connect to the process. As the \ac{WPS} specification does not allow subsequent outputs, the call of the Execute operation will return immediately to transport this information to the client, and can not persist over the lifetime of the streaming process.
@@ -372,7 +369,7 @@
 
 	\subsection{Input Types}
 		\label{sec:streaming:input}
-		The before mentioned requirements imply three different types of input for a Streaming Process. They differ in the aspect of time (when are they supplied) and scope (where are they used). Besides that all of them are based on the very same input types the \ac{WPS} standard defines:
+		The aforementioned requirements imply three different types of input for a Streaming Process. They differ in the aspect of time (\emph{When are they supplied?}) and scope (\emph{Where are they used?}). Besides that all of them are based on the very same input types the \ac{WPS} standard defines:
 		\paragraph{Complex Input}
 			Complex data structures that can be described by a mime type, an encoding and a schema. They can represent raster data, XML structures such as GML feature collections, CSV or any type of data. This data can be supplied inline or as reference to an external HTTP resource.
 		\paragraph{Literal Input}
@@ -381,33 +378,32 @@
 			Data that represents a multi dimensional bounding box with a associated coordinate reference system.
 		\subsubsection{Streaming Inputs}
 			\label{sec:streaming:input:streaming}
-			The first and most obvious type of input are streaming inputs. They are provided for a single streaming iteration and will only be used in that iteration and are the core of a streaming enabled process (see Listing \ref{lst:streaming:input:streaming}).
+			The first and most obvious type of input are streaming inputs. They are provided for a single streaming iteration and will only be used in that iteration representing the core of streaming enabled processing (see Listing \ref{lst:streaming:input:streaming}).
 
 			\lstinputlisting[label={lst:streaming:input:streaming},
 			                 caption={[Example for a Streaming WPS streaming inputs.]Example for a Streaming WPS streaming inputs (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
 			                 float=!htb,language=XML]{listings/streaming-input-streaming.xml}
 
 
-			A traditional algorithm to compute the histogram of a raster (e.g. a satellite image) would need the complete raster as a single complex input for processing. A streaming enabled variant would split the raster in several smaller tiles and supply each of in a single input message to the streaming process. The process can process each tile on it's own and update the global histogram. Besides that the process never has to store the complete raster, it is also able to output intermediate histograms to the client.
+			A conventional algorithm to compute the histogram of a raster (e.g. a satellite image) needs the complete raster as a single complex input for processing. A streaming enabled variant would split the raster in several smaller tiles and supply each of them in a single input message to the streaming process. The algorithm can process each tile on it's own and update the global histogram. Besides that the process does not have to store the complete raster, it is also able to output intermediate histograms to the client.
 
 		\subsubsection{Static Inputs}
 			\label{sec:stream:input:static}
-			Algorithms that operate on a streaming input often need inputs that are common to every iteration. It would be redundant and inefficient to transfer inputs like configuration parameters in every input message for every streaming iteration. For this the concept of static inputs has to be introduced. Static inputs are parameters that are supplied when a streaming process is created and apply to every streaming iteration (see Listing \ref{lst:streaming:input:static}). While the streaming process processes a streaming iteration, the static inputs are merged with the inputs of the causing input message and transparently supplied to the process's delegate. This way a conventional process can be easily converted into a streaming enabled process.
+			Algorithms that operate on a streaming input often need inputs that are common to every iteration. It would be redundant and inefficient to transfer inputs like configuration parameters in every input message for every streaming iteration. For this, the concept of static inputs needs to be introduced. Static inputs are parameters that are supplied when a streaming process is created and apply to every streaming iteration (see Listing \ref{lst:streaming:input:static}). While the streaming process handles a streaming iteration, the static inputs are merged with the inputs of the causing input message and transparently supplied to the process's delegate. This way a conventional process can be easily converted into a streaming enabled process.
 
 			\lstinputlisting[label={lst:streaming:input:static},
 			                 caption={[Example for a Streaming WPS static inputs.]Example for a Streaming WPS static inputs (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
 			                 float=!htb,language=XML]{listings/streaming-input-static.xml}
 
-			For example a traditional process implementation of the Douglas–Peucker algorithm \citep{douglas1973algorithms} would require a feature collection and a $\epsilon$ value as inputs. In a streaming environment one would model the $\epsilon$ input as a static input supplied at process creation and stream the feature collection as single features in streaming inputs. Other examples are a coordinate transformation process, that accepts a feature collection and a target \ac{CRS} or a buffer algorithm that accepts a feature collection and a buffer size. Buffer size and \ac{CRS} would be supplied as static inputs and the feature collection would be split into several streaming inputs and supplied in independent streaming iterations.
+			For example, a traditional process implementation of the Douglas–Peucker algorithm \citep{douglas1973algorithms} would require a feature collection and a $\epsilon$ value as inputs. In a streaming environment, one would model the $\epsilon$ input as a static input supplied at process creation and stream the feature collection as single features in streaming inputs. Other examples are a coordinate transformation process, that accepts a feature collection and a target \ac{CRS} or a buffer algorithm that accepts a feature collection and a buffer size. Buffer size and \ac{CRS} would be supplied as static inputs and the feature collection would be split into several streaming inputs and supplied in independent streaming iterations.
 
 		\subsubsection{Reference Inputs}
 			\label{sec:stream:input:reference}
-			While streaming offers no real benefit to algorithms that require global knowledge of the data set, there are often cases where algorithms only require knowledge about few other chunks of the dataset or even only about the result of their processing.
+			While streaming offers no real benefit to algorithms that require global knowledge of the data set, there are often cases where algorithms only require knowledge about few other chunks of the dataset or even only about the result of their processing. To model these dependencies between streaming iterations, reference inputs can be used (see Listing \ref{lst:streaming:input:reference}). These reference the output of another, previous or upcoming, iteration as an input parameter. Reference inputs break out of the conventional non-random access paradigm of streaming and allow a semi-random access processing of a data set. Inputs are described by referencing the corresponding output identifier and the input message that has or will produce the output data.
 			\lstinputlisting[label={lst:streaming:input:reference},
 			                 caption={[Example for a Streaming WPS reference input.]Example for a Streaming WPS reference input (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
 			                 float=!htb,language=XML]{listings/streaming-input-reference.xml}
 			\begin{itemize}
-				\item see Listing \ref{lst:streaming:input:reference}
 				\item references the output of a previous or upcoming streaming iteration as an input for this iteration
 				\item used to model dependencies between iterations/features/etc.
 				\item breaks out of the classical non-random access paradigm of streaming
@@ -468,6 +464,11 @@
 		\begin{itemize}
 			\item missing inputs at process stop -> failure
 			\item execution failed -> process stop (dependent iterations may be affected)
+			\item smallest referenceable unit: single process output
+			\item processes need to be designed to need no smaller references
+			\item input datasets have to be small enough
+			\item future work: referencing inputs
+			\item future work: latest as keyword
 		\end{itemize}
 
 	\subsection{Process Description}
@@ -483,6 +484,10 @@
 		With knowledge of the delegate process a client may has enough information to facilitate the streaming process but for other streaming process there is no way for a generic client to know the input parameters of the process.
 
 		To compensate this shortcoming a method is needed to describe a Streaming Process instance at runtime.
+		\begin{itemize}
+			\item other process description formats
+			\item differentiation between intermediate results and final result
+		\end{itemize}
 	\subsection{Stateful vs. Stateless}
 	\begin{itemize}
 		\item stateful: iterative convexhull
