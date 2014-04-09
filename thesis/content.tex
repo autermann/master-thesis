@@ -39,8 +39,46 @@
 \section{Foundations}
 \section{Matlab WPS}
 	\begin{itemize}
-		\item weakly typed language
-		\item functions with multiple return values
+		\item closed source, commercial software by The MathWorks, Inc.
+		\item high-level language and interactive environment
+		\item numerical computation, visualization and programming
+		\item origins in matrix computations (\emph{Mat}rix \emph{Lab}oratory)
+		\item weakly, dynamical typed language
+		\item cross platform
+		\item toolboxs
+		\begin{itemize}
+			\item statistics
+			\item curve fitting
+			\item neural network
+			\item image processing
+			\item financial
+			\item bioinformatics
+			\item signal processing
+		\end{itemize}
+		\item Matlab Central
+		\begin{itemize}
+			\item user contributed toolboxes/files/functions/algorithms/etc.
+			\item mostly BSD licensed
+		\end{itemize}
+		\item widespread in academics, engineering and industry
+		\item offering a specialized lake-analyzer process not worth the effort
+		\item generic solution would have huge benefit
+		\item a lot of models implemented in Matlab can become available as WPS processes
+		\item offering matlab programs as WPS processes should be easy procedure
+		\item domain experts developing models in Matlab may not have extensive programming experience
+		\item probably have no experience in developing web services or java code
+		\item no switch in languages should be needed
+		\item matlab functions with multiple return values
+		\item create framework to easily expose a matlab function as an WPS process
+		\item requirements
+		\begin{itemize}
+			\item no web service programming/java programming experience should be needed
+			\item pooling of matlab instances to reduce latency
+			\item support for WPS complex inputs without dependency to a specific format
+			\item existing models and algorithms should be easy (and not intrusive) to expose as WPS algorithms
+			\item process description should be manually be written, but be easily generated
+			\item
+		\end{itemize}
 		\item previous approaches: WPS4R
 		\begin{itemize}
 			\item heavily format specific
