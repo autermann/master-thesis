@@ -1,6 +1,8 @@
 % !TEX root = thesis.tex
-\section{Introduction}
 
+
+% moving average
+\section{Introduction}
 
  	Recent research has highlighted the relevance of lakes to global process such as the carbon cycle \citep{cole2007plumbing}.
     Ecological studies on lakes have historically taken advantage of the “closed system” bounds to delineate a simplified ecosystem, but analyses that are formulated to answer societally relevant questions often must scale this single system science approach to hundreds, thousands, or millions of lakes \citep{downing2006global}.
@@ -239,31 +241,12 @@
 	% dataset vs. data set
 	In contrast to conventional data processing, such as the method used in the \ac{WPS}, streaming processing approaches show considerable benefits. Regarding to time efficiency and with reference to the already mentioned problems of processing substantial large data sets or live data, the development of a streaming enabled \ac{WPS} seems to be of great value.
 
-	Streaming describes the sequential processing, analysis or transfer of chunks of a datasets in contrast to the random access processing of the dataset as a whole.
+	Data streams describe a abstract concept that stands in contrast to conventional batch data. Data streams are (possibly infinite) sequences of data items (or chunks), that become available over time, while conventional batch data describes a pile of data, that is either completely available or not. The abstract concept of streaming can be observed across different technologies and fields of application. Starting from the concept of pipes and filters on unix-like operation systems, over interprocess communications using sockets \citep[either local or over a network,][]{buschmann1996pattern}, the ubiquitous usage in programming languages (as a concept of I/O or in functional programming languages in the form of inductive data type definitions), over \ac{GPGPU} to modern media streaming solutions like RTP and RTCP \citep{ietf:rfc3550}, RTSP \citep{ietf:rfc2326} or SIP \citep{ietf:rfc3261}.
+	The concept can be best shown on it's most popular usage form: media streaming. The conventional approach to view a video or play a sound file over a network is to download the file and to play it locally. Depending on the coding/compression format used to encode the media file, it is not possible to play the file until the download is finished. Media streaming reduces time to start playing drastically by sending smaller parts of the media file over the network (e.g. one or more single frames). Suitable player are now able to play this stream of frames long before the complete file is transmitted. Besides th on-demand streaming of media (the streamed file is completely available on the remote side), the transmission of live audio or video becomes possible by transferring audio/video frames as soon as they are recorded.
 
-	\begin{itemize}
-		\item definition von stream
-		\item definition von chunk
-		\item definition von streaming
-		\item definition von streaming processing
-		\item processing takes place on small chunks instead of the complete dataset
-		\item reduced processing resources needed to process smaller chunks
-		\item reduced latency to see the output
-		\item enables processing of indefinite large datasets (e.g. live analysis)
-		\item widely known:
-		\begin{itemize}
-			\item media streaming (live/on-demand) video/audio streaming
-			\begin{itemize}
-				\item RTP and RTCP \citep{ietf:rfc3550}, RTSP \citep{ietf:rfc2326}, SIP \citep{ietf:rfc3261}
-			\end{itemize}
-			\item inter process communication
-			\begin{itemize}
-				\item pipes/sockets (local or network) \citep{buschmann1996pattern}
-			\end{itemize}
-		\end{itemize}
-		\item Many processes accept inputs that are aggregates of smaller inputs (such as rasters and tiles, feature collections and features, etc.). Often these inputs are processed separately
-	\end{itemize}
+	The concept of streaming processing extends this simple pattern by not only accepting a stream of input data, but also by generating a stream of output data. The processing takes place on small chunks of the input data instead of the complete data set. By sequentially processing the stream programs are able to process very large or infinite datasets, because the complete dataset neither needs to be kept in memory nor it is needed to be stored. This permits the analysis of live data, e.g. the evaluation of continuously collected sensor data. Also the initial response time (the time until the first outputs of a program are available) is equally reduced as in media streaming. Reducing the latency of initial data output has various advantages, e.g. earlier appearance of errors (and by this the possibility to stop processing to save computing resources and time) or the ability to develop more responsive end user solutions, e.g. by gradually updating a data visualization instead of presenting the data after waiting for the complete result.
 
+	In the case of spatiotemporal data, streaming processing is especially useful and advisable, as datasets tend to become rather large and the analysis of real-time data can have great benefits, especially as spatiotemporal data is often an ideal candidate to streaming, as spatial data sets are often aggregates or collections, that can be easily broken down into smaller parts (like single features, observations or tiles). On the other side spatiotemporal data has the salient characteristic of showing strong dependencies to nearby data and thus can be difficult to analyze using non-random-access paradigms like streaming. The case of inter-feature dependencies has to especially considered when transferring the concept of streaming to spatiotemporal processing. Algorithms used in streaming are required to operate on smaller chunks of the complete dataset and computations, that require global knowledge are not expected any advantage from streaming. E.g. graph algorithms like Dijkstra's algorithm \citep{dijkstra} can not start the computation before the complete graph is available.
 
 	Streaming processing can be divided into three categories, that differ from conventional processing (see Figure \ref{fig:streaming} (a)). Characteristic for input streaming (b) is the parallel occurrence of input and processing with a subsequent output after processing finished. On the other hand, output streaming processing describes the isolated input supply and parallel processing and output (c). Combining these two approaches results in the third category, full input and output streaming, in which input, processing and output take place concurrently. Despite their respective concurrency, all three categories have the very same advantage. By parallelizing processing and input and/or output, the overall execution and initial response time is appreciably shorter. Full input and output streaming enabled processes have the additional advantage to be able to process indefinite large datasets by processing each input data chunk separately and outputting a output data chunk for each of them. Through this the analysis of live sensor data can be accomplished.
 	Each of these categories of processing demands different requirements from the process or algorithm. To create a stream the dataset needs to divisible into smaller chunks, input streaming enabled algorithms need to be able to operate on each of these chunks separately and output streaming enabled processes need to be able to produce intermediate results. Input streaming would result in no benefits for algorithms requiring global knowledge of the dataset, because they can not start processing prior to all data chunks have arrived. Processes that result in a single output value, for which the processing has to be completed offer no advantage, when they are output streaming enabled.
@@ -273,7 +256,12 @@
 		\input{figures/streaming-types}
 		\caption{\label{fig:streaming}Four different types of processing data: (a) conventional processing, (b) streaming input data (c) streaming output data, (d) full input and output streaming \citep[based on][]{foerster2012live}.}
 	\end{figure}
-	Previous approaches to combine the concept of streaming and web-based processing of spatio-temporal data using the \ac{WPS} are drafted in strong correlation to media streaming \citep{foerster2012live} by using playlist files \citep{ietf:draft-pantos-http-live-streaming-12} as inputs and outputs of a \ac{WPS} process. The process is executed asynchronously and the output playlist location is published using the \texttag{wps}{ProcessStarted} element of the process status response (see Figure \ref{fig:sd:previous}). As the \ac{WPS} specification is not designed to be extensible, the elements content is restricted to a simple string and can not contain complex \ac{XML} structures. Furthermore the elements definition states, that it is a ``a human-readable text string whose contents are left open to definition by each WPS server, but is expected to include any messages the server may wish to let the clients know. Such information could include how much longer the process may take to execute, or any warning conditions that may have been encountered to date. The client may display this text to a human user'' \citep{ogc:wps}. Despite the goal of maintaining compatibility to \ac{WPS} specification and existing software components, this represents a misappropriation of the element and will result in incompatibilities with existing \ac{WPS} client solutions. Besides that, this solution is only able to transport a single playlist location to the client and thus, a \ac{WPS} process may only have a single streaming output.
+
+	While there are efforts to utilize popular techniques like grid and cloud computing, there are few efforts in research and development to facilitate streaming processing \citep{foerster2012live}. Previous approaches to combine the concept of streaming and web-based processing of spatiotemporal data using the \ac{WPS} are drafted in strong correlation to media streaming \citep{foerster2012live} by using playlist files \citep{ietf:draft-pantos-http-live-streaming-12} as inputs and outputs of a \ac{WPS} process. The process is executed asynchronously and the output playlist location is published using the \texttag{wps}{ProcessStarted} element of the process status response (see Figure \ref{fig:sd:previous}). As the \ac{WPS} specification is not designed to be extensible, the elements content is restricted to a simple string and can not contain complex \ac{XML} structures. Furthermore the elements definition states, that it should used to convey a human readable text that is presented to an user:
+	\begin{signedquote}{\cite{ogc:wps}}
+		A human-readable text string whose contents are left open to definition by each WPS server, but is expected to include any messages the server may wish to let the clients know. Such information could include how much longer the process may take to execute, or any warning conditions that may have been encountered to date. The client may display this text to a human user.
+	\end{signedquote}
+	Despite the goal of maintaining compatibility to \ac{WPS} specification and existing software components, this represents a misappropriation of the element and will result in incompatibilities with existing \ac{WPS} client solutions. Besides that, this solution is only able to transport a single playlist location to the client and thus, a \ac{WPS} process may only have a single streaming output.
 
 	\begin{figure}[!htb]
 		\centering
