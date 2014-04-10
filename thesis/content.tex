@@ -445,17 +445,10 @@
 
 		Most dependency graphs generated using the Streaming \ac{WPS} will probably consist of multiple independent subgraphs, no dependencies at all would be the most extreme example, or quite sparse graphs. For this the algorithm described by \citet{pearce2007dynamic} seems to be appropriate. Even it is theoretically it is inferior to other algorithms for dynamic topological sorting, it especially performs better on sparse graphs and on dense graphs only a constant factor slower than other algorithms \citep{pearce2007dynamic}. %wörtliches zitat?
 
-		The actual implementation uses a \ac{DAG} only for a cyclic dependency check. Execution ordering is listener based to allow a better parallelization of streaming iterations.
+		Dependencies are of particular importance in case of execution failures. If the computation of a streaming iteration fails for whatever reason, all iterations, that directly or indirectly depend on this iteration can not complete. As this also holds true for iterations, that are supplied at a later time in the streaming process, the process can not proceed ignoring the error. Due to this every error that occurs during the execution of a streaming iteration result in the termination of the streaming process.
+		Dependencies also have a special meaning at the end of a streaming process, when a stop message is sent to notify the streaming process to accept no further inputs and finish pending streaming iterations. At this point all dependencies need to be able to be satisfied, which implies that all referenced input messages have been sent to the streaming process. In case a referenced input message the service is not able to complete gracefully and fail. As references to future streaming iterations are allowed, prior to this point, it is not possible for the Streaming \ac{WPS} to determine if reference may not be fulfilled. As the service is not able to fail fast for incorrect references, clients using dependencies between streaming iterations have to pay careful attention to references.
 
-		\begin{itemize}
-			\item missing inputs at process stop -> failure
-			\item execution failed -> process stop (dependent iterations may be affected)
-			\item smallest referenceable unit: single process output
-			\item processes need to be designed to need no smaller references
-			\item input datasets have to be small enough
-			\item future work: referencing inputs
-			\item future work: latest as keyword
-		\end{itemize}
+		It should also be noted, that the smallest referenceable unit for a streaming process is the output of a streaming iteration. Format specific references, e.g. to a particular feature inside a feature collection, are not possible using this protocol and streaming process implementations need to be designed to not need smaller components or have to deploy a own referencing strategy (e.g. by additionally supplying an additional input to identify the feature of the referenced collection). But, as this results in superfluous transfer of data, such solutions should be avoided. One may point out, that there is now way to reference input parameters of other streaming iterations, but this use case should be already covered by the \ac{WPS}' own input reference parameters (see section \ref{sec:streaming:input}).
 
 	\subsection{Process Description}
 		\label{sec:stream:processdescription}
