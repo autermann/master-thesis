@@ -1,14 +1,15 @@
 % !TEX root = ../thesis.tex
 \begin{tikzpicture}
+	\scriptsize
 	\tikzset{
-	  ibox/.style = {draw, fill=string!50,  minimum width=4cm},
-	  pbox/.style = {draw, fill=comment!50, minimum width=4cm},
-	  obox/.style = {draw, fill=keyword!50, minimum width=4cm},
+	  ibox/.style = {draw, fill=string!50,  minimum width=4cm, minimum height=.6cm},
+	  pbox/.style = {draw, fill=comment!50, minimum width=4cm, minimum height=.6cm},
+	  obox/.style = {draw, fill=keyword!50, minimum width=4cm, minimum height=.6cm},
 	  every node/.style={font=\sffamily},
 	}
 	\draw[>->] (-2.4,3.6) -- (11.4,3.6);
 	%\draw[]   (-2.4,3.6) -- (-2.4, -6);
-	\draw[>->] (-2.4, -6) -- (11.4, -6) node [below] {Time};
+	\draw[>->] (-2.4, -6) -- (11.4, -6);
 
 	\draw[dotted] (-2.0,-6) -- (-2.0,3.6);
 	\draw[dotted] (-1.0,-6) -- (-1.0,3.6);
@@ -23,31 +24,31 @@
 	\draw[dotted] (8.0,-6) -- (8.0,3.6);
 	\draw[dotted] (9.0,-6) -- (9.0,3.6);
 	\draw[dotted] (10.0,-6) -- (10.0,3.6);
-	\draw[dotted] (11.0,-6) -- (11.0,3.6);
+	\draw[dotted] (11.0,3.6) -- (11.0,-6) node [below] {Time};
 
 	\node [xshift=-1.5cm,yshift=2.4cm] {(a)};
-	\node [ibox,yshift=3.0cm,xshift=1cm] (input1) {Input};
+	\node [ibox,yshift=3.0cm,xshift=1cm] (input1) {Input Upload};
 	\node [pbox,yshift=2.4cm,xshift=5cm] (processing1) {Processing};
-	\node [obox,yshift=1.8cm,xshift=9cm] (output1) {Output};
+	\node [obox,yshift=1.8cm,xshift=9cm] (output1) {Output Download};
 
 	\draw[dashed] (-2.4, 1.2) -- (11.4, 1.2);
 
 	\node [xshift=-1.5cm,yshift=0cm] {(b)};
-	\node [ibox,yshift= .6cm,xshift=1cm] (input2) {Input};
+	\node [ibox,yshift= .6cm,xshift=1cm] (input2) {Input Stream};
 	\node [pbox,yshift= .0cm,xshift=2cm] (processing2) {Processing};
-	\node [obox,yshift=-.6cm,xshift=6cm] (output2) {Output};
+	\node [obox,yshift=-.6cm,xshift=6cm] (output2) {Output Stream};
 
 	\draw[dashed] (-2.4, -1.2) -- (11.4, -1.2);
 
 	\node [xshift=-1.5cm,yshift=-2.4cm] {(c)};
-	\node [ibox,yshift=-1.8cm,xshift=1cm] (input3) {Input};
+	\node [ibox,yshift=-1.8cm,xshift=1cm] (input3) {Input Stream};
 	\node [pbox,yshift=-2.4cm,xshift=5cm] (processing3) {Processing};
-	\node [obox,yshift=-3.0cm,xshift=6cm] (output3) {Output};
+	\node [obox,yshift=-3.0cm,xshift=6cm] (output3) {Output Stream};
 
 	\draw[dashed] (-2.4, -3.6) -- (11.4, -3.6);
 
 	\node [xshift=-1.5cm,yshift=-4.8cm] {(d)};
-	\node [ibox,yshift=-4.2cm,xshift=1cm] (input4) {Input};
+	\node [ibox,yshift=-4.2cm,xshift=1cm] (input4) {Input Stream};
 	\node [pbox,yshift=-4.8cm,xshift=2cm] (processing4) {Processing};
-	\node [obox,yshift=-5.4cm,xshift=3cm] (output4) {Output};
+	\node [obox,yshift=-5.4cm,xshift=3cm] (output4) {Output Stream};
 \end{tikzpicture}
