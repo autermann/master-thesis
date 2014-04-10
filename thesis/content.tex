@@ -8,7 +8,7 @@
     These data products are readily available as national coverages that can either be sampled and turned into model parameters, or turned into model drivers if they are time series products.
 
     This work shall evaluate the existing tools \citep[e.g. Lake Analyzer\fu{https://github.com/GLEON/Lake-Analyzer}, see][]{read2011derivation}), data models and the modeling frameworks used by USGS CIDA\fu{http://cida.usgs.gov/}.
-    Modeling runs are based on online data brokers (such as the USGS’s Geo Data Portal - GDP\fu{http://cida.usgs.gov/gdp/}) build upon Open Geospatial Consortium standards such as CSW\fu{http://www.opengeospatial.org/standards/cat}, WPS\fu{http://www.opengeospatial.org/standards/wps} WMS\fu{http://www.opengeospatial.org/standards/wms} and WCS\fu{http://www.opengeospatial.org/standards/wcs}, but still rely on local algorithms, which comprise functionality for statistical quality assurance and quality control as well as the calculation of various metrics related to the physical state of the lakes (often linked with ecosystem function or disturbance). Building standardized and flexible infrastructure for analyzing foundational data used by domain scientists is an important challenge given legacy and heterogeneous architectures.
+    Modeling runs are based on online data brokers (such as the USGS’s Geo Data Portal - GDP\fu{http://cida.usgs.gov/gdp/}) build upon Open Geospatial Consortium standards such as \ac{CSW}, \ac{WPS}, \ac{WMS} and \ac{WCS}, but still rely on local algorithms, which comprise functionality for statistical quality assurance and quality control as well as the calculation of various metrics related to the physical state of the lakes (often linked with ecosystem function or disturbance). Building standardized and flexible infrastructure for analyzing foundational data used by domain scientists is an important challenge given legacy and heterogeneous architectures.
     Therefore building on the existing infrastructure and corresponding demands of the use case shall be considered.
 
     One approach for a scalable system is to move the modeling to a web-based processing framework, which should rely on public and interoperable standards in the given use case.
@@ -299,7 +299,7 @@
 	\begin{figure}[!htb]
 		\centering
 		\includegraphics[width=.7868\textwidth]{figures/sequence-diagramm-swps.pdf} % 179x274
-		\caption{\label{fig:sd:swps} Sequence diagram of typical interaction pattern with a streaming enabled \ac{WPS} algorithm using two distinct clients for sending and receiving data.}
+		\caption{\label{fig:sd:swps} Sequence diagram of typical interaction pattern with a streaming enabled WPS algorithm using two distinct clients for sending and receiving data.}
 	\end{figure}
 
 	The detailed interaction protocol is depicted in Figure~\ref{fig:sd:swps}. A client (\emph{Sender}) issues a Execute to a streaming enabled WPS algorithm (step 1). The algorithm will instantiate a delegate (step 2), that is responsible for processing data chunks, and a streaming process (step 3), that is responsible for client interactions and task scheduling. The Execute response will contain the necessary details to connect to the streaming processes, such as the the identifier of the streaming process and the WebSocket endpoint URL (step 4).
@@ -428,7 +428,7 @@
 				\centering
 				\includegraphics[width=.7868\textwidth]{figures/sequence-diagramm-polling.pdf}
 				% 179x274
-				\caption{\label{fig:sd:polling} Sequence diagram of how to implement polling inputs for a streaming enabled \ac{WPS} algorithm.}
+				\caption{\label{fig:sd:polling} Sequence diagram of how to implement polling inputs for a streaming enabled WPS algorithm.}
 			\end{figure}
 
 	\subsection{Dependencies}
