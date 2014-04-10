@@ -399,31 +399,17 @@
 
 		\subsubsection{Reference Inputs}
 			\label{sec:stream:input:reference}
-			While streaming offers no real benefit to algorithms that require global knowledge of the data set, there are often cases where algorithms only require knowledge about few other chunks of the dataset or even only about the result of their processing. To model these dependencies between streaming iterations, reference inputs can be used (see Listing \ref{lst:streaming:input:reference}). These reference the output of another, previous or upcoming, iteration as an input parameter. Reference inputs break out of the conventional non-random access paradigm of streaming and allow a semi-random access processing of a data set. Inputs are described by referencing the corresponding output identifier and the input message that has or will produce the output data.
+			While streaming offers no real benefit to algorithms that require global knowledge of the data set, there are often cases where algorithms only require knowledge about few other chunks of the dataset or even only about the result of their processing. To model these dependencies between streaming iterations, reference inputs can be used (see Listing \ref{lst:streaming:input:reference}). These reference the output of another, previous or upcoming, iteration as an input parameter. Reference inputs break out of the conventional non-random access paradigm of streaming and allow a semi-random access processing of a data set. Inputs are described by referencing the corresponding output identifier and the input message that has or will produce the output data. The order of incoming input messages is irrelevant to the use of reference inputs, as input messages referencing not yet available outputs will be delayed until they can processed (see section \ref{sec:stream:dependencies}).
+
 			\lstinputlisting[label={lst:streaming:input:reference},
 			                 caption={[Example for a Streaming WPS reference input.]Example for a Streaming WPS reference input (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
 			                 float=!htb,language=XML]{listings/streaming-input-reference.xml}
-			\begin{itemize}
-				\item references the output of a previous or upcoming streaming iteration as an input for this iteration
-				\item used to model dependencies between iterations/features/etc.
-				\item breaks out of the classical non-random access paradigm of streaming
-				\item example: analyzing a river system where each processing of a river depends on results of rivers flowing into it
-				\begin{itemize}
-					\item conventional: the complete river system is a single input
-					\item streaming: each river is pushed separately referencing the output of the rivers it depends on
-				\end{itemize}
-			\end{itemize}
 
+            A conventional algorithm to analyze a river system, in which each processing of a river depends on the processing results of the rivers flowing into it, the complete river system data set would be supplied as a single input parameter. In a streaming enabled process, each river would be supplied as a streaming input. The output of the rivers a river depends on would be supplied as additional reference inputs.
 		\subsubsection{Polling inputs}
 			\label{sec:stream:input:polling}
-			\begin{itemize}
-				\item Not implemented inside the streaming WPS.
-				\item what to do if multiple polling inputs are defined?
-				\item how to combine them?
-				\item how to define polling frequency?
-				\item how to define notifications?
-				\item better handled on client side (see Figure \ref{fig:sd:polling}) and transformed to streaming inputs
-			\end{itemize}
+			The last category of possible input types for a streaming \ac{WPS} are polling inputs. These inputs are continuously polled from an external resource and a new streaming iteration would be started, when new inputs become available. Polling inputs would be supplied at process creation time and would contain a reference to an external resource, that is requested continuously. To not miss inputs, when they become available a playlist file, as described in previous approaches \citep{foerster2012live} would be need. The implementation of polling inputs as part of this streaming \ac{WPS} specification would present the very same issues, that were criticized in previous approaches. How one can define the polling frequency used to retrieve the playlist, how can multiple polling inputs be declared, and how would they be combined by the streaming \ac{WPS}? For this reason the Streaming \ac{WPS} will not implement polling inputs. These input types are by far better handled on client side, as the client typical knows of the rate data becomes available and so can choose a appropriate polling frequency and also is able to coordinate multiple polling inputs by having a deeper understanding of their affiliation. Polling inputs could be implemented as shown in Figure \ref{fig:sd:polling}: the client polls a data provider (e.g. a \ac{SOS}) to check if new data is available and convert this data into a streaming input for the Streaming \ac{WPS}.
+			% TODO SES/SAS/etc?
 			\begin{figure}[!htb]
 				\centering
 				\includegraphics[width=.7868\textwidth]{figures/sequence-diagramm-polling.pdf}
