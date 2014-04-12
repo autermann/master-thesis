@@ -1,0 +1,56 @@
+@startuml
+hide footbox
+skinparam defaultFontName "Linux Biolinum"
+skinparam note {
+	BackgroundColor white
+	BorderColor black
+}
+skinparam sequence {
+	ArrowColor black
+	ActorBorderColor black
+	LifeLineBorderColor black
+	ParticipantBorderColor black
+	BoxLineColor black
+	ActorBackgroundColor wihte
+	ParticipantBackgroundColor white
+	GroupBackgroundColor white
+	DividerBackgroundColor white
+	BoxBackgroundColor white
+}
+
+participant "Client" as client
+participant "WPS" as wps
+
+
+activate client
+
+client -> wps: GetCapabilities
+activate wps
+client <-- wps: Capabilities
+deactivate wps
+
+client -> wps: DescibeProcess
+activate wps
+client <-- wps: DescribeProcess Response
+deactivate wps
+
+alt synchronous
+	client -> wps: Execute
+	activate wps
+	client <-- wps: Execute Response
+	deactivate wps
+else asynchronous
+	client -> wps: Execute
+	activate wps
+	client <-- wps: Status Location
+	loop processing
+		client -> wps: Get Status
+		activate wps
+		client <-- wps: Execute Response
+		deactivate wps
+	end
+	deactivate wps
+
+end
+
+@enduml
