@@ -6,7 +6,7 @@
 
 \usepackage{etoolbox}
 
-%\usepackage[margin=35mm]{geometry}
+\usepackage[includefoot,left=4cm,top=3cm,bottom=3cm,right=3cm]{geometry}
 
 \usepackage{amssymb}
 \usepackage{libertine}
@@ -64,8 +64,20 @@
 \usepackage{acronym}
 \input{includes/acronym}
 
-\usepackage[final]{listings}
+\usepackage[automark,
+  %headtopline,
+  %plainheadtopline,
+  %headsepline,
+  %plainheadsepline,
+  %footsepline,
+  %plainfootsepline,
+  %footbotline,
+  %plainfootbotline
+]{scrpage2}
+\clearscrheadfoot
+\cfoot[\pagemark]{\pagemark}
 
+\usepackage[final]{listings}
 \makeatletter
 \def\addToLiterate#1{\edef\lst@literate{\unexpanded\expandafter{\lst@literate}\unexpanded{#1}}}
 \lst@Key{moreliterate}{}{\addToLiterate{#1}}
@@ -232,8 +244,7 @@
 
 \renewcommand{\maketitle}{
   \begin{titlepage}
-    \onehalfspacing
-      \pagestyle{empty}
+      \onehalfspacing
       \large
       \begin{center}
           \vspace*{1cm}

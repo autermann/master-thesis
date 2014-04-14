@@ -13,10 +13,11 @@
 \subject{Master Thesis}
 
 \begin{document}
+	\pagestyle{empty}
 	\maketitle
 	\clearpage
 
-	\pagestyle{plain}
+	\pagestyle{scrplain}
 	\pagenumbering{roman}
 	\singlespacing
 	\tableofcontents
@@ -26,7 +27,7 @@
 	\listoffigures
 	\lstlistoflistings
 	\clearpage
-
+	\pagestyle{scrheadings}
 	\pagenumbering{arabic}
 	\onehalfspacing
 	\pretocmd{\section}{\clearpage}{}{}
