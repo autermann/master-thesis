@@ -225,29 +225,13 @@
 		As the \textsc{Matlab} WPS offers \textsc{Matlab} functionalities through a web service interface, the usage is highly restricted, as the referenced \emph{Deployment Addendum} \citep{matlablicense} states:
 
 		\begin{quote}\itshape
-			8. WEB APPLICATIONS.  Licensee may not provide access to an entire Program
-			or a substantial portion of a Program by means of a web interface.
+			8. WEB APPLICATIONS.  Licensee may not provide access to an entire Program or a substantial portion of a Program by means of a web interface.
 
-			For the Network Concurrent User Activation Type.  Programs licensed under the
-			Network Concurrent User Activation Type may be called via a web application,
-			provided the web application does not provide access to the MATLAB command
-			line, or any of the licensed Programs with code generation capabilities.  In
-			addition, Licensed Users may not provide access to an entire Program or a
-			substantial portion of a Program.  Such operation of an application via a web
-			interface may be provided to an unlimited number of web browser clients, at no
-			additional cost, for Licensee's own use for its Internal Operations, and for
-			use by Third Parties.
+			For the Network Concurrent User Activation Type.  Programs licensed under the Network Concurrent User Activation Type may be called via a web application, provided the web application does not provide access to the MATLAB command line, or any of the licensed Programs with code generation capabilities.  In addition, Licensed Users may not provide access to an entire Program or a substantial portion of a Program.  Such operation of an application via a web interface may be provided to an unlimited number of web browser clients, at no additional cost, for Licensee's own use for its Internal Operations, and for use by Third Parties.
 
-			For the Network Named User and Standalone Named User Activation Types.
-			Programs licensed under the Network Named User and Standalone Named User
-			Activation Types may be called via a web application, provided the web
-			application does not provide access to the MATLAB command line, or any of the
-			licensed Programs with code generation capabilities, and such application is
-			only accessed by designated Network Named User or Standalone Named User
-			licensees of such Programs.
+			For the Network Named User and Standalone Named User Activation Types. Programs licensed under the Network Named User and Standalone Named User Activation Types may be called via a web application, provided the web application does not provide access to the MATLAB command line, or any of the licensed Programs with code generation capabilities, and such application is only accessed by designated Network Named User or Standalone Named User licensees of such Programs.
 
-			Programs licensed under any other Activation Type may not be called via a web
-			interface.
+			Programs licensed under any other Activation Type may not be called via a web interface.
 		\end{quote}
 
 		Only the \emph{Network Concurrent User Activation Type} is allowed to offer \textsc{Matlab} scripts and functions as long it does not offer access to the \textsc{Matlab} command line interface. \emph{Network and Standalone Named User} license types require additional authentication mechanism in place in order to restrict the access to the web application. As the \textsc{Matlab} WPS does not offer the possibility to access the \textsc{Matlab} command line interface or substantial portion of \textsc{Matlab}, but restricts access to configured \textsc{Matlab} function calls, customers owning a license of the first type are allowed to deploy a \ac{WPS} offering \textsc{Matlab} processes to a open network, while users of the second class of licenses are still allowed to deploy them with an additional authentication mechanism. Using a pool of \textsc{Matlab} instances on a remote server on the other hand introduce additional problems in regard of the license. In theory these \textsc{Matlab} can be used to perform about any function call, and thus provide access to the \textsc{Matlab} command line interface. Even though the access is restricted to simple function calls and does not allow variable declaration, nested function calls or function definition, it may be considered a license violation the deploy this infrastructure in a public environment.
