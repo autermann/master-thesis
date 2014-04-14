@@ -59,29 +59,12 @@
 
 	TODO: Überleitungssatz zum Matlab-WPS
 \section{Matlab WPS}
+	MATLAB\fu{http://www.mathworks.com/products/matlab/} is a closed source, commercial software by The MathWorks, Inc. for numerical computation, visualization and programming. It features a high-level programming language as well as an cross-platform (Windows, Linux and Mac OS X) interactive desktop environment. Initially developed for matrix computations (hence \emph{MAT}rix \emph{LAB}oratory)\fu{http://www.mathworks.com/company/newsletters/articles/the-origins-of-matlab.html}, today MATLAB is widespread across different domains in academics, engineering and industry. The base program is extensible using so called \emph{toolboxes}, that add functionalities for various domains, like statistics, curve fitting, neural networks, image processing, economics, bioinformatics or signal processing. Besides that, functions, algorithms, files or toolboxes can be installed using \emph{Matlab Central}, a repository of user contributions, mostly licensed under the two-clause BSD license\fu{http://opensource.org/licenses/bsd-license.php}\fu{http://www.mathworks.com/matlabcentral/FX_transition_faq.html}.
+
+	Creating a specific \ac{WPS} process implementation for the Lake Analyzer would be possible, but considering the wide spread usage of MATLAB based scripts and applications, a generic solution, that enables the easy deployment of MATLAB based functionalities as \acl{WPS} processes would have a huge benefit for the geospatial community as well as for the the acceptance of the \ac{WPS} across disciplines. A generic \emph{MATLAB WPS} would not only open the Lake Analyzer for an interoperable usage in existing web processing chains, but would also make existing models and algorithms implemented in MATLAB instantly available to a larger audience and can increase reusability of software components and exchange between different areas of research, development and business.
+	Considering the diversified fields, MATLAB is used in, a software component such as a MATLAB WPS can not assume a extensive programming experience beyond MATLAB. Domain expert developing models or algorithms in MATLAB should be able to offer a MATLAB script or function as a \ac{WPS} process using a simple and straightforward procedure, without any knowledge of other programming languages or an comprehensive expertise in web services or their development.
 	\begin{itemize}
-		\item closed source, commercial software by The MathWorks, Inc.
-		\item high-level language and interactive environment
-		\item numerical computation, visualization and programming
-		\item origins in matrix computations (\emph{Mat}rix \emph{Lab}oratory)
 		\item weakly, dynamical typed language
-		\item cross platform
-		\item toolboxs
-		\begin{itemize}
-			\item statistics
-			\item curve fitting
-			\item neural network
-			\item image processing
-			\item financial
-			\item bioinformatics
-			\item signal processing
-		\end{itemize}
-		\item Matlab Central
-		\begin{itemize}
-			\item user contributed toolboxes/files/functions/algorithms/etc.
-			\item mostly BSD licensed
-		\end{itemize}
-		\item widespread in academics, engineering and industry
 		\item offering a specialized lake-analyzer process not worth the effort
 		\item generic solution would have huge benefit
 		\item a lot of models implemented in Matlab can become available as WPS processes
