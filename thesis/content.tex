@@ -51,7 +51,7 @@
 	Typical interaction patterns of the \acl{WPS} are depicted in Figure \ref{fig:sd:wps}. During process discovery \emph{GetCapabilities} and \emph{DescribeProcess} are used to request a list of available processes and their description. Process executions takes place either synchronously or asynchronously by issuing a \emph{Execute} request to a specific process. In the case of asynchronously process executions, the \ac{WPS} returns URL to a \emph{ExecuteResponse} which is continuously updated and which the client can regular request to get the current process status.
 	\begin{figure}[!htb]
 		\centering
-		\includegraphics[width=.4\textwidth]{figures/sequence-diagramm-wps.pdf}
+		\includegraphics[width=0.40140845070422537\textwidth]{figures/sequence-diagramm-wps.pdf}
 		\caption{\label{fig:sd:wps} Typical interaction patterns of the \acl{WPS}. Process discovery using \emph{GetCapabilities} and \emph{DescribeProcess}, synchronous and asynchronous process execution using \emph{Execute}.}
 	\end{figure}
 
@@ -96,8 +96,8 @@
 	\begin{itemize}
 		\begin{figure}[!htb]
 			\centering
-			\includegraphics[width=.8\textwidth]{figures/sequence-diagramm-mwps.pdf}
-			\caption{\label{fig:sd:mwps} Sequence diagram of the Matlab WPS.} %182x194
+			\includegraphics[width=0.6788732394366197\textwidth]{figures/sequence-diagramm-mwps.pdf}
+			\caption{\label{fig:sd:mwps} Sequence diagram of the Matlab WPS.}
 		\end{figure}
 		\item matlab function <-> wps process
 		\item not format specific
@@ -251,7 +251,7 @@
 
 	\begin{figure}[!htb]
 		\centering
-		\includegraphics[width=.6\textwidth]{figures/sequence-diagramm-previous.pdf}
+		\includegraphics[width=0.54225352112676062\textwidth]{figures/sequence-diagramm-previous.pdf}
 		\caption{\label{fig:sd:previous} Sequence diagram of the playlist-based streaming enabled WPS \citep{foerster2012live}.}
 	\end{figure}
 
@@ -272,7 +272,7 @@
 
 	\begin{figure}[!htb]
 		\centering
-		\includegraphics[width=.7868\textwidth]{figures/sequence-diagramm-swps.pdf} % 179x274
+		\includegraphics[width=0.82253521126760565\textwidth]{figures/sequence-diagramm-swps.pdf}
 		\caption{\label{fig:sd:swps} Sequence diagram of typical interaction pattern with a streaming enabled WPS algorithm using two distinct clients for sending and receiving data.}
 	\end{figure}
 
@@ -292,7 +292,7 @@
 
 	\begin{figure}[!htb]
 		\centering
-		\includegraphics[width=\textwidth]{figures/sequence-diagramm-chain.pdf} % 179x274
+		\includegraphics[width=1\textwidth]{figures/sequence-diagramm-chain.pdf}
 		\caption{\label{fig:sd:chain} Sequence diagram of chaining two streaming processes using a generic mediator between the processes to translate output to input messages.}
 	\end{figure}
 
@@ -380,8 +380,7 @@
 			% TODO SES/SAS/etc?
 			\begin{figure}[!htb]
 				\centering
-				\includegraphics[width=.7868\textwidth]{figures/sequence-diagramm-polling.pdf}
-				% 179x274
+				\includegraphics[width=0.73521126760563382\textwidth]{figures/sequence-diagramm-polling.pdf}
 				\caption{\label{fig:sd:polling} Sequence diagram of how to implement polling inputs for a streaming enabled WPS algorithm.}
 			\end{figure}
 
@@ -395,8 +394,8 @@
 
 		\begin{figure}[!htb]
 			\centering
-			\includegraphics[width=.4474\textwidth]{figures/unordered-graph.pdf} % 98x92
-			\caption{\label{fig:graph:unordered} Example for a dependency graph consisting of two independent subgraphs. Arrow denoting a dependency between the nodes.}
+			\includegraphics[width=0.44694533762057875\textwidth]{figures/unordered-graph.pdf} % 98x92
+			\caption{\label{fig:graph:unordered} Example for a dependency graph consisting of two independent subgraphs. Arrows denoting a dependency between the nodes.}
 		\end{figure}
 
 		A system containing the tasks $A, B, C, D, E, F$ and the dependencies $A\rightarrow B, A\rightarrow C, B\rightarrow D, C\rightarrow D$ and $E\rightarrow F$ will result in a \ac{DAG} consisting of two independent subgraphs (see Figure \ref{fig:graph:unordered}).
