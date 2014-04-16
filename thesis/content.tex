@@ -4,35 +4,35 @@
 % moving average
 \section{Introduction}
 
- 	Recent research has highlighted the relevance of lakes to global process such as the carbon cycle \citep{cole2007plumbing}.
-    Ecological studies on lakes have historically taken advantage of the “closed system” bounds to delineate a simplified ecosystem, but analyses that are formulated to answer societally relevant questions often must scale this single system science approach to hundreds, thousands, or millions of lakes \citep{downing2006global}.
-    Therefore systems must be developed that can aggregate, analyze, and ultimately interpret hydrological data at large scales. Additionally, these analytical systems must be able to easily couple lake features with supporting data that define, for example, catchment properties, local climate, and anthropomorphic stressors.
-    These data products are readily available as national coverages that can either be sampled and turned into model parameters, or turned into model drivers if they are time series products.
+	Recent research has highlighted the relevance of lakes to global process such as the carbon cycle \citep{cole2007plumbing}.
+	Ecological studies on lakes have historically taken advantage of the “closed system” bounds to delineate a simplified ecosystem, but analyses that are formulated to answer societally relevant questions often must scale this single system science approach to hundreds, thousands, or millions of lakes \citep{downing2006global}.
+	Therefore systems must be developed that can aggregate, analyze, and ultimately interpret hydrological data at large scales. Additionally, these analytical systems must be able to easily couple lake features with supporting data that define, for example, catchment properties, local climate, and anthropomorphic stressors.
+	These data products are readily available as national coverages that can either be sampled and turned into model parameters, or turned into model drivers if they are time series products.
 
-    This work shall evaluate the existing tools \citep[e.g. Lake Analyzer\fu{https://github.com/GLEON/Lake-Analyzer}, see][]{read2011derivation}), data models and the modeling frameworks used by USGS CIDA\fu{http://cida.usgs.gov/}.
-    Modeling runs are based on online data brokers (such as the USGS’s Geo Data Portal - GDP\fu{http://cida.usgs.gov/gdp/}) build upon Open Geospatial Consortium standards such as \ac{CSW}, \ac{WPS}, \ac{WMS} and \ac{WCS}, but still rely on local algorithms, which comprise functionality for statistical quality assurance and quality control as well as the calculation of various metrics related to the physical state of the lakes (often linked with ecosystem function or disturbance). Building standardized and flexible infrastructure for analyzing foundational data used by domain scientists is an important challenge given legacy and heterogeneous architectures.
-    Therefore building on the existing infrastructure and corresponding demands of the use case shall be considered.
+	This work shall evaluate the existing tools \citep[e.g. Lake Analyzer\fu{https://github.com/GLEON/Lake-Analyzer}, see][]{read2011derivation}), data models and the modeling frameworks used by USGS CIDA\fu{http://cida.usgs.gov/}.
+	Modeling runs are based on online data brokers (such as the USGS’s Geo Data Portal - GDP\fu{http://cida.usgs.gov/gdp/}) build upon Open Geospatial Consortium standards such as \ac{CSW}, \ac{WPS}, \ac{WMS} and \ac{WCS}, but still rely on local algorithms, which comprise functionality for statistical quality assurance and quality control as well as the calculation of various metrics related to the physical state of the lakes (often linked with ecosystem function or disturbance). Building standardized and flexible infrastructure for analyzing foundational data used by domain scientists is an important challenge given legacy and heterogeneous architectures.
+	Therefore building on the existing infrastructure and corresponding demands of the use case shall be considered.
 
-    One approach for a scalable system is to move the modeling to a web-based processing framework, which should rely on public and interoperable standards in the given use case.
-    Web processing allows to chain data brokers with translators, models, and eventually post-hoc analysis of model runs.
-    This chain provides specific information products to the user.
-    Considering the amount of data (and future process scaling needs), such an analysis must be conducted in a streaming manner, i.e. the processing should start before the last chunk of data comes in, and the output should also be available in parts before the processing has completely finished to reduce the lag for domain users of the system.
-    Existing approaches to this problem shall be critically evaluated.
+	One approach for a scalable system is to move the modeling to a web-based processing framework, which should rely on public and interoperable standards in the given use case.
+	Web processing allows to chain data brokers with translators, models, and eventually post-hoc analysis of model runs.
+	This chain provides specific information products to the user.
+	Considering the amount of data (and future process scaling needs), such an analysis must be conducted in a streaming manner, i.e. the processing should start before the last chunk of data comes in, and the output should also be available in parts before the processing has completely finished to reduce the lag for domain users of the system.
+	Existing approaches to this problem shall be critically evaluated.
 
-    This thesis work comprises the evaluation, design and prototypical implementation of a lake analysis chain for live sensor data.
-    This includes the evaluation of existing datamodels (mainly CSV/TSV) and a standardized way to convert existing domain specific applications written in MatLab\fu{http://www.mathworks.de/products/matlab/} into streaming web services (possibly WPS algorithms) in favor of the currently used non standardized web frontend\fu{http://lakeanalyzer.gleon.org/}.
+	This thesis work comprises the evaluation, design and prototypical implementation of a lake analysis chain for live sensor data.
+	This includes the evaluation of existing datamodels (mainly CSV/TSV) and a standardized way to convert existing domain specific applications written in MatLab\fu{http://www.mathworks.de/products/matlab/} into streaming web services (possibly WPS algorithms) in favor of the currently used non standardized web frontend\fu{http://lakeanalyzer.gleon.org/}.
 
-    \paragraph*{Research Questions}
-    \begin{itemize}
-        \item How can large scale hydrological data be processed in a service-based processing chain?
-        \item Do available web-processing interface definitions support a live data streaming scenario, what is missing?
-        \item Can real-time data be integrated into the processing chain for a constant (streamed) analysis?
-        \item How does the developed architecture perform in practical test with 1000s and 10000s of lake features?
-        \item How can continued statistical quality assurance and quality control in the application area of lake ecology be modeled in a web service chain?
-        \item Do existing standards (data models and service interfaces for data warehousing, processing and visualization) support a streaming analysis chain? What is missing?
-        \item How can spatial dependencies between streamed features be considered?
-        \item How can a analysis language commonly used by domain experts (in this case MatLab) be easily deployed in a web based processing chain?
-    \end{itemize}
+	\paragraph*{Research Questions}
+	\begin{itemize}
+		\item How can large scale hydrological data be processed in a service-based processing chain?
+		\item Do available web-processing interface definitions support a live data streaming scenario, what is missing?
+		\item Can real-time data be integrated into the processing chain for a constant (streamed) analysis?
+		\item How does the developed architecture perform in practical test with 1000s and 10000s of lake features?
+		\item How can continued statistical quality assurance and quality control in the application area of lake ecology be modeled in a web service chain?
+		\item Do existing standards (data models and service interfaces for data warehousing, processing and visualization) support a streaming analysis chain? What is missing?
+		\item How can spatial dependencies between streamed features be considered?
+		\item How can a analysis language commonly used by domain experts (in this case MatLab) be easily deployed in a web based processing chain?
+	\end{itemize}
 
 
 \section{Lake-Analyzer}
@@ -309,28 +309,28 @@
 		\paragraph{Input Message}
 			Input messages are used by clients to supply subsequent inputs to a streaming iteration of a streaming process. They loosely resemble a \ac{WPS} Execute request by consisting of any number of inputs and a identifier, which references the streaming process to which the inputs should be supplied. An example can be seen in Listing \ref{lst:streaming:message:input}, possible inputs can be seen in section \ref{sec:streaming:input}.
 			\lstinputlisting[label={lst:streaming:message:input},
-			                 caption={[Example for a Streaming WPS input message.]Example for a Streaming WPS input message (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
-			                 float=!htb,language=XML]{listings/streaming-message-input.xml}
+							 caption={[Example for a Streaming WPS input message.]Example for a Streaming WPS input message (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
+							 float=!htb,language=XML]{listings/streaming-message-input.xml}
 		\paragraph{Output Messages}
 			Output messages are used by the streaming process to transport intermediate results at the end of a streaming iteration or a final result at the end of the streaming process to listening clients. They loosely resemble a \ac{WPS} Execute response by containing a arbitrary number of outputs and the identifier of the process, that produced the outputs. Output messages containing intermediate result are replies to their corresponding input message and reference them using \ac{WSA}. If the processing used the output of any other streaming iteration (see sections \ref{sec:stream:input:reference} and \ref{sec:stream:dependencies}) the corresponding output messages are also referenced. An example can be seen in Listing \ref{lst:streaming:message:output}.
 			\lstinputlisting[label={lst:streaming:message:output},
-			                 caption={[Example for a Streaming WPS output message.]Example for a Streaming WPS output message (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
-			                 float=!htb,language=XML]{listings/streaming-message-output.xml}
+							 caption={[Example for a Streaming WPS output message.]Example for a Streaming WPS output message (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
+							 float=!htb,language=XML]{listings/streaming-message-output.xml}
 		\paragraph{Output Request Message}
 			A output request message is used by client to let a streaming process know, that it would like to receive outputs from the process. There is no direct counter part in the \ac{WPS} specification but the concept is similar to the continuous request of the \ac{WPS} response during a asynchronous process execution. As WebSockets offer a full-duplex messaging channel a continuous polling of outputs is not needed, but the streaming process can push outputs directly to listening clients. To initialize this listening the client register to one or more streaming processes using their corresponding identifiers. An example can be seen in Listing \ref{lst:streaming:message:output-request}.
 			\lstinputlisting[label={lst:streaming:message:output-request},
-			                 caption={[Example for a Streaming WPS output request message.]Example for a Streaming WPS output request message (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
-			                 float=!htb,language=XML]{listings/streaming-message-output-request.xml}
+							 caption={[Example for a Streaming WPS output request message.]Example for a Streaming WPS output request message (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
+							 float=!htb,language=XML]{listings/streaming-message-output-request.xml}
 		\paragraph{Stop Message}
 			As streaming process can run indefinitely long, input supplying clients need to be able to let the streaming process know, that there will be no further inputs become available. To achieve this a stop message (see Listing \ref{lst:streaming:message:stop}) is send to the streaming process. The process will propagate the stop message to all listening clients to let them know there will be no further outputs. Before the stop message is propagated all streaming iterations, that are not yet processed will be finished but the process will not accept any further inputs. If there are still unresolved dependencies (see sections \ref{sec:stream:input:reference} and \ref{sec:stream:dependencies}) the streaming process will fail with an error message.
 			\lstinputlisting[label={lst:streaming:message:stop},
-			                 caption={[Example for a Streaming WPS stop message]Example for a Streaming WPS stop message (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
-			                 float=!htb,language=XML]{listings/streaming-message-stop.xml}
+							 caption={[Example for a Streaming WPS stop message]Example for a Streaming WPS stop message (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
+							 float=!htb,language=XML]{listings/streaming-message-stop.xml}
 		\paragraph{Error Message}
 			Errors are transported, as in the \ac{WPS} specification, using \ac{OWS} exception reports \citep{ogc:wps}. If the delegate of a process fails or a supplied input message can not be processed due to whatever conditions, the error is propagated to listening clients. The error is always send to the client that send the message causing the error (if the client is still connected) and in case the error is caused during the execution of a streaming iteration also to all listening clients, that registered through a output request message. In contrast to failures during input validation, due to constraints imposed by dependencies (see sections \ref{sec:stream:input:reference} and \ref{sec:stream:dependencies}), errors raised during the execution of a streaming iteration can not be compensated, but will stop the streaming process. The causing message of a failure may obtained from the reply relation encoded using \ac{WSA}. An example of an error message can be found in Listing \ref{lst:streaming:message:error}.
 			\lstinputlisting[label={lst:streaming:message:error},
-			                 caption={[Example for a Streaming WPS error message.]Example for a Streaming WPS error message (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
-			                 float=!htb,language=XML]{listings/streaming-message-error.xml}
+							 caption={[Example for a Streaming WPS error message.]Example for a Streaming WPS error message (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
+							 float=!htb,language=XML]{listings/streaming-message-error.xml}
 		\paragraph{Describe \& Description Message}
 			Describe messages are directly adopted from the \ac{WPS} Describe Process operation. Due to conditions described in section \ref{sec:stream:processdescription} a client needs to able to retrieve a description from a running streaming process. The message simply contains the identifier of the process the clients wants to have the description from (an example can be seen in Listing \ref{lst:streaming:message:describe}).
 			\lstinputlisting[label={lst:streaming:message:describe},
@@ -349,8 +349,8 @@
 			The first and most obvious type of input are streaming inputs. They are provided for a single streaming iteration and will only be used in that iteration representing the core of streaming enabled processing (see Listing \ref{lst:streaming:input:streaming}).
 
 			\lstinputlisting[label={lst:streaming:input:streaming},
-			                 caption={[Example for a Streaming WPS streaming inputs.]Example for a Streaming WPS streaming inputs (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
-			                 float=!htb,language=XML]{listings/streaming-input-streaming.xml}
+							 caption={[Example for a Streaming WPS streaming inputs.]Example for a Streaming WPS streaming inputs (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
+							 float=!htb,language=XML]{listings/streaming-input-streaming.xml}
 
 
 			A conventional algorithm to compute the histogram of a raster (e.g. a satellite image) needs the complete raster as a single complex input for processing. A streaming enabled variant would split the raster in several smaller tiles and supply each of them in a single input message to the streaming process. The algorithm can process each tile on it's own and update the global histogram. Besides that the process does not have to store the complete raster, it is also able to output intermediate histograms to the client.
@@ -360,8 +360,8 @@
 			Algorithms that operate on a streaming input often need inputs that are common to every iteration. It would be redundant and inefficient to transfer inputs like configuration parameters in every input message for every streaming iteration. For this, the concept of static inputs needs to be introduced. Static inputs are parameters that are supplied when a streaming process is created and apply to every streaming iteration (see Listing \ref{lst:streaming:input:static}). While the streaming process handles a streaming iteration, the static inputs are merged with the inputs of the causing input message and transparently supplied to the process's delegate. This way a conventional process can be easily converted into a streaming enabled process.
 
 			\lstinputlisting[label={lst:streaming:input:static},
-			                 caption={[Example for a Streaming WPS static inputs.]Example for a Streaming WPS static inputs (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
-			                 float=!htb,language=XML]{listings/streaming-input-static.xml}
+							 caption={[Example for a Streaming WPS static inputs.]Example for a Streaming WPS static inputs (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
+							 float=!htb,language=XML]{listings/streaming-input-static.xml}
 
 			For example, a traditional process implementation of the Douglas–Peucker algorithm \citep{douglas1973algorithms} would require a feature collection and a $\epsilon$ value as inputs. In a streaming environment, one would model the $\epsilon$ input as a static input supplied at process creation and stream the feature collection as single features in streaming inputs. Other examples are a coordinate transformation process, that accepts a feature collection and a target \ac{CRS} or a buffer algorithm that accepts a feature collection and a buffer size. Buffer size and \ac{CRS} would be supplied as static inputs and the feature collection would be split into several streaming inputs and supplied in independent streaming iterations.
 
@@ -370,10 +370,10 @@
 			While streaming offers no real benefit to algorithms that require global knowledge of the data set, there are often cases where algorithms only require knowledge about few other chunks of the dataset or even only about the result of their processing. To model these dependencies between streaming iterations, reference inputs can be used (see Listing \ref{lst:streaming:input:reference}). These reference the output of another, previous or upcoming, iteration as an input parameter. Reference inputs break out of the conventional non-random access paradigm of streaming and allow a semi-random access processing of a data set. Inputs are described by referencing the corresponding output identifier and the input message that has or will produce the output data. The order of incoming input messages is irrelevant to the use of reference inputs, as input messages referencing not yet available outputs will be delayed until they can processed (see section \ref{sec:stream:dependencies}).
 
 			\lstinputlisting[label={lst:streaming:input:reference},
-			                 caption={[Example for a Streaming WPS reference input.]Example for a Streaming WPS reference input (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
-			                 float=!htb,language=XML]{listings/streaming-input-reference.xml}
+							 caption={[Example for a Streaming WPS reference input.]Example for a Streaming WPS reference input (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
+							 float=!htb,language=XML]{listings/streaming-input-reference.xml}
 
-            A conventional algorithm to analyze a river system, in which each processing of a river depends on the processing results of the rivers flowing into it, the complete river system data set would be supplied as a single input parameter. In a streaming enabled process, each river would be supplied as a streaming input. The output of the rivers a river depends on would be supplied as additional reference inputs.
+			A conventional algorithm to analyze a river system, in which each processing of a river depends on the processing results of the rivers flowing into it, the complete river system data set would be supplied as a single input parameter. In a streaming enabled process, each river would be supplied as a streaming input. The output of the rivers a river depends on would be supplied as additional reference inputs.
 		\subsubsection{Polling inputs}
 			\label{sec:stream:input:polling}
 			The last category of possible input types for a streaming \ac{WPS} are polling inputs. These inputs are continuously polled from an external resource and a new streaming iteration would be started, when new inputs become available. Polling inputs would be supplied at process creation time and would contain a reference to an external resource, that is requested continuously. To not miss inputs, when they become available a playlist file, as described in previous approaches \citep{foerster2012live} would be need. The implementation of polling inputs as part of this streaming \ac{WPS} specification would present the very same issues, that were criticized in previous approaches. How one can define the polling frequency used to retrieve the playlist, how can multiple polling inputs be declared, and how would they be combined by the streaming \ac{WPS}? For this reason the Streaming \ac{WPS} will not implement polling inputs. These input types are by far better handled on client side, as the client typical knows of the rate data becomes available and so can choose a appropriate polling frequency and also is able to coordinate multiple polling inputs by having a deeper understanding of their affiliation. Polling inputs could be implemented as shown in Figure \ref{fig:sd:polling}: the client polls a data provider (e.g. a \ac{SOS}) to check if new data is available and convert this data into a streaming input for the Streaming \ac{WPS}.
