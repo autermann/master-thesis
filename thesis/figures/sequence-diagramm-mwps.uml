@@ -18,15 +18,15 @@ skinparam sequence {
 	BoxBackgroundColor white
 }
 
-participant "Matlab WPS" as mwps
-participant "Matlab Server" as ms
-participant "Matlab Instance" as mi
-participant "Matlab" as m
+participant "MATLAB WPS" as mwps
+participant "MATLAB Server" as ms
+participant "MATLAB Instance" as mi
+participant "MATLAB" as m
 note over mi: pooled
 
 [-> mwps: Execute
 activate mwps
-mwps -> mwps: build Matlab\nrequest
+mwps -> mwps: build MATLAB\nrequest
 mwps ->> ms: Request
 activate ms
 ms -> mi: Request
@@ -41,7 +41,7 @@ ms <-- mi: Response
 deactivate mi
 mwps <<-- ms: Response
 deactivate ms
-mwps -> mwps: parse Matlab\nresponse
+mwps -> mwps: parse MATLAB\nresponse
 [<-- mwps: Execute Response
 deactivate mwps
 
