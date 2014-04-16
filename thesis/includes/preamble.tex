@@ -82,11 +82,17 @@
 \def\addToLiterate#1{\edef\lst@literate{\unexpanded\expandafter{\lst@literate}\unexpanded{#1}}}
 \lst@Key{moreliterate}{}{\addToLiterate{#1}}
 \newcommand{\miniscule}{\@setfontsize\miniscule{5}{6}}% \tiny: 6/7
+
+\newcommand{\singlespacingnoskip}{\setstretch{\setspace@singlespace}}
+\newcommand{\onehalfspacingnoskip}{\setstretch{\setspace@onehalfspace}}
+
 \makeatother
+
+\def\matlab{\lstinline[basicstyle=\ttfamily\mdseries,language=MATLAB]}
 
 \lstset{%
   numberstyle=\ttfamily\scriptsize,
-  basicstyle=\ttfamily\scriptsize\mdseries\singlespacing,
+  basicstyle=\ttfamily\scriptsize\mdseries\singlespacingnoskip,
   backgroundcolor=\color{white},
   commentstyle=\color{comment},
   stringstyle=\color{string},
