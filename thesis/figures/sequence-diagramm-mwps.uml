@@ -11,11 +11,12 @@ skinparam sequence {
 	LifeLineBorderColor black
 	ParticipantBorderColor black
 	BoxLineColor black
-	ActorBackgroundColor wihte
+	ActorBackgroundColor white
 	ParticipantBackgroundColor white
 	GroupBackgroundColor white
 	DividerBackgroundColor white
 	BoxBackgroundColor white
+	LifeLineBackgroundColor white
 }
 
 participant "MATLAB WPS" as mwps

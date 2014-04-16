@@ -12,7 +12,7 @@ skinparam sequence {
 	LifeLineBorderColor black
 	ParticipantBorderColor black
 	BoxLineColor black
-	ActorBackgroundColor wihte
+	ActorBackgroundColor white
 	ParticipantBackgroundColor white
 	GroupBackgroundColor white
 	DividerBackgroundColor white
