@@ -4,7 +4,9 @@ connection: local
 identifier: matlab.stat
 version: 1.0.0
 title: Arithmetic Mean and Standard Deviation
-abstract: Calculates the arithmetic mean and standard deviation of a numerical vector.
+abstract:>
+  Calculates the arithmetic mean and
+  standard deviation of a numerical vector.
 inputs: # the input definitions
   - identifier: x
   	type: double
