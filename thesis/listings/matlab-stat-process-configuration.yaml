@@ -1,0 +1,23 @@
+---
+function: stat
+connection: local
+identifier: matlab.stat
+version: 1.0.0
+title: Arithmetic Mean and Standard Deviation
+abstract: Calculates the arithmetic mean and standard deviation of a numerical vector.
+inputs: # the input definitions
+  - identifier: x
+  	type: double
+    maxOccurs: unbounded
+  	title: input vector
+  	abstract: A numerical input vector.
+outputs: # the output definitons
+  - identifier: ave
+  	title: Arithmetic Mean
+  	abstract: The arithmetic mean of the input vector.
+    type: double
+  - identifier: sd
+    type: double
+    title: Standard Deviation
+  	abstract: The standard deviation of the input vector.
+...

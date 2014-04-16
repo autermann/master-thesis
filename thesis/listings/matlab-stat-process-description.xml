@@ -1,0 +1,34 @@
+<ProcessDescription wps:processVersion="1.0.0">
+  <ows:Identifier>matlab.stat</ows:Identifier>
+  <ows:Title>Arithmetic Mean and Standard Deviation</ows:Title>
+  <ows:Abstract>Calculates the arithmetic mean and standard deviation of a numerical vector.</ows:Abstract>
+  <DataInputs>
+    <Input minOccurs="1" maxOccurs="2147483647">
+      <ows:Identifier>x</ows:Identifier>
+      <ows:Title>input vector</ows:Title>
+      <ows:Abstract>A numerical input vector.</ows:Abstract>
+      <LiteralData>
+        <ows:DataType ows:reference="xs:double"/>
+        <ows:AnyValue/>
+      </LiteralData>
+    </Input>
+  </DataInputs>
+  <ProcessOutputs>
+    <Output>
+      <ows:Identifier>ave</ows:Identifier>
+      <ows:Title>Arithmetic Mean</ows:Title>
+      <ows:Abstract>The arithmetic mean of the input vector.</ows:Abstract>
+      <LiteralOutput>
+        <ows:DataType ows:reference="xs:double"/>
+      </LiteralOutput>
+    </Output>
+    <Output>
+      <ows:Identifier>sd</ows:Identifier>
+      <ows:Title>Standard Deviation</ows:Title>
+      <ows:Abstract>The standard deviation of the input vector.</ows:Abstract>
+      <LiteralOutput>
+        <ows:DataType ows:reference="xs:double"/>
+      </LiteralOutput>
+    </Output>
+  </ProcessOutputs>
+</ProcessDescription>
