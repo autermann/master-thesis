@@ -62,37 +62,33 @@
 	MATLAB\fu{http://www.mathworks.com/products/matlab/} is a closed source, commercial software by The MathWorks, Inc. for numerical computation, visualization and programming. It features a high-level programming language as well as an cross-platform (Windows, Linux and Mac OS X) interactive desktop environment. Initially developed for matrix computations (hence \emph{MAT}rix \emph{LAB}oratory)\fu{http://www.mathworks.com/company/newsletters/articles/the-origins-of-matlab.html}, today MATLAB is widespread across different domains in academics, engineering and industry. The base program is extensible using so called \emph{toolboxes}, that add functionalities for various domains, like statistics, curve fitting, neural networks, image processing, economics, bioinformatics or signal processing. Besides that, functions, algorithms, files or toolboxes can be installed using \emph{Matlab Central}, a repository of user contributions, mostly licensed under the two-clause BSD license\fu{http://opensource.org/licenses/bsd-license.php}\fu{http://www.mathworks.com/matlabcentral/FX_transition_faq.html}.
 
 	Creating a specific \ac{WPS} process implementation for the Lake Analyzer would be possible, but considering the wide spread usage of MATLAB based scripts and applications, a generic solution, that enables the easy deployment of MATLAB based functionalities as \acl{WPS} processes would have a huge benefit for the geospatial community as well as for the the acceptance of the \ac{WPS} across disciplines. A generic \emph{MATLAB WPS} would not only open the Lake Analyzer for an interoperable usage in existing web processing chains, but would also make existing models and algorithms implemented in MATLAB instantly available to a larger audience and can increase reusability of software components and exchange between different areas of research, development and business.
-	Considering the diversified fields, MATLAB is used in, a software component such as a MATLAB WPS can not assume a extensive programming experience beyond MATLAB. Domain expert developing models or algorithms in MATLAB should be able to offer a MATLAB script or function as a \ac{WPS} process using a simple and straightforward procedure, without any knowledge of other programming languages or an comprehensive expertise in web services or their development.
-	\begin{itemize}
-		\item weakly, dynamical typed language
-		\item offering a specialized lake-analyzer process not worth the effort
-		\item generic solution would have huge benefit
-		\item a lot of models implemented in Matlab can become available as WPS processes
-		\item offering matlab programs as WPS processes should be easy procedure
-		\item domain experts developing models in Matlab may not have extensive programming experience
-		\item probably have no experience in developing web services or java code
-		\item no switch in languages should be needed
-		\item matlab functions with multiple return values
-		\item create framework to easily expose a matlab function as an WPS process
-		\item requirements
-		\begin{itemize}
-			\item no web service programming/java programming experience should be needed
-			\item pooling of matlab instances to reduce latency
-			\item support for WPS complex inputs without dependency to a specific format
-			\item existing models and algorithms should be easy (and not intrusive) to expose as WPS algorithms
-			\item process description should be manually be written, but be easily generated
-			\item
-		\end{itemize}
-		\item previous approaches: WPS4R
-		\begin{itemize}
-			\item heavily format specific
-			\begin{itemize}
-				\item parsing of GML/etc in the WPS and translation to R structures
-				\item configuration as comments in R scripts
-				\item focussing on scripts and not on functions
-			\end{itemize}
-		\end{itemize}
-	\end{itemize}
+	Considering the diversified fields, MATLAB is used in, a software component such as a MATLAB WPS can not assume a extensive programming experience beyond MATLAB. Domain expert developing models or algorithms in MATLAB should be able to offer a MATLAB script or function as a \ac{WPS} process using a simple and straightforward procedure, without any knowledge of other programming languages or an comprehensive expertise in web services or their development. To accomplish this, no switch from MATLAB to other languages should be needed and rather complex and verbose process descriptions should not be manually be written, but automatically generated. A key goal of the MATLAB WPS to expose existing models and algorithms as \ac{WPS} processes and so the procedure to convert a MATLAB script or function should not require intrusive changes to be compatible with the MATLAB WPS.
+
+	There exist previous approaches to offer data analysis and modeling languages like MATLAB as \ac{WPS} processes. Specially emphasized should be the \emph{WPS4R} \citep{wps4r} project, that creates WPS processes from scripts written for the statistical analysis environment \emph{GNU R} \citep{gnur}. Written as module for the \ftn~\ac{WPS} implementation, it shares many requirements and challenges with a MATLAB WPS. R is also a environment used mostly by domain experts and features a massive amount of existing models and algorithm implementations worth to be opened to the web processing environment and to be made available to a broader user base using interoperable standards like the \ac{OGC} \acl{WPS}.
+
+	\lstinputlisting[label={lst:r:annotation},
+					 caption={Example for a comment containing annotations used by WPS4R \citep{wps4r}.},
+					 float=!htb,language=R]{listings/wps4r-annotations.r}
+
+	WPS4R takes a R script and executes it on a remote or local R instance using \emph{Rserve} \citep{rserve}. In contrast to the \ac{WPS} interface, which explicitly states types of input and output parameters to allow service discovery and the usage of generic clients, R is a weakly and dynamically typed language. By this the \ac{WPS} is not able to parse the script and determine appropriate input and output parameter types, as these are only available at runtime. To bind static types to input and output parameters, a annotation mechanism was developed, that is also capable to detail input/output and process meta data. In contrast to other programming languages, like Java \citep{jsr175} or C\# \citep{ecma335}, R does not feature a native annotation mechanism. Because of this the annotations are encoded as comments featuring special keywords (\emph{wps.in}, \emph{wps.out} and \emph{wps.des}), followed by a key value list representing the necessary information to generate a process description (see Listing \ref{lst:r:annotation}). During process execution, WPS4R will populate the described input parameter variables using \ac{WPS} inputs, execute the script and will later read the specified output variables from the R session and transform them to WPS outputs. The usage of annotation embedded in comments support the deployment of R functionalities as WPS processes by providing a single script file, that the WPS4R can parse.
+
+	Literal input parameters are translated into native R types, while complex inputs are transferred as files to a temporary working directory. Complex input and output parameter have to be described by a single keyword denoting the mime type of the parameter, that has to be registered to WPS4R using a configuration file. Describing complex inputs and outputs using \emph{schema} or \emph{encoding}, or using about any mime type without changing the WPS4R configuration is not possible. This may be caused by the reduced expressiveness through the usage of a structureless description format (e.g. denoting multiple supported complex input formats, would be hard to specify). Scripts are run on globally configured Rserve connection, different remotes for different processes or a load balancing between multiple remote nodes running R are not possible. Furthermore, the easy deployment of scripts consisting of multiple files is currently not possible.
+
+	The comment based approach taken by WPS4R has several advantages like having \ac{WPS} configuration and actual code side by side (which results in less maintenance effort), but also introduces considerable drawbacks, especially if the annotation mechanism should be applied to MATLAB. Conveying important information in comments can be problematic. Even though there are many examples, where comments are used to e.g. generate documentation (e.g JavaDoc \citep{javadoc}), these often are standardized at language level or include a large user base and a wide support in editors and development environments. The syntax of a custom comment based annotation mechanism as used in this approach, can not be verified in editors or interpreters. By this, and the unstructured notation of comments, the approach becomes heavily prone to user error, that first can be detected during deployment to a WPS instance. Additionally annotations are not actually bound to any language construct, but just happen to be in the same file.
+
+	Typical MATLAB programs would not benefit from combining annotations and scripts in a single file, as it is common practice, or even a requirement to access a function from outside, to place a function in it own file. By this, MATLAB programs tend to consist of multiple files, and can not easily deployed as single script file.
+
+	\dots
+
+	In contrast to R, MATLAB offers multiple return values of functions as a native language feature. Through this MATLAB functions are able to directly represent a \ac{WPS} process and the MATLAB WPS should use MATLAB functions instead of scripts to offer functionalities as WPS processes. As stated before, MATLAB is a weakly and dynamically typed language, and parsing of the function signature can not create a statically typed binding as the \ac{WPS} standard requires. For this an additional description mechanism has to be developed, that allows the semi-automatically generation of process descriptions. This should be done without extensive knowledge of web service development or programming languages and the deployment of existing MATLAB functions should be a straightforward non-intrusive process. Similar to R, MATLAB instances are single threaded, and so can only process one WPS process execution a time, moreover, and contrary to R, opening the MATLAB workbench even in in a headless mode (without any user interface) can take considerable time. This requires a effective usage MATLAB instance, especially the reuse of already started MATLAB instances to reduce latency of process executions. Complex inputs should be usable inside of MATLAB without restriction to any format, and without the need to change any configuration files.
+
+	\dots This chapter will outline the conceptualization and implementation of a MATLAB WPS \dots
+
+
+	\lstinputlisting[label={lst:matlab:example:fun},
+					 caption={MATLAB example function that calculates statistical characteristics (mean and standard deviation) of an input vector.},
+					 float=!htb,language=Matlab]{listings/matlab-stat-function.m}
+
 	\begin{itemize}
 		\begin{figure}[!htb]
 			\centering
@@ -136,17 +132,15 @@
 		\end{itemize}
 	\end{itemize}
 	\subsection{Configuration}
-	\lstinputlisting[label={lst:matlab:example:fun},
-					 caption={Matlab example function that represents a simple addition.},
-					 float=!htb,language=Matlab]{listings/matlab-add-function.m}
+
+	Because of the aforementioned problems regarding comment annotations, the MATLAB WPS
 	\lstinputlisting[language=YAML,float=!htb,
 					 label={lst:matlab:example:yaml},
 					 caption={Matlab process configuration describing the function in Listing \ref{lst:matlab:example:fun}.},
-					 morekeywords={function,connection,identifier,version,inputs,outputs,type},
-					 morendkeywords={double}]{listings/matlab-add-process-configuration.yaml}
+					 morekeywords={function,connection,identifier,version,inputs,outputs,type,maxOccurs,title,abstract}]{listings/matlab-stat-process-configuration.yaml}
 	\lstinputlisting[label={lst:matlab:example:desc},
 					 caption={[Process description generated from the configuration in Listing \ref{lst:matlab:example:yaml}.]Process description generated from the configuration in Listing \ref{lst:matlab:example:yaml} (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
-					 float=!htb,language=XML]{listings/matlab-add-process-description.xml}
+					 float=!htb,language=XML]{listings/matlab-stat-process-description.xml}
 	\begin{itemize}
 		\item Can not be used to offer any function as process
 		\item would not conform to Mathworks license
