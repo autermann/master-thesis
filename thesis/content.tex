@@ -89,12 +89,14 @@
 					 float=!htb,language=Matlab]{listings/matlab-stat-function.m}
 
 	\subsection{Architecture}
+		The MATLAB WPS features a multi-tier architecture to offer MATLAB functions as \acl{WPS} processes. A detailed sequence diagram depicting a MATLAB WPS process execution can be seen in Figure~\ref{fig:sd:mwps}. An incoming WPS \emph{Execute} request is accepted by the MATLAB WPS (\hyperref[fig:sd:mwps]{step~1}). The \emph{Execute} request is verified (e.g. no missing inputs, inputs within the range described by the process description, etc.) and then translated into a MATLAB request (\hyperref[fig:sd:mwps]{step~2}). This request is send via a WebSocket connection to a configured MATLAB server (\hyperref[fig:sd:mwps]{step~3})\textcolor{red}{\dots WebSockets??? \dots}. The MATLAB server maintains a pool of MATLAB instances and will dispatch the request to one of these as soon as one becomes available (\hyperref[fig:sd:mwps]{step~4}). The instance translates the MATLAB request into a function call (\hyperref[fig:sd:mwps]{step~5}) and evaluates the function call in an associated MATLAB session. After this (\hyperref[fig:sd:mwps]{step~6}), the return values are read from the session (\hyperref[fig:sd:mwps]{step~7}) and encoded as a MATLAB response (\hyperref[fig:sd:mwps]{step~8}). It is then passed to through the MATLAB server (\hyperref[fig:sd:mwps]{step~9}) to the MATLAB WPS (\hyperref[fig:sd:mwps]{step~10}). The MATLAB WPS process translates the MATLAB response to a WPS \emph{Execute} response (\hyperref[fig:sd:mwps]{step~11}) and returns it to the client (\hyperref[fig:sd:mwps]{step~12}).
+		\begin{figure}[!htb]
+			\centering
+			\includegraphics[width=0.6788732394366197\textwidth]{figures/sequence-diagramm-mwps.pdf}
+			\caption{\label{fig:sd:mwps} Sequence diagram of a MATLAB WPS process execution.}
+		\end{figure}
+
 		\begin{itemize}
-			\begin{figure}[!htb]
-				\centering
-				\includegraphics[width=0.6788732394366197\textwidth]{figures/sequence-diagramm-mwps.pdf}
-				\caption{\label{fig:sd:mwps} Sequence diagram of the Matlab WPS.}
-			\end{figure}
 			\item matlab function <-> wps process
 			\item not format specific
 			\item no conversion of complex inputs/outputs
@@ -133,6 +135,7 @@
 		\end{itemize}
 
 	\subsection{Configuration}
+		\label{sec:matlab:conf}
 		Because of the aforementioned problems regarding comment annotations, the MATLAB WPS features another configuration mechanism. Process configurations are conveyed using YAML \citep{yaml}, which facilitate a particular human-readable syntax. It allows easy structuring of data without delimiters like quotations or braces, while optionally allowing these. The structure of YAML has close resemblance with JSON (which is actually a valid subset of YAML since version 1.2), feature the basic types of scalars, sequences and associative arrays (maps), but has features, that make it more expressive. This includes comments, multi-line strings, references, multi-document files, sets, complex key types for maps, ordered/unordered maps and maps that allow duplicate keys.
 		\lstinputlisting[language=YAML,float=!htb,
 						 label={lst:matlab:example:yaml},

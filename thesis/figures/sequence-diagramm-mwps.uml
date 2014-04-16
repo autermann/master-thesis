@@ -1,4 +1,5 @@
 @startuml
+autonumber
 hide footbox
 skinparam defaultFontName "Linux Biolinum"
 skinparam note {
