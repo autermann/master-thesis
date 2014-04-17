@@ -97,6 +97,14 @@
 			\caption{\label{fig:sd:mwps} Sequence diagram of a MATLAB WPS process execution.}
 		\end{figure}
 
+		\lstinputlisting[float=!htb,caption={WebSocket opening handshake using a HTTP upgrade request \citep{ietf:rfc6455}.},label={lst:websocket}]{listings/websocket-handshake.txt}
+
+		Besides an option to run the MATLAB server locally, all communication between the MATLAB WPS and MATLAB server is done over WebSockets \citep{ietf:rfc6455}. WebSockets are defining a TCP-based protocol, that creates a bidirectional communication channel between client and server. A primary goal of WebSockets is to bring the benefits of efficient full-duplex communication to web browser environment. This is accomplished by an HTTP compatible socket initiation mechanism (see Listing~\ref{lst:websocket}). A client opens a new WebSocket by issuing an HTTP request to the server, in which he requires an upgrade to the WebSocket protocol. Afterwards the connection is kept open and bot client and server can send message to the opposing party. These messages are transported using one or more text or binary frames and allow an efficient bidirectional information exchange. By using HTTP for the initial handshake, WebSockets can be used in most proxy setups and despite the presence of firewalls, that filter non HTTP traffic.
+
+		Despite the opening handshake using HTTP, WebSockets do not conform to the HTTP protocol. To be sure a web server can handle WebSocket connections, the clients sends the header \emph{Sec-WebSocket-Key} in the opening request, containing 16 bytes of random data in base 64 encoding \citep{ietf:rfc4648}. The server has to append the Globally Unique Identifier \cite[GUID,][]{ietf:rfc4122} \emph{258EAFA5-E914-47DA-95CA-C5AB0DC85B11} to the header value and return the base 64 encoded SHA-1 \citep{NistFIPS1803} hash sum using the \emph{Sec-WebSocket-Accept} header field.
+
+		The WebSocket protocol is accompanied with by and HTML5 JavaScript API \citep{w3c:ws}, that is implemented in all recent versions of major desktop browsers\footnote{and with the exception of Opera Mini also mobile browsers} \citep{caniuse}.
+
 		\begin{itemize}
 			\item matlab function <-> wps process
 			\item not format specific
