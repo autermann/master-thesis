@@ -1,25 +1,14 @@
 % !TEX root = thesis.tex
 
-\section{Listings}
-\captionof{lstlisting}{Matlab process configuration describing the function in Listing \ref{lst:matlab:example:fun}.}
-\begin{multicols}{2}
-\lstinputlisting[nolol=true,
-				 basicstyle=\ttfamily\tiny\mdseries\singlespacing,
-			     numberstyle=\ttfamily\tiny,
-				 language=YAML,
-				 label={lst:matlab:lakeanalyzer:yaml},
-				 morekeywords={function,connection,identifier,version,inputs,outputs,type,host,port,title,abstract,mimeType,encoding,schema,unit,minOccurs,maxOccurs},
-				 morendkeywords={double,string,int}]{listings/lake-analyzer-wps-configuration.yaml}
-\end{multicols}
+\chapter{Lake Analyzer Process Configuration}
+\label{appendix:lakeanalyzer:configuration}
+\lstinputlisting[nolol,language=YAML,label={lst:matlab:lakeanalyzer:yaml},morekeywords={function,connection,identifier,version,inputs,outputs,type,host,port,title,abstract,mimeType,encoding,schema,unit,minOccurs,maxOccurs},morendkeywords={double,string,int}]{listings/lake-analyzer-wps-configuration.yaml}
 
-\captionof{lstlisting}{Matlab process description generated from the configuration in Listing  describing the function in Listing \ref{lst:matlab:lakeanalyzer:yaml}.}
-\begin{multicols}{2}
-\lstinputlisting[nolol=true,basicstyle=\ttfamily\tiny\mdseries\singlespacing,
-			     numberstyle=\ttfamily\tiny,language=XML]{listings/lake-analyzer-wps-process-description.xml}
-\end{multicols}
+\chapter{Lake Analyzer Process Description}
+\lstinputlisting[nolol,language=XML]{listings/lake-analyzer-wps-process-description.xml}
 
 
-\section{Source Code}
+\chapter{Source Code}
 
 	\begin{tabularx}{\textwidth}{@{}lX@{}}
 		\toprule
