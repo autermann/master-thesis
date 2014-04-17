@@ -6,7 +6,7 @@
 
 \usepackage{etoolbox}
 
-\usepackage[includefoot,left=4cm,top=3cm,bottom=3cm,right=3cm]{geometry}
+\usepackage{geometry}
 
 \usepackage{amssymb}
 \usepackage{libertine}
@@ -91,14 +91,15 @@
 \def\matlab{\lstinline[basicstyle=\ttfamily\mdseries,language=MATLAB]}
 
 \lstset{%
-  numberstyle=\ttfamily\scriptsize,
-  basicstyle=\ttfamily\scriptsize\mdseries\singlespacingnoskip,
+  numberstyle=\ttfamily\small,
+  basicstyle=\ttfamily\small\mdseries\singlespacing,
   backgroundcolor=\color{white},
   commentstyle=\color{comment},
   stringstyle=\color{string},
   identifierstyle=\color{black},
   keywordstyle=\color{keyword}\bfseries,
-  ndkeywordstyle=\color{ndkeyword}
+  ndkeywordstyle=\color{ndkeyword},
+  lineskip={-3.5pt}
 }
 \lstset{%
   %columns=fullflexible,
@@ -253,6 +254,10 @@
 \usetikzlibrary{patterns}
 
 
+
+
+\newcommand{\ftn}{52\textdegree{}North}
+
 \renewcommand{\maketitle}{
   \begin{titlepage}
       \onehalfspacing
@@ -281,5 +286,3 @@
       \end{center}
   \end{titlepage}
 }
-
-\newcommand{\ftn}{52\textdegree{}North}

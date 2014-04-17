@@ -2,7 +2,7 @@
 
 
 % moving average
-\section{Introduction}
+\chapter{Introduction}
 
 	Recent research has highlighted the relevance of lakes to global process such as the carbon cycle \citep{cole2007plumbing}.
 	Ecological studies on lakes have historically taken advantage of the “closed system” bounds to delineate a simplified ecosystem, but analyses that are formulated to answer societally relevant questions often must scale this single system science approach to hundreds, thousands, or millions of lakes \citep{downing2006global}.
@@ -35,8 +35,8 @@
 	\end{itemize}
 
 
-\section{Lake-Analyzer}
-\section{Web Processing Service}
+\chapter{Lake-Analyzer}
+\chapter{Web Processing Service}
 	\label{sec:wps}
 	The \ac{WPS} \citep{ogc:wps} is the quasi standard for web based processing of spatiotemporal data \citep{foerster2012live}. It is an open service standard specified by the \ac{OGC} and is embedded in the \ac{OWS} environment. Even though the \ac{WPS} is mostly used in the geospatial domain, it's interface is not restricted to spatiotemporal data and also can be deployed in other professional contexts. Within the WPS, it is possible to publish and execute models, algorithms or generic calculations and computations in a standardized web service interface, so called processes. The \ac{WPS} describes a generic interface, that imposes no restrictions on the type of process, their inputs and outputs and so it can encapsulate any kind of algorithm or model. By this, an interoperability is offered, which leads to a number of significant advantages. It adds a layer that hides complexity and permits -- by it's consistency across implementations -- a high level of reusability, flexibility and scalability. Server and client software implementations become reusable and generic client implementations are possible. Scalable and complex computations, like grid or cloud computing, as well as super computer processing are hidden behind a simple to use service interface and become accessible.
 
@@ -58,7 +58,7 @@
 	The \ac{WPS} describes three basic types of input and output parameters: \emph{literal}, \emph{complex} and \emph{bounding box} parameters. Complex data parameters are data structures that can be described by a mime type, an encoding and a schema. They can represent raster data, XML structures such as GML feature collections, CSV or any other type of data. This data can be supplied embedded in XML or as a reference to an external HTTP resource. Referenced complex data structures may be requested using HTTP GET or POST and can transport HTTP headers and any body payload (or reference to one). By this chaining of \ac{WPS} processes can easily be implemented, either by referencing a previous generated output or even by encoding another \emph{Execute} call into the reference. Literal data is data, that can be represented by a single string value. The value is described by a data type and can be accompanied by a unit of measurement. Typical data types include single strings, URIs, boolean values, dates and integral or decimal numbers. Bounding box data represents a rectangular region in arbitrary dimension, that is described by a \ac{CRS}.
 
 	TODO: Überleitungssatz zum Matlab-WPS
-\section{Matlab WPS}
+\chapter{Matlab WPS}
 	MATLAB\fu{http://www.mathworks.com/products/matlab/} is a closed source, commercial software by The MathWorks, Inc. for numerical computation, visualization and programming. It features a high-level programming language as well as an cross-platform (Windows, Linux and Mac OS X) interactive desktop environment. Initially developed for matrix computations (hence \emph{MAT}rix \emph{LAB}oratory)\fu{http://www.mathworks.com/company/newsletters/articles/the-origins-of-matlab.html}, today MATLAB is widespread across different domains in academics, engineering and industry. The base program is extensible using so called \emph{toolboxes}, that add functionalities for various domains, like statistics, curve fitting, neural networks, image processing, economics, bioinformatics or signal processing. Besides that, functions, algorithms, files or toolboxes can be installed using \emph{Matlab Central}, a repository of user contributions, mostly licensed under the two-clause BSD license\fu{http://opensource.org/licenses/bsd-license.php}\fu{http://www.mathworks.com/matlabcentral/FX_transition_faq.html}.
 
 	Creating a specific \ac{WPS} process implementation for the Lake Analyzer would be possible, but considering the wide spread usage of MATLAB based scripts and applications, a generic solution, that enables the easy deployment of MATLAB based functionalities as \acl{WPS} processes would have a huge benefit for the geospatial community as well as for the the acceptance of the \ac{WPS} across disciplines. A generic \emph{MATLAB WPS} would not only open the Lake Analyzer for an interoperable usage in existing web processing chains, but would also make existing models and algorithms implemented in MATLAB instantly available to a larger audience and can increase reusability of software components and exchange between different areas of research, development and business.
@@ -88,8 +88,9 @@
 					 caption={MATLAB example function that calculates statistical characteristics (mean and standard deviation) of an input vector.},
 					 float=!htb,language=Matlab]{listings/matlab-stat-function.m}
 
-	\subsection{Architecture}
-		The MATLAB WPS features a multi-tier architecture to offer MATLAB functions as \acl{WPS} processes. A detailed sequence diagram depicting a MATLAB WPS process execution can be seen in Figure~\ref{fig:sd:mwps}. An incoming WPS \emph{Execute} request is accepted by the MATLAB WPS (\hyperref[fig:sd:mwps]{step~1}). The \emph{Execute} request is verified (e.g. no missing inputs, inputs within the range described by the process description, etc.) and then translated into a MATLAB request (\hyperref[fig:sd:mwps]{step~2}). This request is send via a WebSocket connection to a configured MATLAB server (\hyperref[fig:sd:mwps]{step~3})\textcolor{red}{\dots WebSockets??? \dots}. The MATLAB server maintains a pool of MATLAB instances and will dispatch the request to one of these as soon as one becomes available (\hyperref[fig:sd:mwps]{step~4}). The instance translates the MATLAB request into a function call (\hyperref[fig:sd:mwps]{step~5}) and evaluates the function call in an associated MATLAB session. After this (\hyperref[fig:sd:mwps]{step~6}), the return values are read from the session (\hyperref[fig:sd:mwps]{step~7}) and encoded as a MATLAB response (\hyperref[fig:sd:mwps]{step~8}). It is then passed to through the MATLAB server (\hyperref[fig:sd:mwps]{step~9}) to the MATLAB WPS (\hyperref[fig:sd:mwps]{step~10}). The MATLAB WPS process translates the MATLAB response to a WPS \emph{Execute} response (\hyperref[fig:sd:mwps]{step~11}) and returns it to the client (\hyperref[fig:sd:mwps]{step~12}).
+	\section{Architecture}
+		The MATLAB WPS features a multi-tier architecture to offer MATLAB functions as \acl{WPS} processes. A detailed sequence diagram depicting a MATLAB WPS process execution can be seen in Figure~\ref{fig:sd:mwps}. An incoming WPS \emph{Execute} request is accepted by the MATLAB WPS (\hyperref[fig:sd:mwps]{step~1}). The \emph{Execute} request is verified (e.g. no missing inputs, inputs within the range described by the process description, etc.) and then translated into a MATLAB request (\hyperref[fig:sd:mwps]{step~2}). This request is send via a WebSocket connection to a configured MATLAB server (\hyperref[fig:sd:mwps]{step~3}). The MATLAB server maintains a pool of MATLAB instances and will dispatch the request to one of these as soon as one becomes available (\hyperref[fig:sd:mwps]{step~4}). The instance translates the MATLAB request into a function call (\hyperref[fig:sd:mwps]{step~5}) and evaluates the function call in an associated MATLAB session. After this (\hyperref[fig:sd:mwps]{step~6}), the return values are read from the session (\hyperref[fig:sd:mwps]{step~7}) and encoded as a MATLAB response (\hyperref[fig:sd:mwps]{step~8}). It is then passed to through the MATLAB server (\hyperref[fig:sd:mwps]{step~9}) to the MATLAB WPS (\hyperref[fig:sd:mwps]{step~10}). The MATLAB WPS process translates the MATLAB response to a WPS \emph{Execute} response (\hyperref[fig:sd:mwps]{step~11}) and returns it to the client (\hyperref[fig:sd:mwps]{step~12}).
+
 		\begin{figure}[!htb]
 			\centering
 			\includegraphics[width=0.6788732394366197\textwidth]{figures/sequence-diagramm-mwps.pdf}
@@ -134,9 +135,9 @@
 			\end{itemize}
 		\end{itemize}
 
-	\subsection{Configuration}
+	\section{Configuration}
 		\label{sec:matlab:conf}
-		Because of the aforementioned problems regarding comment annotations, the MATLAB WPS features another configuration mechanism. Process configurations are conveyed using YAML \citep{yaml}, which facilitate a particular human-readable syntax. It allows easy structuring of data without delimiters like quotations or braces, while optionally allowing these. The structure of YAML has close resemblance with JSON (which is actually a valid subset of YAML since version 1.2), feature the basic types of scalars, sequences and associative arrays (maps), but has features, that make it more expressive. This includes comments, multi-line strings, references, multi-document files, sets, complex key types for maps, ordered/unordered maps and maps that allow duplicate keys.
+		Because of the aforementioned problems regarding comment annotations, the MATLAB WPS features another configuration mechanism. Process configurations are conveyed using YAML \citep{yaml}, which facilitate a particular human-readable syntax. It allows easy structuring of data without delimiters like quotations or braces, while optionally allowing these. The structure of YAML has close resemblance with JSON (which is actually a valid subset of YAML since version 1.2) and features the same basic types of scalars, sequences and associative arrays (maps), but has features, that make it more expressive. This includes comments, multi-line strings, references, multi-document files, sets, complex key types for maps, ordered/unordered maps and maps that allow duplicate keys.
 		\lstinputlisting[language=YAML,float=!htb,
 						 label={lst:matlab:example:yaml},
 						 caption={Matlab process configuration describing the function in Listing \ref{lst:matlab:example:fun}.},
@@ -151,7 +152,7 @@
 		The keyword \emph{connection} denotes how the function should be executed. The keyword \emph{local} will cause the MATLAB WPS to start a pool of MATLAB instance in the current working directory. The function has to be either at this path or at any other path searched by MATLAB. Other possible values for \emph{connection} are URIs in the \emph{ws}, \emph{wss} or \emph{file} scheme. The latter will start a connection pool inside the specified directory, while a WebSocket URL will cause the MATLAB WPS to connect to the remote server and will run the function there. In both cases the file containing the function has to be able to be found in the MATLAB search path.
 
 		Through the very clear and concise YAML notation, complex process description can be easily written in an human readable format, that is way easier to maintain than custom annotations in in line comments. It results in a less error prone procedure for unexperienced domain experts, while advanced users are able to benefit from advanced YAML features and future enhancements and additions can be easily implemented backwards compatible.
-	\subsection{Type Mapping}
+	\section{Type Mapping}
 		\label{sec:matlab:type}
 		\begin{table}[!htb]
 			\sffamily\centering
@@ -184,15 +185,15 @@
 				\bottomrule
 			\end{tabular}
 		\end{table}
-	\subsection{Pooling}
+	\section{Pooling}
 	\begin{itemize}
 		\item matlab instances are pooled
 		\item reduced starting time of instances
 		\item limitation of instances
 	\end{itemize}
-	\subsection{License Issues}
+	\section{License Issues}
 		\textsc{Matlab} usage is, as any software, restricted by the softwares license. \textsc{Matlab} is a proprietary and commercial product and a such the software and its usage is more restricted than e.g. a open source software such as GNU R. Relevant for the \textsc{Matlab} WPS is section 4.8 of \emph{The MathWorks, Inc. Software License Agreement} \citep{matlablicense}:
-		\begin{quote}\itshape
+		\begin{quote}\itshape\small
 			4. LICENSE RESTRICTIONS.  The License is subject to the express restrictions
 			set forth below. Licensee shall not, and shall not permit any Affiliate or any
 			Third Party to:
@@ -204,7 +205,7 @@
 
 		As the \textsc{Matlab} WPS offers \textsc{Matlab} functionalities through a web service interface, the usage is highly restricted, as the referenced \emph{Deployment Addendum} \citep{matlablicense} states:
 
-		\begin{quote}\itshape
+		\begin{quote}\itshape\small
 			8. WEB APPLICATIONS.  Licensee may not provide access to an entire Program or a substantial portion of a Program by means of a web interface.
 
 			For the Network Concurrent User Activation Type.  Programs licensed under the Network Concurrent User Activation Type may be called via a web application, provided the web application does not provide access to the MATLAB command line, or any of the licensed Programs with code generation capabilities.  In addition, Licensed Users may not provide access to an entire Program or a substantial portion of a Program.  Such operation of an application via a web interface may be provided to an unlimited number of web browser clients, at no additional cost, for Licensee's own use for its Internal Operations, and for use by Third Parties.
@@ -217,10 +218,10 @@
 		Only the \emph{Network Concurrent User Activation Type} is allowed to offer \textsc{Matlab} scripts and functions as long it does not offer access to the \textsc{Matlab} command line interface. \emph{Network and Standalone Named User} license types require additional authentication mechanism in place in order to restrict the access to the web application. As the \textsc{Matlab} WPS does not offer the possibility to access the \textsc{Matlab} command line interface or substantial portion of \textsc{Matlab}, but restricts access to configured \textsc{Matlab} function calls, customers owning a license of the first type are allowed to deploy a \ac{WPS} offering \textsc{Matlab} processes to a open network, while users of the second class of licenses are still allowed to deploy them with an additional authentication mechanism. Using a pool of \textsc{Matlab} instances on a remote server on the other hand introduce additional problems in regard of the license. In theory these \textsc{Matlab} can be used to perform about any function call, and thus provide access to the \textsc{Matlab} command line interface. Even though the access is restricted to simple function calls and does not allow variable declaration, nested function calls or function definition, it may be considered a license violation the deploy this infrastructure in a public environment.
 
 		A conclusive analysis of the legal implications of the system is out of the scope of this thesis, but certainly should be done before a system facilitating the \textsc{Matlab} WPS or any of its components is deployed in a public or productive environment.
-	\subsection{Implementation}
+	\section{Implementation}
 
-	\subsection{Lake-Analyzer WPS}
-\section{Streaming WPS}
+	\section{Lake-Analyzer WPS}
+\chapter{Streaming WPS}
 	% dataset vs. data set
 	In contrast to conventional data processing, such as the method used in the \ac{WPS}, streaming processing approaches show considerable benefits. Regarding to time efficiency and with reference to the already mentioned problems of processing substantial large data sets or live data, the development of a streaming enabled \ac{WPS} seems to be of great value.
 
@@ -262,7 +263,7 @@
 
 	The following sections should introduce a approach for a Streaming \ac{WPS}, that will fulfill the above requirements. As seen in previous approaches the constraints imposed by the \ac{WPS} specification are too strict to implement a streaming enabled WPS fulfilling the requirements, that is compatible to the standard. Previous solutions compromised functionality for sake of (incomplete) compatibility with the inflexible standard. In order to enable true, browser compatible, streaming this approach will break out of the constraining \ac{WPS} standard and develop a message based architecture using WebSockets to accomplish true full-duplex streaming of data while reusing terminology and technology specified by the \ac{WPS} specification.
 
-\subsection{Protocol}
+\section{Protocol}
 	As the the \ac{WPS} specification is not flexible enough to model a full streaming scenario, the \ac{WPS} has to be bypassed. For this a more flexible interaction model was developed, that extends the conventional processing approach. This protocol is message based and enables full-duplex stream processing of spatiotemporal data. A \emph{streaming enabled algorithm} is a \ac{WPS} algorithm that supports the here defined protocol while a \emph{streaming process} is the identifiable instance of an algorithm, created by executing the streaming enabled algorithm using the \ac{WPS} Execute operation. The streaming process is the core of the Streaming \ac{WPS} and receives subsequent inputs and will emit intermediate results. While the execution of the streaming enabled algorithm is fully supported by the \ac{WPS} specification, all interaction with the streaming process is not part of the standard. To communicate with the streaming process, the client needs information on how to connect to the process. As the \ac{WPS} specification does not allow subsequent outputs, the call of the Execute operation will return immediately to transport this information to the client, and can not persist over the lifetime of the streaming process.
 
 	To enable a full duplex communication with the streaming process WebSockets will be used to transport messages. This is needed to \emph{push} messages to clients instead of letting the clients constantly request updates.
@@ -295,7 +296,7 @@
 
 	The protocol also enables the chaining of processing steps. This can be realized in two ways: a delegate itself may represent a \ac{WPS} process chain and thus chain every processing step or several streaming process are chained itself. A simple mediator translating input messages to output messages (see Figure~\ref{fig:sd:chain}). This mediator can be realized using a dedicated streaming enabled algorithm accepting a input/output mapping and the connection parameters of the streaming processes to connect. After requesting the outputs of the source streaming process it can translate every output message to an input message and forward the stop message. A receiving client will simply connect to the second streaming process and will received the data process by the chain. By requesting the outputs first streaming process even intermediate result of the chain are accessible.
 
-	\subsection{Messages}
+	\section{Messages}
 		\label{sec:streaming:messages}
 		To fulfill the above defined protocol several messages have to be exchanged between sender, streaming process and receiver. In order to correlate input and outputs or to show the source of an error, the message format has to have a concept of message references. WebSockets do not have such a concept as it is only a thin layer on top of TCP, that introduces handshake and addressing mechanism to be compatible with HTTP and a minimal framing of messages. This framing is merely needed to establish a message-based instead of a stream-based protocol, as the latter would make it hard to differentiate between individual messages \citep{ietf:rfc6455}. To enable referencing of messages, and by this a asynchronous reply mechanism, another layer is needed. As the \ac{WPS} is mostly based on \ac{XML}, the message format should also be \ac{XML} based. This enables the usage of large parts of the \ac{WPS} schema and allows the reuse of many components written to interact with the \ac{WPS}.
 
@@ -338,10 +339,10 @@
 							 caption={[Example for a Streaming WPS description message.]Example for a Streaming WPS description message (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
 							 float=!htb,language=XML]{listings/streaming-message-description.xml}
 
-	\subsection{Input Types}
+	\section{Input Types}
 		\label{sec:streaming:input}
 		The aforementioned requirements imply three different types of input for a Streaming Process. They differ in the aspect of time (\emph{When are they supplied?}) and scope (\emph{Where are they used?}). Besides that all of them are based on the very same input types the \ac{WPS} standard defines (see section \ref{sec:wps}).
-		\subsubsection{Streaming Inputs}
+		\subsection{Streaming Inputs}
 			\label{sec:streaming:input:streaming}
 			The first and most obvious type of input are streaming inputs. They are provided for a single streaming iteration and will only be used in that iteration representing the core of streaming enabled processing (see Listing \ref{lst:streaming:input:streaming}).
 
@@ -352,7 +353,7 @@
 
 			A conventional algorithm to compute the histogram of a raster (e.g. a satellite image) needs the complete raster as a single complex input for processing. A streaming enabled variant would split the raster in several smaller tiles and supply each of them in a single input message to the streaming process. The algorithm can process each tile on it's own and update the global histogram. Besides that the process does not have to store the complete raster, it is also able to output intermediate histograms to the client.
 
-		\subsubsection{Static Inputs}
+		\subsection{Static Inputs}
 			\label{sec:stream:input:static}
 			Algorithms that operate on a streaming input often need inputs that are common to every iteration. It would be redundant and inefficient to transfer inputs like configuration parameters in every input message for every streaming iteration. For this, the concept of static inputs needs to be introduced. Static inputs are parameters that are supplied when a streaming process is created and apply to every streaming iteration (see Listing \ref{lst:streaming:input:static}). While the streaming process handles a streaming iteration, the static inputs are merged with the inputs of the causing input message and transparently supplied to the process's delegate. This way a conventional process can be easily converted into a streaming enabled process.
 
@@ -362,7 +363,7 @@
 
 			For example, a traditional process implementation of the Douglas–Peucker algorithm \citep{douglas1973algorithms} would require a feature collection and a $\epsilon$ value as inputs. In a streaming environment, one would model the $\epsilon$ input as a static input supplied at process creation and stream the feature collection as single features in streaming inputs. Other examples are a coordinate transformation process, that accepts a feature collection and a target \ac{CRS} or a buffer algorithm that accepts a feature collection and a buffer size. Buffer size and \ac{CRS} would be supplied as static inputs and the feature collection would be split into several streaming inputs and supplied in independent streaming iterations.
 
-		\subsubsection{Reference Inputs}
+		\subsection{Reference Inputs}
 			\label{sec:stream:input:reference}
 			While streaming offers no real benefit to algorithms that require global knowledge of the data set, there are often cases where algorithms only require knowledge about few other chunks of the dataset or even only about the result of their processing. To model these dependencies between streaming iterations, reference inputs can be used (see Listing \ref{lst:streaming:input:reference}). These reference the output of another, previous or upcoming, iteration as an input parameter. Reference inputs break out of the conventional non-random access paradigm of streaming and allow a semi-random access processing of a data set. Inputs are described by referencing the corresponding output identifier and the input message that has or will produce the output data. The order of incoming input messages is irrelevant to the use of reference inputs, as input messages referencing not yet available outputs will be delayed until they can processed (see section \ref{sec:stream:dependencies}).
 
@@ -371,7 +372,7 @@
 							 float=!htb,language=XML]{listings/streaming-input-reference.xml}
 
 			A conventional algorithm to analyze a river system, in which each processing of a river depends on the processing results of the rivers flowing into it, the complete river system data set would be supplied as a single input parameter. In a streaming enabled process, each river would be supplied as a streaming input. The output of the rivers a river depends on would be supplied as additional reference inputs.
-		\subsubsection{Polling inputs}
+		\subsection{Polling inputs}
 			\label{sec:stream:input:polling}
 			The last category of possible input types for a streaming \ac{WPS} are polling inputs. These inputs are continuously polled from an external resource and a new streaming iteration would be started, when new inputs become available. Polling inputs would be supplied at process creation time and would contain a reference to an external resource, that is requested continuously. To not miss inputs, when they become available a playlist file, as described in previous approaches \citep{foerster2012live} would be need. The implementation of polling inputs as part of this streaming \ac{WPS} specification would present the very same issues, that were criticized in previous approaches. How one can define the polling frequency used to retrieve the playlist, how can multiple polling inputs be declared, and how would they be combined by the streaming \ac{WPS}? For this reason the Streaming \ac{WPS} will not implement polling inputs. These input types are by far better handled on client side, as the client typical knows of the rate data becomes available and so can choose a appropriate polling frequency and also is able to coordinate multiple polling inputs by having a deeper understanding of their affiliation. Polling inputs could be implemented as shown in Figure \ref{fig:sd:polling}: the client polls a data provider (e.g. a \ac{SOS}) to check if new data is available and convert this data into a streaming input for the Streaming \ac{WPS}.
 			% TODO SES/SAS/etc?
@@ -381,7 +382,7 @@
 				\caption{\label{fig:sd:polling} Sequence diagram of how to implement polling inputs for a streaming enabled WPS algorithm.}
 			\end{figure}
 
-	\subsection{Dependencies}
+	\section{Dependencies}
 		\label{sec:stream:dependencies}
 		The definition of Reference Inputs in Section \ref{sec:stream:input:reference} implies a mechanism to resolve dependencies and to order the execution of streaming iterations. These are considered as tasks and can declare dependencies to other streaming iterations either by mapping an input to the output of another streaming iteration or by declaring a explicit dependency on another streaming iteration.
 
@@ -414,7 +415,7 @@
 
 		It should also be noted, that the smallest referenceable unit for a streaming process is the output of a streaming iteration. Format specific references, e.g. to a particular feature inside a feature collection, are not possible using this protocol and streaming process implementations need to be designed to not need smaller components or have to deploy a own referencing strategy (e.g. by additionally supplying an additional input to identify the feature of the referenced collection). But, as this results in superfluous transfer of data, such solutions should be avoided. One may point out, that there is now way to reference input parameters of other streaming iterations, but this use case should be already covered by the \ac{WPS}' own input reference parameters (see section \ref{sec:streaming:input}).
 
-	\subsection{Process Description}
+	\section{Process Description}
 		\label{sec:stream:processdescription}
 		The conventional process description mechanism of the \ac{WPS} is not sufficient to describe streaming processes.
 
@@ -431,7 +432,7 @@
 			\item other process description formats
 			\item differentiation between intermediate results and final result
 		\end{itemize}
-	\subsection{WPS Specification Shortcomings}
+	\section{WPS Specification Shortcomings}
 	\begin{itemize}
 		\item different procedure description format, like in the sensorweb
 		\item process instance need to be identifiable
@@ -440,7 +441,7 @@
 		\item allow different transport layers (like websockets)
 		\item allowing subsequent input parameters
 	\end{itemize}
-	\subsection{Implementation}
+	\section{Implementation}
 	\begin{itemize}
 		\item Server:
 		\begin{itemize}
@@ -455,7 +456,7 @@
 			\item may be used to start generic delegation processes
 		\end{itemize}
 	\end{itemize}
-	\subsection{Streaming Lake-Analyzer WPS}
+	\section{Streaming Lake-Analyzer WPS}
 	\begin{itemize}
 		\item simple application of the Streaming WPS and \textsc{Matlab} WPS
 		\item LakeAnalyzer may need further adjustments to allow live analysis
@@ -463,7 +464,7 @@
 		\item operate on single point in time
 		\item etc
 	\end{itemize}
-	\subsection{Limitations}
+	\section{Limitations}
 	\begin{itemize}
 		\item No input/output conversion
 		\item Only default format is requested from delegate
@@ -476,5 +477,5 @@
 			\item no replay queue
 		\end{itemize}
 	\end{itemize}
-\section{Future Work}
-\section{Conclusion}
+\chapter{Future Work}
+\chapter{Conclusion}
