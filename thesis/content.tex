@@ -202,7 +202,7 @@
 		\item limitation of instances
 	\end{itemize}
 	\section{License Issues}
-		\textsc{Matlab} usage is, as any software, restricted by the softwares license. \textsc{Matlab} is a proprietary and commercial product and a such the software and its usage is more restricted than e.g. a open source software such as GNU R. Relevant for the \textsc{Matlab} WPS is section 4.8 of \emph{The MathWorks, Inc. Software License Agreement} \citep{matlablicense}:
+		MATLAB usage is, as any software, restricted by the softwares license. MATLAB is a proprietary and commercial product and a such the software and its usage is more restricted than e.g. a open source software such as GNU R. Relevant for the MATLAB WPS is section 4.8 of \emph{The MathWorks, Inc. Software License Agreement} \citep{matlablicense}:
 		\begin{quote}\itshape\small
 			4. LICENSE RESTRICTIONS.  The License is subject to the express restrictions
 			set forth below. Licensee shall not, and shall not permit any Affiliate or any
@@ -213,7 +213,7 @@
 				Addendum;
 		\end{quote}
 
-		As the \textsc{Matlab} WPS offers \textsc{Matlab} functionalities through a web service interface, the usage is highly restricted, as the referenced \emph{Deployment Addendum} \citep{matlablicense} states:
+		As the MATLAB WPS offers MATLAB functionalities through a web service interface, the usage is highly restricted, as the referenced \emph{Deployment Addendum} \citep{matlablicense} states:
 
 		\begin{quote}\itshape\small
 			8. WEB APPLICATIONS.  Licensee may not provide access to an entire Program or a substantial portion of a Program by means of a web interface.
@@ -225,9 +225,9 @@
 			Programs licensed under any other Activation Type may not be called via a web interface.
 		\end{quote}
 
-		Only the \emph{Network Concurrent User Activation Type} is allowed to offer \textsc{Matlab} scripts and functions as long it does not offer access to the \textsc{Matlab} command line interface. \emph{Network and Standalone Named User} license types require additional authentication mechanism in place in order to restrict the access to the web application. As the \textsc{Matlab} WPS does not offer the possibility to access the \textsc{Matlab} command line interface or substantial portion of \textsc{Matlab}, but restricts access to configured \textsc{Matlab} function calls, customers owning a license of the first type are allowed to deploy a \ac{WPS} offering \textsc{Matlab} processes to a open network, while users of the second class of licenses are still allowed to deploy them with an additional authentication mechanism. Using a pool of \textsc{Matlab} instances on a remote server on the other hand introduce additional problems in regard of the license. In theory these \textsc{Matlab} can be used to perform about any function call, and thus provide access to the \textsc{Matlab} command line interface. Even though the access is restricted to simple function calls and does not allow variable declaration, nested function calls or function definition, it may be considered a license violation the deploy this infrastructure in a public environment.
+		Only the \emph{Network Concurrent User Activation Type} is allowed to offer MATLAB scripts and functions as long it does not offer access to the MATLAB command line interface. \emph{Network and Standalone Named User} license types require additional authentication mechanism in place in order to restrict the access to the web application. As the MATLAB WPS does not offer the possibility to access the MATLAB command line interface or substantial portion of MATLAB, but restricts access to configured MATLAB function calls, customers owning a license of the first type are allowed to deploy a \ac{WPS} offering MATLAB processes to a open network, while users of the second class of licenses are still allowed to deploy them with an additional authentication mechanism. Using a pool of MATLAB instances on a remote server on the other hand introduce additional problems in regard of the license. In theory these MATLAB can be used to perform about any function call, and thus provide access to the MATLAB command line interface. Even though the access is restricted to simple function calls and does not allow variable declaration, nested function calls or function definition, it may be considered a license violation the deploy this infrastructure in a public environment.
 
-		A conclusive analysis of the legal implications of the system is out of the scope of this thesis, but certainly should be done before a system facilitating the \textsc{Matlab} WPS or any of its components is deployed in a public or productive environment.
+		A conclusive analysis of the legal implications of the system is out of the scope of this thesis, but certainly should be done before a system facilitating the MATLAB WPS or any of its components is deployed in a public or productive environment.
 	\section{Implementation}
 
 	\section{Lake-Analyzer WPS}
@@ -468,7 +468,7 @@
 	\end{itemize}
 	\section{Streaming Lake-Analyzer WPS}
 	\begin{itemize}
-		\item simple application of the Streaming WPS and \textsc{Matlab} WPS
+		\item simple application of the Streaming WPS and MATLAB WPS
 		\item LakeAnalyzer may need further adjustments to allow live analysis
 		\item remove down sampling code
 		\item operate on single point in time
