@@ -1,6 +1,18 @@
 % !TEX root = ../thesis.tex
 
-\KOMAoptions{numbers=noendperiod}
+\KOMAoptions{
+  numbers=noendperiod,
+  parskip=half*,
+  footnotes=multiple,
+  toc=numberline,
+  captions=tableheading,
+}
+\usepackage{scrhack}
+
+\deffootnote[1.5em]{1.5em}{1em}{\thefootnotemark. }
+\addtokomafont{captionlabel}{\bfseries}
+\setcapmargin{10pt}
+
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -30,8 +42,6 @@
 \usepackage{multirow}
 \usepackage{multicol}
 
-\usepackage[normal-marks,punct-after]{fnpct}
-
 \usepackage{enumitem}
 \setlist{nolistsep}
 
@@ -55,10 +65,6 @@
             urlcolor=black,
             linkcolor=black,
             citecolor=black}
-
-
-
-\usepackage[margin=10pt,format=hang,labelfont={bf}]{caption}
 
 \usepackage[authoryear,round,comma,sort]{natbib}
 \bibliographystyle{plainnat}
@@ -268,7 +274,7 @@
           \vspace*{1cm}
           \textbf{\MySubject}\\
           \vspace{1cm}
-          {\LARGE\sffamily\bfseries\MyTitle}\\
+          {\huge\sffamily\bfseries\MyTitle}\\
           \vspace{1cm}
           \textbf{\MyAuthor}\\
           \mail{autermann@uni-muenster.de}\\

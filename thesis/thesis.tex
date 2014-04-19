@@ -1,21 +1,16 @@
-\documentclass[%
-		paper=a4,
-		bibliography=totoc,
-		fontsize=11pt,
-		parskip=half,
-	]{scrreprt}
+\documentclass[paper=a4,fontsize=11pt,
+			   bibliography=totoc,
+			   listof=nochaptergap,
+			   listof=notoc]{scrreprt}
 
 \input{includes/preamble}
 
-\title{Streaming Web-Services for Calculating Live Hydrological Derivatives}
-\author{Christian Autermann}
-\date{\today}
-\subject{Master Thesis}
-
 \begin{document}
-	\pagestyle{empty}
+	\title{Streaming Web-Services for Calculating Live Hydrological Derivatives}
+	\author{Christian Autermann}
+	\date{\today}
+	\subject{Master Thesis}
 	\maketitle
-	\clearpage
 
 	\pagestyle{scrplain}
 	\pagenumbering{roman}
@@ -27,23 +22,22 @@
 	\listoffigures
 	\lstlistoflistings
 	\clearpage
+
 	\pagestyle{scrheadings}
 	\pagenumbering{arabic}
 	\onehalfspacing
-	%\pretocmd{\section}{\clearpage}{}{}
 	\input{content}
-
 	\clearpage
 
 	\bibliography{thesis}
 	\clearpage
 
-	\begin{appendix}
-		\pagenumbering{Roman}
-		\input{appendix}
-	\end{appendix}
+	\appendix
+	\pagenumbering{Roman}
+	\input{appendix}
 	\clearpage
 
 	\pagenumbering{gobble}
 	\input{includes/plagiarism}
+
 \end{document}
