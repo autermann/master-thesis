@@ -13,7 +13,7 @@
 	These data products are readily available as national coverages that can either be sampled and turned into model parameters, or turned into model drivers if they are time series products.
 
 	This work shall evaluate the existing tools \citep[e.g. \la\fu{https://github.com/GLEON/Lake-Analyzer}, see][]{read2011derivation}), data models and the modeling frameworks used by USGS CIDA\fu{http://cida.usgs.gov/}.
-	Modeling runs are based on online data brokers (such as the USGS’s Geo Data Portal - GDP\fu{http://cida.usgs.gov/gdp/}) build upon Open Geospatial Consortium standards such as \ac{CSW}, \ac{WPS}, \ac{WMS} and \ac{WCS}, but still rely on local algorithms, which comprise functionality for statistical quality assurance and quality control as well as the calculation of various metrics related to the physical state of the lakes (often linked with ecosystem function or disturbance). Building standardized and flexible infrastructure for analyzing foundational data used by domain scientists is an important challenge given legacy and heterogeneous architectures.
+	Modeling runs are based on online data brokers (such as the USGS’s \ac{GDP}\fu{http://cida.usgs.gov/gdp/}) build upon \ac{OGC} standards such as \ac{CSW}, \ac{WPS}, \ac{WMS} and \ac{WCS}, but still rely on local algorithms, which comprise functionality for statistical quality assurance and quality control as well as the calculation of various metrics related to the physical state of the lakes (often linked with ecosystem function or disturbance). Building standardized and flexible infrastructure for analyzing foundational data used by domain scientists is an important challenge given legacy and heterogeneous architectures.
 	Therefore building on the existing infrastructure and corresponding demands of the use case shall be considered.
 
 	One approach for a scalable system is to move the modeling to a web-based processing framework, which should rely on public and interoperable standards in the given use case.
@@ -61,9 +61,9 @@
 
 	The \ac{WPS} describes three basic types of input and output parameters: \emph{literal}, \emph{complex} and \emph{bounding box} parameters. Complex data parameters are data structures that can be described by a mime type, an encoding and a schema. They can represent raster data, XML structures such as GML feature collections, CSV or any other type of data. This data can be supplied embedded in XML or as a reference to an external HTTP resource. Referenced complex data structures may be requested using HTTP GET or POST and can transport HTTP headers and any body payload (or reference to one). By this chaining of \ac{WPS} processes can easily be implemented, either by referencing a previous generated output or even by encoding another \emph{Execute} call into the reference. Literal data is data, that can be represented by a single string value. The value is described by a data type and can be accompanied by a unit of measurement. Typical data types include single strings, URIs, boolean values, dates and integral or decimal numbers. Bounding box data represents a rectangular region in arbitrary dimension, that is described by a \ac{CRS}.
 
-	TODO: Überleitungssatz zum Matlab-WPS
+	TODO: Überleitungssatz zum Matlab-WPS \dots
 \chapter{Matlab WPS}
-	MATLAB\fu{http://www.mathworks.com/products/matlab/} is a closed source, commercial software by The MathWorks, Inc. for numerical computation, visualization and programming. It features a high-level programming language as well as an cross-platform (Windows, Linux and Mac OS X) interactive desktop environment. Initially developed for matrix computations (hence \emph{MAT}rix \emph{LAB}oratory)\fu{http://www.mathworks.com/company/newsletters/articles/the-origins-of-matlab.html}, today MATLAB is widespread across different domains in academics, engineering and industry. The base program is extensible using so called \emph{toolboxes}, that add functionalities for various domains, like statistics, curve fitting, neural networks, image processing, economics, bioinformatics or signal processing. Besides that, functions, algorithms, files or toolboxes can be installed using \emph{Matlab Central}, a repository of user contributions, mostly licensed under the two-clause BSD license\fu{http://opensource.org/licenses/bsd-license.php}\fu{http://www.mathworks.com/matlabcentral/FX_transition_faq.html}.
+	MATLAB\fu{http://www.mathworks.com/products/matlab/} is a closed source, commercial software by The MathWorks, Inc. for numerical computation, visualization and programming. It features a high-level programming language as well as an cross-platform (Windows, Linux and Mac OS X) interactive desktop environment. Initially developed for matrix computations (hence \emph{MAT}rix \emph{LAB}oratory)\fu{http://www.mathworks.com/company/newsletters/articles/the-origins-of-matlab.html}, today MATLAB is widespread across different domains in academics, engineering and industry. The base program is extensible using so called \emph{toolboxes}, that add functionalities for various domains, like statistics, curve fitting, neural networks, image processing, economics, bioinformatics or signal processing. Besides that, functions, algorithms, files or toolboxes can be installed using \emph{MATLAB Central}, a repository of user contributions, mostly licensed under the two-clause BSD license\fu{http://opensource.org/licenses/bsd-license.php}\fu{http://www.mathworks.com/matlabcentral/FX_transition_faq.html}.
 
 	Creating a specific \ac{WPS} process implementation for the \la would be possible, but considering the wide spread usage of MATLAB based scripts and applications, a generic solution, that enables the easy deployment of MATLAB based functionalities as \acl{WPS} processes would have a huge benefit for the geospatial community as well as for the the acceptance of the \ac{WPS} across disciplines. A generic \emph{MATLAB WPS} would not only open the \la for an interoperable usage in existing web processing chains, but would also make existing models and algorithms implemented in MATLAB instantly available to a larger audience and can increase reusability of software components and exchange between different areas of research, development and business.
 	Considering the diversified fields, MATLAB is used in, a software component such as a MATLAB WPS can not assume a extensive programming experience beyond MATLAB. Domain expert developing models or algorithms in MATLAB should be able to offer a MATLAB script or function as a \ac{WPS} process using a simple and straightforward procedure, without any knowledge of other programming languages or an comprehensive expertise in web services or their development. To accomplish this, no switch from MATLAB to other languages should be needed and rather complex and verbose process descriptions should not be manually be written, but automatically generated. A key goal of the MATLAB WPS to expose existing models and algorithms as \ac{WPS} processes and so the procedure to convert a MATLAB script or function should not require intrusive changes to be compatible with the MATLAB WPS.
@@ -125,7 +125,7 @@
 		\lstinputlisting[label={lst:matlab:example:desc},
 						 caption={[Process description generated from the configuration in Listing \ref{lst:matlab:example:yaml}.]Process description generated from the configuration in Listing \ref{lst:matlab:example:yaml} (see Appendix \ref{sec:xmlnamespaces} for omitted XML namespaces).},
 						 float=!htb,language=XML]{listings/matlab-stat-process-description.xml}
-	 	Top level attributes are describing the process itself, while \emph{inputs} holds a sequence of input descriptions and \emph{outputs} a sequence of output description in the very same order, the function is defined. The function to describe is denoted by the keyword \emph{function}. \emph{identifier}, \emph{title} and \emph{description} are directly mapped to their to their equivalent in the \ac{OGC} name space. \emph{maxOccurs} holds either a integral number or the special value \emph{unbounded}, that will be translated to the platform specific maximum possible value (typically the greatest possible integer value) and data types are translated to their respective XML data type. Complex data types can be described using a map containing a combination of \emph{mimeType}, \emph{schema} and \emph{encoding}.
+	 	Top level attributes are describing the process itself, while \emph{inputs} holds a sequence of input descriptions and \emph{outputs} a sequence of output description in the very same order, the function is defined. The function to describe is denoted by the keyword \emph{function}. \emph{identifier}, \emph{title} and \emph{description} are directly mapped to their to their equivalent in the \ac{OGC} name space. \emph{maxOccurs} holds either a integral number or the special value \emph{unbounded}, that will be translated to the platform specific maximum possible value (typically the greatest possible integer value) and data types are translated to their respective XML data type. Complex data types can be described using a map containing a combination of \emph{mimeType}, \emph{schema} and \emph{encoding}.Bounding box inputs are described using a map containing the keyword \emph{crs}, that holds one more supported \ac{CRS}.
 
 		The keyword \emph{connection} denotes how the function should be executed. The keyword \emph{local} will cause the MATLAB WPS to start a pool of MATLAB instance in the current working directory. The function has to be either at this path or at any other path searched by MATLAB. Other possible values for \emph{connection} are URIs in the \emph{ws}, \emph{wss} or \emph{file} scheme. The latter will start a connection pool inside the specified directory, while a WebSocket URL will cause the MATLAB WPS to connect to the remote server and will run the function there. In both cases the file containing the function has to be able to be found in the MATLAB search path.
 
@@ -154,7 +154,7 @@
 		\begin{table}[!htb]
 			\sffamily
 			\centering
-			\caption{\label{tab:matlab:typemapping}Mapping between WPS data types and MATLAB types. Absent optional parameters are denoted by \emph{NaN} ($1\times1$).}
+			\caption[Mapping between WPS data types and MATLAB types.]{\label{tab:matlab:typemapping}Mapping between WPS data types and MATLAB types. Absent optional parameters are denoted by \emph{NaN} ($1\times1$).}
 			\begin{tabular}{@{}llcc@{}}
 				\toprule\toprule
 				&
@@ -428,7 +428,7 @@
 		Dependencies are of particular importance in case of execution failures. If the computation of a streaming iteration fails for whatever reason, all iterations, that directly or indirectly depend on this iteration can not complete. As this also holds true for iterations, that are supplied at a later time in the streaming process, the process can not proceed ignoring the error. Due to this every error that occurs during the execution of a streaming iteration result in the termination of the streaming process.
 		Dependencies also have a special meaning at the end of a streaming process, when a stop message is sent to notify the streaming process to accept no further inputs and finish pending streaming iterations. At this point all dependencies need to be able to be satisfied, which implies that all referenced input messages have been sent to the streaming process. In case a referenced input message the service is not able to complete gracefully and fail. As references to future streaming iterations are allowed, prior to this point, it is not possible for the Streaming \ac{WPS} to determine if reference may not be fulfilled. As the service is not able to fail fast for incorrect references, clients using dependencies between streaming iterations have to pay careful attention to references.
 
-		It should also be noted, that the smallest referenceable unit for a streaming process is the output of a streaming iteration. Format specific references, e.g. to a particular feature inside a feature collection, are not possible using this protocol and streaming process implementations need to be designed to not need smaller components or have to deploy a own referencing strategy (e.g. by additionally supplying an additional input to identify the feature of the referenced collection). But, as this results in superfluous transfer of data, such solutions should be avoided. One may point out, that there is no way to reference input parameters of other streaming iterations, but this use case should be already covered by the \ac{WPS}' own input reference parameters (see section \ref{sec:streaming:input}).
+		It should also be noted, that for a streaming process the smallest unit, that can be referenced, is the output of a streaming iteration. Format specific references, e.g. to a particular feature inside a feature collection, are not possible using this protocol and streaming process implementations need to be designed to not need smaller components or have to deploy a own referencing strategy (e.g. by additionally supplying an additional input to identify the feature of the referenced collection). But, as this results in superfluous transfer of data, such solutions should be avoided. One may point out, that there is no way to reference input parameters of other streaming iterations, but this use case should be already covered by the \ac{WPS}' own input reference parameters (see section \ref{sec:streaming:input}).
 
 	\section{Process Description}
 		\label{sec:stream:processdescription}
@@ -449,11 +449,11 @@
 		\end{itemize}
 	\section{WPS Specification Shortcomings}
 	\begin{itemize}
-		\item different procedure description format, like in the sensorweb
+		\item different procedure description format, like in the SensorWeb
 		\item process instance need to be identifiable
-		\item WSDL like description language of wps processes
-		\item differentiation between continous outputs and final results
-		\item allow different transport layers (like websockets)
+		\item WSDL like description language of WPS processes
+		\item differentiation between continuous outputs and final results
+		\item allow different transport layers (like WebSockets)
 		\item allowing subsequent input parameters
 	\end{itemize}
 	\section{Implementation}
@@ -461,7 +461,7 @@
 		\item Server:
 		\begin{itemize}
 			\item based on the 52°North WPS
-			\item includeable module
+			\item module, that can be included
 			\item default implementation uses another WPS process as delegate
 		\end{itemize}
 		\item Client
