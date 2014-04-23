@@ -1,7 +1,5 @@
 ---
-connection:
-  host: localhost
-  port: 7000
+connection: ws://localhost:7000
 identifier: org.gleon.LakeAnalyzer
 version: 1.0.0
 title: Lake Analyzer

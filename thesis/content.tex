@@ -84,16 +84,16 @@
 
 	\dots
 
-	In contrast to R, MATLAB offers multiple return values of functions as a native language feature. Through this MATLAB functions are able to directly represent a \ac{WPS} process and the MATLAB WPS should use MATLAB functions instead of scripts to offer functionalities as WPS processes. As stated before, MATLAB is a weakly and dynamically typed language, and parsing of the function signature can not create a statically typed binding as the \ac{WPS} standard requires. For this an additional description mechanism has to be developed, that allows the semi-automatically generation of process descriptions. This should be done without extensive knowledge of web service development or programming languages and the deployment of existing MATLAB functions should be a straightforward non-intrusive process. Similar to R, MATLAB instances are single threaded, and so can only process one WPS process execution a time, moreover, and contrary to R, opening the MATLAB workbench even in in a headless mode (without any user interface) can take considerable time. This requires a effective usage MATLAB instance, especially the reuse of already started MATLAB instances to reduce latency of process executions. Complex inputs should be usable inside of MATLAB without restriction to any format, and without the need to change any configuration files.
-
-	\dots This chapter will outline the conceptualization and implementation of a MATLAB WPS \dots
+	In contrast to R, MATLAB offers multiple return values of functions as a native language feature (see Listing \ref{lst:matlab:example:fun}). Through this MATLAB functions are able to directly represent a \ac{WPS} process and the MATLAB WPS should use MATLAB functions instead of scripts to offer functionalities as WPS processes. As stated before, MATLAB is a weakly and dynamically typed language, and parsing of the function signature can not create a statically typed binding as the \ac{WPS} standard requires. For this an additional description mechanism has to be developed, that allows the semi-automatically generation of process descriptions. This should be done without extensive knowledge of web service development or programming languages and the deployment of existing MATLAB functions should be a straightforward non-intrusive process. Similar to R, MATLAB instances are single threaded, and so can only process one WPS process execution a time, moreover, and contrary to R, opening the MATLAB workbench even in in a headless mode (i.e. without any user interface) can take considerable time. This requires a effective usage MATLAB instance, especially the reuse of already started MATLAB instances to reduce latency of process executions. Complex inputs should be usable inside of MATLAB without restriction to any format, and without the need to change any configuration files.
 
 	\lstinputlisting[label={lst:matlab:example:fun},
-					 caption={MATLAB example function that calculates statistical characteristics (mean and standard deviation) of an input vector.},
+				 	 caption={MATLAB example function that calculates statistical characteristics (mean and standard deviation) of an input vector.},
 					 float=!htb,language=Matlab]{listings/matlab-stat-function.m}
 
+  	\dots This chapter will outline the conceptualization and implementation of a MATLAB WPS \dots
+
 	\section{Architecture}
-		The MATLAB WPS features a multi-tier architecture to offer MATLAB functions as \acl{WPS} processes. A detailed sequence diagram depicting a MATLAB WPS process execution can be seen in Figure~\ref{fig:sd:mwps}. An incoming WPS \emph{Execute} request is accepted by the MATLAB WPS (\hyperref[fig:sd:mwps]{step~1}). The \emph{Execute} request is verified (e.g. no missing inputs, inputs within the range described by the process description, etc.) and then translated into a MATLAB request (\hyperref[fig:sd:mwps]{step~2}). This request is send via a WebSocket connection to a configured MATLAB server (\hyperref[fig:sd:mwps]{step~3}). The MATLAB server maintains a pool of MATLAB instances and will dispatch the request to one of these as soon as one becomes available (\hyperref[fig:sd:mwps]{step~4}). The instance translates the MATLAB request into a function call (\hyperref[fig:sd:mwps]{step~5}) and evaluates the function call in an associated MATLAB session. After this (\hyperref[fig:sd:mwps]{step~6}), the return values are read from the session (\hyperref[fig:sd:mwps]{step~7}) and encoded as a MATLAB response (\hyperref[fig:sd:mwps]{step~8}). It is then passed to through the MATLAB server (\hyperref[fig:sd:mwps]{step~9}) to the MATLAB WPS (\hyperref[fig:sd:mwps]{step~10}). The MATLAB WPS process translates the MATLAB response to a WPS \emph{Execute} response (\hyperref[fig:sd:mwps]{step~11}) and returns it to the client (\hyperref[fig:sd:mwps]{step~12}).
+		The MATLAB WPS features a multi-tier architecture to offer MATLAB functions as \acl{WPS} processes. A detailed sequence diagram depicting a MATLAB WPS process execution can be seen in Figure~\ref{fig:sd:mwps}. An incoming WPS \emph{Execute} request is accepted by the MATLAB WPS (\hyperref[fig:sd:mwps]{step~1}). The \emph{Execute} request is verified (e.g. no missing inputs, inputs within the range described by the process description, etc.) and then translated into a MATLAB request (\hyperref[fig:sd:mwps]{step~2}). This request is send via a WebSocket connection to a configured MATLAB server (\hyperref[fig:sd:mwps]{step~3}). The MATLAB server maintains a pool of MATLAB instances and will dispatch the request to one of these as soon as one becomes available (\hyperref[fig:sd:mwps]{step~4}). The instance transform the MATLAB request into MATLAB syntax (\hyperref[fig:sd:mwps]{step~5}) and evaluates MATLAB command in an associated MATLAB session. After this (\hyperref[fig:sd:mwps]{step~6}), the return values are read from the session (\hyperref[fig:sd:mwps]{step~7}) and encoded as a MATLAB response (\hyperref[fig:sd:mwps]{step~8}). It is then passed to through the MATLAB server (\hyperref[fig:sd:mwps]{step~9}) to the MATLAB WPS (\hyperref[fig:sd:mwps]{step~10}). The MATLAB WPS process translates the MATLAB response to a WPS \emph{Execute} response (\hyperref[fig:sd:mwps]{step~11}) and returns it to the client (\hyperref[fig:sd:mwps]{step~12}).
 
 		\begin{figure}[!htb]
 			\centering
@@ -101,51 +101,17 @@
 			\caption{\label{fig:sd:mwps}Sequence diagram of a MATLAB WPS process execution.}
 		\end{figure}
 
-		\lstinputlisting[float=!htb,caption={WebSocket opening handshake using a HTTP upgrade request \citep{ietf:rfc6455}.},label={lst:websocket}]{listings/websocket-handshake.txt}
-
 		Besides an option to run the MATLAB server locally, all communication between the MATLAB WPS and MATLAB server is done over WebSockets \citep{ietf:rfc6455}. WebSockets are defining a TCP-based protocol, that creates a bidirectional communication channel between client and server. A primary goal of WebSockets is to bring the benefits of efficient full-duplex communication to web browser environment. This is accomplished by an HTTP compatible socket initiation mechanism (see Listing~\ref{lst:websocket}). A client opens a new WebSocket by issuing an HTTP request to the server, in which he requires an upgrade to the WebSocket protocol. Afterwards the connection is kept open and bot client and server can send message to the opposing party. These messages are transported using one or more text or binary frames and allow an efficient bidirectional information exchange. By using HTTP for the initial handshake, WebSockets can be used in most proxy setups and despite the presence of firewalls, that filter non HTTP traffic.
 
-		Despite the opening handshake using HTTP, WebSockets do not conform to the HTTP protocol. To be sure a web server can handle WebSocket connections, the clients sends the header \emph{Sec-WebSocket-Key} in the opening request, containing 16 bytes of random data in base 64 encoding \citep{ietf:rfc4648}. The server has to append the Globally Unique Identifier \cite[GUID,][]{ietf:rfc4122} \emph{258EAFA5-E914-47DA-95CA-C5AB0DC85B11} to the header value and return the base 64 encoded SHA-1 \citep{NistFIPS1803} hash sum using the \emph{Sec-WebSocket-Accept} header field.
+		\lstinputlisting[float=!htb,caption={WebSocket opening handshake using a HTTP upgrade request \citep{ietf:rfc6455}.},label={lst:websocket}]{listings/websocket-handshake.txt}
 
-		The WebSocket protocol is accompanied with by and HTML5 JavaScript API \citep{w3c:ws}, that is implemented in all recent versions of major desktop browsers\footnote{and with the exception of Opera Mini also mobile browsers} \citep{caniuse}.
+		Despite the opening handshake using HTTP, WebSockets do not conform to the HTTP protocol. To be sure a web server can handle WebSocket connections, the clients sends the header \emph{Sec-WebSocket-Key} in the opening request, containing 16 bytes of random data in base 64 encoding \citep{ietf:rfc4648}. The server has to append the Globally Unique Identifier \cite[GUID,][]{ietf:rfc4122} \emph{258EAFA5-E914-47DA-95CA-C5AB0DC85B11} to the header value and return the base 64 encoded SHA-1 \citep{NistFIPS1803} hash sum using the \emph{Sec-WebSocket-Accept} header field. Because of the incompatibility with the HTTP protocol, WebSockets define two separate URL schemes: \emph{ws} for normal WebSocket connections and \emph{wss} for secure WebSocket connection, which resemble the HTTP and HTTPS protocol and share their default ports 80 and 443.
 
-		\begin{itemize}
-			\item matlab function <-> wps process
-			\item not format specific
-			\item no conversion of complex inputs/outputs
-			\begin{itemize}
-				\item single output formats
-			\end{itemize}
-			\item matlab program has to parse inputs
-			\item easy to publish existing scripts and functions as WPS processes
-			\item multi-tier implementation
-			\begin{itemize}
-				\item Matlab WPS
-				\begin{itemize}
-					\item Translates WPS Execute requests to Matlab client requests
-					\item Translates Matlab client responses to WPS Execute responses
-					\item configuration with YAML file to create description and translate inputs/outputs
-				\end{itemize}
-				\item Matlab Client
-				\begin{itemize}
-					\item WebSocket client to access the Matlab server.
-					\item offers simple request building API
-				\end{itemize}
-				\item Matlab Server
-				\begin{itemize}
-					\item WebSocket server that pools multiple Matlab Instances
-					\item delegates requests to free instances
-				\end{itemize}
-				\item Matlab Instance
-				\begin{itemize}
-					\item a Java wrapper around a Matlab instance
-				\end{itemize}
-				\item Matlab
-				\begin{itemize}
-					\item A headless instance of the Matlab software
-				\end{itemize}
-			\end{itemize}
-		\end{itemize}
+		The WebSocket protocol is accompanied with an HTML5 JavaScript API \citep{w3c:ws}, that is implemented in all recent versions of major desktop browsers\footnote{and with the exception of Opera Mini also mobile browsers} \citep{caniuse}. Besides that, there exist WebSocket client and server implementations for nearly all programming languages (e.g. R\fu{https://github.com/rstudio/R-Websockets}, C\fu{http://libwebsockets.org/trac/libwebsockets}, C\#\fu{http://msdn.microsoft.com/library/system.net.websockets.websocket.aspx}, Java\fu{https://jcp.org/en/jsr/detail?id=356}).
+
+		As previously noted, function calls are used as the central element of MATLAB WPS processes. Using the native language feature of multiple return values, WPS processes can be represented as MATLAB functions one to one. The MATLAB WPS is not designed to easily interface MATLAB with in WPS implementation to allow process development from within the WPS, but to allow the deployment of any MATLAB model using a WPS. Because of this, the MATLAB WPS only offers functionalities to evaluate a single function call and is not required to evaluate scripts, parse MATLAB code or maintain variable references. By this, a very thin implementation is possible and the configuration and maintenance efforts are reduced to a minimum.
+
+		The components \emph{MATLAB server} and \emph{MATLAB instance} as shown in Figure~\ref{fig:sd:mwps} are developed separately from the MATLAB WPS and can be easily used in other contexts. This \emph{matlab-connector} consists of a small Java CLI application (the server) and an associated Java client library used in the MATLAB WPS, that offers a simple \ac{API} to build MATLAB requests. The server component is started on the machine, on which MATLAB is installed and then offers a configurable amount of headless  MATLAB instances using a small WebSocket server. The MATLAB instance communicates with a \ac{JVM} exposed by the MATLAB program using a Java \ac{RMI} wrapper called \emph{matlabcontrol}\fu{https://code.google.com/p/matlabcontrol/}. As previously noted, MATLAB instances are, even in headless mode, heavy weight applications, that require a considerable amount of resources and time to start. MATLAB instances are created at server startup and are then independently used to process requests. By reusing and preallocating a fixed amount of instances, the pooling of MATLAB instances reduces latency for WPS processes and saves resources on the server machine.
 
 	\section{Configuration}
 		\label{sec:matlab:conf}
@@ -166,44 +132,74 @@
 		Through the very clear and concise YAML notation, complex process description can be easily written in an human readable format, that is way easier to maintain than custom annotations in in line comments. It results in a less error prone procedure for unexperienced domain experts, while advanced users are able to benefit from advanced YAML features and future enhancements and additions can be easily implemented backwards compatible.
 	\section{Type Mapping}
 		\label{sec:matlab:type}
+		MATLAB, like any other language, has a wide variety of data types. These include numeric types -- floating point numbers in single (\unit{32}{\bit}) and double (\unit{64}{\bit}) precision and signed and unsigned integers in \unit{8, 16, 32 and 64}{\bit} size -- logical, character/string types as well as structures, tables, cell arrays and function handles. Except for function handles, all of these types have the form of (possible multidimensional) arrays \citep{matlab}.
+
+		As previously described, the \acl{WPS} specification knows three different types of data: literal, complex and bounding box data.
+		\ac{WPS} Literal data is mostly converted to their respective native MATLAB data type, but due to limitations in the MATLAB \ac{API}, this is not always possible. The \ac{API} exposed by MATLAB transfers every numerical type as floating point numbers of double precision. By this an efficient handling of other basic data types like integral numbers or single precision floating point numbers is not possible. Within the WPS specification and implementation these data types are each handled differently, but due to the limitations exposed by the MATLAB interface, MATLAB processes have to reduce precision on their own to reduce memory usage.
+
+		Single and multiple occurrences of input parameters can be handled in MATLAB in the very same way, as every basic data type consists not only of a single value, but an array of it's type. The sole exception of this, are string based data types. These are represented as an array of characters. Placing several strings in an array results in an concatenated string and so a MATLAB \emph{cell} is used for these data types. Boolean values are represented as \emph{logical} 0 or 1 or an respective array and time stamp values are converted to their numerical representation\footnote{A double value containing the fractional number of days since the January 0, 0000.}.
+
+		Bounding box input data is mapped to a structure array consisting of the fields \emph{crs} containing the \ac{CRS} and \emph{bbox} holding a two-dimensional array with the upper and lower corner of the bounding box. This format is also expected for bounding box outputs.
+
+		Complex data is neither parsed nor converted using the MATLAB WPS. It is transferred to a temporary file and passed to the MATLAB function as a file name. For complex outputs the MATLAB functions saves them to a temporary file and returns the file name. The file is read by the MATLAB WPS and deleted, when the processes finishes. By delegating the parsing of complex data inputs to the MATLAB function, the WPS is independent from an specific data formats -- both in case of specific MATLAB classes and in case of different XML or binary encodings at the WPS end -- and can easily be adopted to existing MATLAB models.
+
+		The usage of complex outputs is currently limited to a single format. Even though the WPS specification allows the request of different formats (e.g. a raster or image can be requested as PNG, JPEG or TIFF, or a feature collection may be requested in different XML schemata), the MATLAB WPS does not offer this feature to MATLAB processes. This is owed to the MATLAB based handling of complex inputs. To  become independent of file formats and encodings, the MATLAB WPS can not be used to transform inputs or outputs between different formats. While the inputs and outputs of different format still could be created and consumed on the MATLAB process side, this possibility was neglected to ease MATLAB process development and to allow a simpler transformation of existing MATLAB models.
+
+		MATLAB lacks a value for representing the absents of an value (often denoted as \emph{null}, \emph{nil}, \emph{none} or \emph{nothing} in other programming languages). Even though MATLAB supports optional parameters in function calls, it does not support named function parameters, and a function can only interpret the amount of input parameters to determine if an optional parameter is present or not. As WPS processes can contain a multitude of optional input parameters, the value \emph{NaN} \citep{ieee:754:2008}, which represents undefined or unrepresentable numeric value and so comes closet to a null value, is used to transport absent optional input parameters, regardless of their type.
+
+		The WPS specification offers the possibility to only request specific outputs of a process. This enables the process to only compute the outputs that are really needed and thus can reduce the time needed for process executions. The MATLAB WPS currently does not this mechanism and MATLAB functions are required to compute all outputs regardless which are requested by a client.
+		%%% move this somewhere else?
+		To overcome this issue, the requested output identifiers could be saved in an globally accessible environment variable. In addition this, other contextual information could be conveyed using this method, e.g. the WPS service URL, that was used to execute the process or other meta data, that the function may use.
+
 		\begin{table}[!htb]
-			\sffamily\centering
-			\caption{\label{tab:matlab:typemapping}Type Mapping between Matlab and WPS Data}
-			\small
+			\sffamily
+			\centering
+			\caption{\label{tab:matlab:typemapping}Mapping between WPS data types and MATLAB types. Absent optional parameters are denoted by \emph{NaN} ($1\times1$).}
 			\begin{tabular}{@{}llcc@{}}
-				\toprule
+				\toprule\toprule
 				&
 				& \multicolumn{2}{b}{Matlab Type}\\
-				\cmidrule(l){3-4}
-				\multicolumn{1}{@{}b}{}
-				& \multicolumn{1}{b}{Data}
-				& \multicolumn{1}{b}{For single inputs}
-				& \multicolumn{1}{b@{}}{For multiple inputs}\\
-				\cmidrule(rl){2-2}
-				\cmidrule(rl){3-3}
-				\cmidrule(l){4-4}
-				\textbf{Complex}      & \textit{any} & String  & Cell \\\midrule
-				\textbf{Bounding Box} & -            & -       & -    \\\midrule
-				\textbf{Literal}      & xs:int       & Numeric & Array\\
-									  & xs:boolean   & Numeric & Array\\
-									  & xs:dateTime  & Numeric & Array\\
-									  & xs:double    & Numeric & Array\\
-									  & xs:float     & Numeric & Array\\
-									  & xs:byte      & Numeric & Array\\
-									  & xs:short     & Numeric & Array\\
-									  & xs:int       & Numeric & Array\\
-									  & xs:long      & Numeric & Array\\
-									  & xs:string    & String  & Cell \\
-									  & xs:anyURI    & String  & Cell \\
-				\bottomrule
+				&
+				& \multicolumn{1}{b}{Single}
+				& \multicolumn{1}{b@{}}{Multiple}\\
+				\midrule
+				%
+				\multicolumn{2}{@{}l}{\textbf{Complex Data}}
+				& char ($1\times{}m$)
+				& cell of chars ($1\times{}n$)
+				\\
+				\midrule
+				%
+				\multicolumn{2}{@{}l}{\textbf{Bounding Box Data}} & struct ($1\times1$) & cell of structs ($1\times{}n$)\\
+				%
+				\midrule
+				\textbf{Literal Data}
+				& xs:string
+				%&
+				& \multirow{2}{*}{char ($1\times{}m$)}
+				& \multirow{2}{*}{cell of chars ($1\times{}n$)}\\
+				& xs:anyURI\\
+				\cmidrule(r){2-4}
+				& xs:byte
+				%&
+				& \multirow{7}{*}{double ($1\times1$)}
+				& \multirow{7}{*}{double ($1\times{}n$)} \\
+				& xs:short\\
+				& xs:int\\
+				& xs:long\\
+				& xs:integer\\
+				& xs:double\\
+				& xs:float\\
+				\cmidrule(r){2-4}
+				& xs:boolean & logical ($1\times1$) & logical ($1\times{}n$) \\
+				\cmidrule(r){2-4}
+				& xs:dateTime & double/datenum ($1\times1$) & double/datenum ($1\times{}n$)\\
+				\bottomrule\bottomrule
 			\end{tabular}
 		\end{table}
-	\section{Pooling}
-	\begin{itemize}
-		\item matlab instances are pooled
-		\item reduced starting time of instances
-		\item limitation of instances
-	\end{itemize}
+
+		A list of literal \citep[based on][]{w3c:xmldatatypes}, bounding box and complex data types and their mapping to MATLAB types can be seen in Table~\ref{tab:matlab:typemapping}. Structured data like structs, multidimensional arrays, cells or other objects can not be used as process outputs, as the \ac{WPS} specification lacks support for such types. A MATLAB process has to create a XML application schema or transform the structures to another file based data typed, that can be transported as WPS complex outputs.
+
 	\section{License Issues}
 		MATLAB usage is, as any software, restricted by the softwares license. MATLAB is a proprietary and commercial product and a such the software and its usage is more restricted than e.g. an open source software such as the R Project. Relevant for the MATLAB WPS is section 4.8 of \emph{The MathWorks, Inc. Software License Agreement} \citep{matlablicense}:
 		\begin{quote}\itshape\small
@@ -231,9 +227,15 @@
 		Only the \emph{Network Concurrent User Activation Type} is allowed to offer MATLAB scripts and functions as long it does not offer access to the MATLAB command line interface. \emph{Network and Standalone Named User} license types require additional authentication mechanism in place in order to restrict the access to the web application. As the MATLAB WPS does not offer the possibility to access the MATLAB command line interface or substantial portion of MATLAB, but restricts access to configured MATLAB function calls, customers owning a license of the first type are allowed to deploy a \ac{WPS} offering MATLAB processes to a open network, while users of the second class of licenses are still allowed to deploy them with an additional authentication mechanism. Using a pool of MATLAB instances on a remote server on the other hand introduce additional problems in regard of the license. In theory these MATLAB can be used to perform about any function call, and thus provide access to the MATLAB command line interface. Even though the access is restricted to simple function calls and does not allow variable declaration, nested function calls or function definition, it may be considered a license violation to deploy this infrastructure in a public environment.
 
 		A conclusive analysis of the legal implications of the system is out of the scope of this thesis, but certainly should be done before a system facilitating the MATLAB WPS or any of its components is deployed in a public or productive environment.
-	\section{Implementation}
+	\section{\la}
+		Using the generic capabilities of the MATLAB WPS, the \la can easily be exposed as a \ac{WPS} process. In it's originally form \la takes an folder and an lake name as input parameters and will search for appropriate named files in that directory. Besides CSV input files it also looks for two configuration files containing parameters for analysis and plotting of outputs. Output files are also created in that directory with appropriate names \citep{lamanual}.
 
-	\section{Lake-Analyzer WPS}
+		As this approach conflicts with the allocation of complex input parameters in temporary files by the MATLAB WPS as well as with the concept of making configuration parameters separate \ac{WPS} input parameters, the structure of the \la has to be broken up. By separating configuration and analysis in two different functions two wrapper functions can be created, that allow the execution of the \la either as a standalone program or as an WPS process. In the first case the function simply encapsulates the traditional configuration behavior by reading parameters from configuration files and using the supplied folder for input and output files. For the second case the configuration as well as the location of input files are passed as separate function arguments (see Appendix~\ref{appendix:lakeanalyzer:wrapper}) and output files are allocated in an separate folder. While the original \la does not provide any function return parameters, the WPS wrapper function returns the file names of the output files, handing control over these files to the MATLAB WPS. By encoding configuration files as distinct input parameters generic WPS clients are able to present the configuration options to the user without knowledge of specific configuration file formats.
+
+		The wrapper function is described in a separate YAML configuration file (see Appendix~\ref{appendix:lakeanalyzer:configuration}) containing the necessary meta data to publish the function as an WPS process. It assigns the function to the process identifier \emph{org.gleon.LakeAnalyzer} and expresses process input and output definitions \citep[taken from the LakeAnalyzer user manual,][]{lamanual}. As the WPS specification is not able to express dependencies between specific outputs and inputs -- and due to the fact that the MATLAB requires all outputs -- all necessary input parameters are mandatory and only the globally optional water level and salinity files are optional for the WPS process.
+
+		After loading the configuration file into the MATLAB WPS, it will create a WPS process (see Appendix~\ref{appendix:lakeanalyzer:description}) offered under the specified identifier and will direct all \emph{Execute} requests to the MATLAB server specified in the configuration file.
+
 \chapter{Streaming WPS}
 	% dataset vs. data set
 	In contrast to conventional data processing, such as the method used in the \ac{WPS}, streaming processing approaches show considerable benefits. Regarding to time efficiency and with reference to the already mentioned problems of processing substantial large data sets or live data, the development of a streaming enabled \ac{WPS} seems to be of great value.
