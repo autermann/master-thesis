@@ -3,16 +3,22 @@
 \lstset{%
   numberstyle=\ttfamily\footnotesize,
   basicstyle=\ttfamily\footnotesize\mdseries\singlespacing,
+  %lineskip={-2pt}
 }
 \KOMAoptions{chapterprefix}
 
+\chapter{Lake Analyzer Process Wrapper Function}
+\label{appendix:lakeanalyzer:wrapper}
+\lstinputlisting[nolol,language=MATLAB, morekeywords={struct},morendkeywords={Run_LA_WPS,LA},moreliterate = {...}{{\textcolor{ndkeyword}{...}}}3]{listings/lake-analyzer-wps-wrapper.m}
 
 \chapter{Lake Analyzer Process Configuration}
 \label{appendix:lakeanalyzer:configuration}
-\lstinputlisting[nolol,language=YAML,label={lst:matlab:lakeanalyzer:yaml},morekeywords={function,connection,identifier,version,inputs,outputs,type,host,port,title,abstract,mimeType,encoding,schema,unit,minOccurs,maxOccurs,values},morendkeywords={double,string,int}]{listings/lake-analyzer-wps-configuration.yaml}
+\lstinputlisting[nolol,language=YAML,label={lst:matlab:lakeanalyzer:yaml},morekeywords={function,connection,identifier,version,inputs,outputs,type,host,port,title,abstract,mimeType,encoding,schema,unit,minOccurs,maxOccurs,values}]{listings/lake-analyzer-wps-configuration.yaml}
 
 \chapter{Lake Analyzer Process Description}
+\label{appendix:lakeanalyzer:description}
 \lstinputlisting[nolol,language=XML]{listings/lake-analyzer-wps-process-description.xml}
+
 
 
 \chapter{Source Code}
