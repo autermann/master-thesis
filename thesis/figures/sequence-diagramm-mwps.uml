@@ -33,8 +33,8 @@ mwps ->> ms: Request
 activate ms
 ms -> mi: Request
 activate mi
-mi -> mi: create function\ncall
-mi -> m: fun()
+mi -> mi: create MATLAB call
+mi -> m: evaluate
 activate m
 mi <-- m:
 deactivate m
