@@ -15,12 +15,13 @@
 	\pagestyle{scrplain}
 	\pagenumbering{roman}
 	\singlespacing
-	\tableofcontents
-	\clearpage
-
-	\listoftables
-	\listoffigures
-	\lstlistoflistings
+	{
+		\renewcommand\clearpage{}
+		\tableofcontents
+		\listoffigures
+		\lstlistoflistings
+		\listoftables
+	}
 	\clearpage
 
 	\pagestyle{scrheadings}
