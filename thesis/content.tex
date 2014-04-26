@@ -435,20 +435,6 @@
 		With knowledge of the delegate process a client may have enough information to facilitate the streaming process but for other streaming process there is no way for a generic client to know the input parameters of the process.
 
 		To compensate this shortcoming a method is needed to describe a Streaming Process instance at runtime.
-		\begin{itemize}
-			\item other process description formats
-			\item differentiation between intermediate results and final result
-		\end{itemize}
-	\section{WPS Specification Shortcomings}
-	\begin{itemize}
-		\item different procedure description format, like in the SensorWeb
-		\item process instance need to be identifiable
-		\item WSDL like description language of WPS processes
-		\item differentiation between continuous outputs and final results
-		\item allow different transport layers (like WebSockets)
-		\item allowing subsequent input parameters
-	\end{itemize}
-	\section{Implementation}
 	\section{Streaming Lake-Analyzer WPS}
 	\begin{figure}
 		\centering\small
@@ -471,11 +457,25 @@
 		\caption{Calculation of the seventh Fibonacci number using the Streaming WPS and a simple addition WPS process as delegate.}
 	\end{figure}
 	\begin{itemize}
+		\item feature complete but prototypical
 		\item Server:
 		\begin{itemize}
 			\item based on the 52°North WPS
 			\item module, that can be included
+			\item besides framework to develope all kinds of streaming processes
+			\begin{itemize}
+				\item e.g. stateful
+			\end{itemize}
 			\item default implementation uses another WPS process as delegate
+			\item is able to turn every appropriate algortihm into a streaming variant
+			\item e.g. Douglas–Peucker, etc.
+			\item generic process implementation, that accepts \dots
+			\begin{itemize}
+				\item a reference to another process (URL and process description)
+				\item a list of static inputs, that will be used across process execution
+				\item returns process identifier and websocket endpoint
+			\end{itemize}
+			\item due to stateless WPS, only can create stateless streaming processes
 		\end{itemize}
 		\item Client
 		\begin{itemize}
@@ -483,27 +483,45 @@
 			\item abstracts the message generation and WebSocket interaction
 			\item may be used to start generic delegation processes
 		\end{itemize}
-	\end{itemize}
-	\section{Streaming Lake-Analyzer WPS}
-	\begin{itemize}
 		\item simple application of the Streaming WPS and MATLAB WPS
 		\item LakeAnalyzer may need further adjustments to allow live analysis
 		\item remove down sampling code
 		\item operate on single point in time
 		\item etc
 	\end{itemize}
-	\section{Limitations}
+\chapter{Discussion/Conclusion/Future Work}
 	\begin{itemize}
-		\item No input/output conversion
-		\item Only default format is requested from delegate
-		\item process will not fail fast in under every condition
+		\item limitations of WPS standard
 		\begin{itemize}
-			\item inputs first are checked at execution time
+			\item different procedure description format, like in the SensorWeb
+			\begin{itemize}
+				\item differentiation between intermediate results and final result
+				\item would make WPS standard less interoperable
+			\end{itemize}
+			\item process instance need to be identifiable
+			\item WSDL like description language of WPS processes
+			\begin{itemize}
+				\item would allow specification of other transports
+			\end{itemize}
+			\item differentiation between continuous outputs and final results
+			\item allow different transport layers (like WebSockets)
+			\item allowing subsequent input parameters
 		\end{itemize}
-		\item receivers are only provided with upcoming
+		\item MATLAB WPS future work
 		\begin{itemize}
-			\item no replay queue
+			\item extension to similar languages like octave
+		\end{itemize}
+		\item Streaming WPS future work
+		\begin{itemize}
+			\item No input/output conversion
+			\item Only default format is requested from delegate
+			\item process will not fail fast in under every condition
+			\begin{itemize}
+				\item inputs first are checked at execution time
+			\end{itemize}
+			\item receivers are only provided with upcoming outputs
+			\begin{itemize}
+				\item no replay queue
+			\end{itemize}
 		\end{itemize}
 	\end{itemize}
-\chapter{Future Work}
-\chapter{Conclusion}
