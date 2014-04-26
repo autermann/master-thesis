@@ -162,25 +162,20 @@
 				& \multicolumn{1}{b}{Single}
 				& \multicolumn{1}{b@{}}{Multiple}\\
 				\midrule
-				%
 				\multicolumn{2}{@{}l}{\textbf{Complex Data}}
 				& char ($1\times{}m$)
 				& cell of chars ($1\times{}n$)
 				\\
 				\midrule
-				%
 				\multicolumn{2}{@{}l}{\textbf{Bounding Box Data}} & struct ($1\times1$) & cell of structs ($1\times{}n$)\\
-				%
 				\midrule
 				\textbf{Literal Data}
 				& xs:string
-				%&
 				& \multirow{2}{*}{char ($1\times{}m$)}
 				& \multirow{2}{*}{cell of chars ($1\times{}n$)}\\
 				& xs:anyURI\\
 				\cmidrule(r){2-4}
 				& xs:byte
-				%&
 				& \multirow{7}{*}{double ($1\times1$)}
 				& \multirow{7}{*}{double ($1\times{}n$)} \\
 				& xs:short\\
@@ -201,27 +196,27 @@
 
 	\section{License Issues}
 		MATLAB usage is, as any software, restricted by the software's license. MATLAB is a proprietary and commercial product and as such, the software and its usage is more restricted than e.g. an open source software such as the R Project. Relevant for the MATLAB WPS is section 4.8 of \emph{The MathWorks, Inc. Software License Agreement} \citep{matlablicense}:
-		\begin{quote}\itshape\small
-			4. LICENSE RESTRICTIONS.  The License is subject to the express restrictions
+		\begin{xquote}\itshape\small
+			``4. LICENSE RESTRICTIONS.  The License is subject to the express restrictions
 			set forth below. Licensee shall not, and shall not permit any Affiliate or any
 			Third Party to:
 				[...]
 				4.8. provide access (directly or indirectly) to the Programs via a web or
 				network Application, except as permitted in Article 8 of the Deployment
-				Addendum;
-		\end{quote}
+				Addendum;''
+		\end{xquote}
 
 		As the MATLAB WPS offers MATLAB functionalities through a web service interface, the usage is highly restricted, as the referenced \emph{Deployment Addendum} \citep{matlablicense} states:
 
-		\begin{quote}\itshape\small
-			8. WEB APPLICATIONS.  Licensee may not provide access to an entire Program or a substantial portion of a Program by means of a web interface.
+		\begin{xquote}\itshape\small
+			``8. WEB APPLICATIONS.  Licensee may not provide access to an entire Program or a substantial portion of a Program by means of a web interface.
 
 			For the Network Concurrent User Activation Type.  Programs licensed under the Network Concurrent User Activation Type may be called via a web application, provided the web application does not provide access to the MATLAB command line, or any of the licensed Programs with code generation capabilities.  In addition, Licensed Users may not provide access to an entire Program or a substantial portion of a Program.  Such operation of an application via a web interface may be provided to an unlimited number of web browser clients, at no additional cost, for Licensee's own use for its Internal Operations, and for use by Third Parties.
 
 			For the Network Named User and Standalone Named User Activation Types. Programs licensed under the Network Named User and Standalone Named User Activation Types may be called via a web application, provided the web application does not provide access to the MATLAB command line, or any of the licensed Programs with code generation capabilities, and such application is only accessed by designated Network Named User or Standalone Named User licensees of such Programs.
 
-			Programs licensed under any other Activation Type may not be called via a web interface.
-		\end{quote}
+			Programs licensed under any other Activation Type may not be called via a web interface.''
+		\end{xquote}
 
 		Only the \emph{Network Concurrent User Activation Type} is allowed to offer MATLAB scripts and functions as long it does not offer access to the MATLAB command line interface. \emph{Network and Standalone Named User} license types require an additional authentication mechanism in place in order to restrict access to the web application. As the MATLAB WPS does not offer the possibility to access the MATLAB command line interface or substantial portion of MATLAB, but restricts access to configured MATLAB function calls, customers owning a license of the first type are allowed to deploy a \ac{WPS} offering MATLAB processes to an open network, whereas users of the second class of licenses are still allowed to deploy them with an additional authentication mechanism. On the other hand, using a pool of MATLAB instances on a remote server introduce additional problems in regard of the license. In theory, these MATLAB instances can be used to perform about any function call, and thus provide access to the MATLAB command line interface. Even though the access is restricted to simple function calls and does not allow variable declaration, nested function calls or function definitions, it may be considered a license violation to deploy this infrastructure in a public environment.
 
@@ -255,9 +250,9 @@
 	\end{figure}
 
 	While there are efforts to utilize popular techniques like grid and cloud computing, there are few efforts in research and development to facilitate streaming processing \citep{foerster2012live}. Previous approaches to combine the concept of streaming and web-based processing of spatiotemporal data using the \ac{WPS} are drafted in strong correlation to media streaming (ibidem) by using playlist files \citep{ietf:draft-pantos-http-live-streaming-12} as inputs and outputs of a \ac{WPS} process. The process is executed asynchronously and the output playlist location is published using the \texttag{wps}{ProcessStarted} element of the process status response (see Figure~\ref{fig:sd:previous}). As the \ac{WPS} specification is not designed to be extensible, the element's content is restricted to a simple string and can not contain complex \ac{XML} structures. Furthermore, the element's definition states that it should be used to convey a human readable text that is presented to an user:
-	\begin{signedquote}{\citet{ogc:wps}}
-		A human-readable text string whose contents are left open to definition by each WPS server, but is expected to include any messages the server may wish to let the clients know. Such information could include how much longer the process may take to execute, or any warning conditions that may have been encountered to date. The client may display this text to a human user.
-	\end{signedquote}
+	\begin{xquote}[\citet{ogc:wps}]
+		``A human-readable text string whose contents are left open to definition by each WPS server, but is expected to include any messages the server may wish to let the clients know. Such information could include how much longer the process may take to execute, or any warning conditions that may have been encountered to date. The client may display this text to a human user.''
+	\end{xquote}
 	Despite the goal of maintaining compatibility to \ac{WPS} specification and existing software components, this represents a misappropriation of the element and will result in incompatibilities with existing \ac{WPS} client solutions. Besides that, this solution is only able to transport a single playlist location to the client and thus, a \ac{WPS} process may only have a single streaming output.
 
 	\begin{figure}[!htb]

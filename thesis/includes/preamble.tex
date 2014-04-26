@@ -19,6 +19,7 @@
 \usepackage[english]{babel}
 
 \usepackage{etoolbox}
+\usepackage{xifthen}
 
 %\usepackage{geometry}
 
@@ -257,9 +258,9 @@
 }}
 
 \newsavebox\signedbox
-\newenvironment{signedquote}[1]
-	{\savebox\signedbox{#1}\begin{quote}\itshape}
-	{\sign{\usebox\signedbox}\end{quote}}
+\newenvironment{xquote}[1][]
+	{\savebox\signedbox{#1}\quote\itshape}
+	{\ifthenelse{\isempty{\usebox\signedbox}}{\sign{\usebox\signedbox}}\endquote}
 
 
 \usepackage{tikz}
