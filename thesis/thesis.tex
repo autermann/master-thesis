@@ -1,4 +1,4 @@
-\documentclass[paper=a4,fontsize=12pt,
+\documentclass[paper=a4,fontsize=11pt,
 			   bibliography=totoc,
 			   listof=nochaptergap,
 			   listof=notoc]{scrreprt}
@@ -10,11 +10,13 @@
 	\author{Christian Autermann}
 	\date{\today}
 	\subject{Master Thesis}
-	\maketitle
+	\begin{spacing}{1}
+		\maketitle
+	\end{spacing}
+
 
 	\pagestyle{scrplain}
 	\pagenumbering{roman}
-	\singlespacing
 	{
 		\renewcommand\clearpage{}
 		\tableofcontents
@@ -26,7 +28,6 @@
 
 	\pagestyle{scrheadings}
 	\pagenumbering{arabic}
-	\onehalfspacing
 	\input{content}
 	\clearpage
 

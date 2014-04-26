@@ -2,10 +2,13 @@
 
 \KOMAoptions{
   numbers=noendperiod,
-  parskip=half*,
+  parskip=half,
   footnotes=multiple,
   toc=numberline,
   captions=tableheading,
+  DIV=9,
+  %DIV=calc,
+  %BCOR=5mm,
 }
 \usepackage{scrhack}
 
@@ -22,13 +25,15 @@
 \usepackage{etoolbox}
 \usepackage{xifthen}
 
-\usepackage[margin=3cm,bottom=4cm]{geometry}
+%\usepackage[margin=3.5cm,bottom=4cm]{geometry}
 
 \usepackage{amssymb}
 \usepackage{libertine}
 \usepackage[scaled=0.79]{beramono}
 \usepackage{textcomp}
-\usepackage{setspace}
+\usepackage[onehalfspacing]{setspace}
+\AfterTOCHead{\singlespacing}
+\recalctypearea
 \usepackage{xspace}
 
 \usepackage[svgnames]{xcolor}
@@ -106,8 +111,8 @@
 \def\matlab{\lstinline[basicstyle=\ttfamily\mdseries,language=MATLAB]}
 
 \lstset{%
-  numberstyle=\ttfamily\footnotesize,
-  basicstyle=\ttfamily\footnotesize\mdseries\singlespacing,
+  numberstyle=\ttfamily\small,
+  basicstyle=\ttfamily\small\mdseries\singlespacing,
   backgroundcolor=\color{white},
   commentstyle=\color{comment},
   stringstyle=\color{string},
@@ -271,7 +276,7 @@
 
 
 
-\newcommand{\ftn}{52\textdegree{}North}
+
 
 \renewcommand{\maketitle}{
   \begin{titlepage}
@@ -307,4 +312,5 @@
   \end{titlepage}
 }
 
+\def\ftn{52\textdegree{}North\xspace}
 \def\la{LakeAnalyzer\xspace}
