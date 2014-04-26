@@ -433,54 +433,33 @@
 		With knowledge of the delegate process a client may have enough information to facilitate the streaming process but for other streaming process there is no way for a generic client to know the input parameters of the process.
 
 		To compensate this shortcoming a method is needed to describe a Streaming Process instance at runtime.
-	\section{Streaming Lake-Analyzer WPS}
-	\begin{figure}
-		\centering\small
-		\begin{subfigure}{\textwidth}
-			\caption{Starting of the streaming process using a WPS \emph{Execute} request, requesting of the streaming process' description and supplying of three input messages, of which only $fib(0) = 0$ can be answered.}
-			\includegraphics[width=\textwidth]{figures/fibonacci-1.png}
-		\end{subfigure}
-		\begin{subfigure}{\textwidth}
-			\caption{$fib(1) = 1$ is supplied in an input message, and so the previously supplied request for $fib(2)$ and $fib(3)$ can be calculated. $fib(7)$ is still missing prerequisites.}
-			\includegraphics[width=\textwidth]{figures/fibonacci-2.png}
-		\end{subfigure}
-		\begin{subfigure}{\textwidth}
-			\caption{As the dependencies of $fib(4)$ and $fib(5)$ are fulfilled, they can directly be calculated. $fib(7)$ is still missing $fib(6)$.}
-			\includegraphics[width=\textwidth]{figures/fibonacci-3.png}
-		\end{subfigure}
-		\begin{subfigure}{\textwidth}
-			\caption{At the time the request for $fib(6)$ arrives, all preconditions are met and $fib(6)$ and the final $fib(7)$ can be calculated. Once the result has arrived, the client stops the streaming process.}
-			\includegraphics[width=\textwidth]{figures/fibonacci-4.png}
-		\end{subfigure}
-		\caption{Calculation of the seventh Fibonacci number using the Streaming WPS and a simple addition WPS process as delegate.}
-	\end{figure}
+
+	\section{Implementation}
+		The Streaming WPS was prototypically, but feature complete implemented as an module for the \ftn WPS implementation. Besides offering a framework to develop all kinds of streaming enabled processes, it features a generic streaming process implementation that is able to convert every suitable algorithm (e.g. Douglas–Peucker) into a streaming enabled variant. The generic streaming process accepts the description of another WPS process and the URL of its endpoint as input parameters and uses this remote process as an delegate for every streaming iteration. Additionally it accepts a collection of static input parameters, that are merged with input parameters of a streaming iterations and are then then transparently send to the delegate process in every streaming iteration. Processed developed using the framework are able to maintain an internal state that can be maintained during execution, e.g. to create generate the sum of all streaming iterations, which is outputted as a final result. Due to the fact that the WPS standard defines a stateless protocol, whereas the protocol defined by the Streaming WPS encourages the use of an internal state, the possibilities of the generic streaming process are limited in this regard. Internal state can only be conveyed using the dependency mechanisms provided by the Streaming WPS, i.e. transporting state in input and output parameters.
+
+		An example for this can be visualized using the JavaScript based client library that was developed. The \ac{API} abstract message encoding and WebSocket interaction and allows to start and stop streaming processes, to supply input messages, to request the process' description as well as to retrieve outputs. A basic demonstrations of the Streaming WPS' capabilities can be seen in Figure~\ref{fig:client}, in which the seventh Fibonacci number is calculated using a streaming process. Fibonacci numbers are the values integer sequence $0, 1, 1, 2, 3, 5, 8, 13, \dots$ defined inductively by the function $fib(n) = fib(n-1) + fib(n-2)$ with $fib(0) = 0$ and $fib(1) = 1$. $fib(n)$ is thereby called the \emph{n-th Fibonacci number} \citep{fibonacci}. Through their recursive definition, Fibonacci number calculation can be used to showcase the advanced dependency resolution capabilities of the Streaming WPS. The generic streaming process is started with a reference to another WPS process, which sole functionality is to add two integers and return the result. Each Fibonacci number is then defined in its own streaming iteration by supplying an input message to the streaming process. To break down the principle of calculating Fibonacci numbers to the addition of two numbers, $fib(0)$ is defined as the addition of $0$ and $0$ and $fib(1)$ as the addition of $0$ and $1$. All following Fibonacci numbers are defined as the addition of the results of the two previous streaming iterations. By sending the input messages in a random order, the streaming process has two postpone calculation of a streaming iteration until the input messages of the two referenced streaming iterations have arrived and their results are available. This can be seen from the intermediate results containing all Fibonacci numbers previous to the one requested that arrive in order.
+		\begin{figure}
+			\centering
+			\begin{subfigure}{\textwidth}
+				\caption{Starting of the streaming process using a WPS \emph{Execute} request, requesting of the streaming process' description and supplying of three input messages, of which only $fib(0) = 0$ can be answered.}
+				\includegraphics[width=\textwidth]{figures/fibonacci-1.png}
+			\end{subfigure}
+			\begin{subfigure}{\textwidth}
+				\caption{$fib(1) = 1$ is supplied in an input message, and so the previously supplied request for $fib(2)$ and $fib(3)$ can be calculated. $fib(7)$ is still missing prerequisites.}
+				\includegraphics[width=\textwidth]{figures/fibonacci-2.png}
+			\end{subfigure}
+			\begin{subfigure}{\textwidth}
+				\caption{As the dependencies of $fib(4)$ and $fib(5)$ are fulfilled, they can directly be calculated. $fib(7)$ is still missing the result of $fib(6)$.}
+				\includegraphics[width=\textwidth]{figures/fibonacci-3.png}
+			\end{subfigure}
+			\begin{subfigure}{\textwidth}
+				\caption{At the time the request for $fib(6)$ arrives, all preconditions are met and $fib(6)$ and the final $fib(7)$ can be calculated. Once the result has arrived, the client stops the streaming process.}
+				\includegraphics[width=\textwidth]{figures/fibonacci-4.png}
+			\end{subfigure}
+			\caption{\label{fig:client}Calculation of the seventh Fibonacci number using the Streaming WPS and a simple addition WPS process as delegate \citep{fibonacci}.}
+		\end{figure}
+	\section{Streaming \la WPS}
 	\begin{itemize}
-		\item feature complete but prototypical
-		\item Server:
-		\begin{itemize}
-			\item based on the 52°North WPS
-			\item module, that can be included
-			\item besides framework to develope all kinds of streaming processes
-			\begin{itemize}
-				\item e.g. stateful
-			\end{itemize}
-			\item default implementation uses another WPS process as delegate
-			\item is able to turn every appropriate algortihm into a streaming variant
-			\item e.g. Douglas–Peucker, etc.
-			\item generic process implementation, that accepts \dots
-			\begin{itemize}
-				\item a reference to another process (URL and process description)
-				\item a list of static inputs, that will be used across process execution
-				\item returns process identifier and websocket endpoint
-			\end{itemize}
-			\item due to stateless WPS, only can create stateless streaming processes
-		\end{itemize}
-		\item Client
-		\begin{itemize}
-			\item small JavaScript library
-			\item abstracts the message generation and WebSocket interaction
-			\item may be used to start generic delegation processes
-		\end{itemize}
 		\item simple application of the Streaming WPS and MATLAB WPS
 		\item LakeAnalyzer may need further adjustments to allow live analysis
 		\item remove down sampling code
