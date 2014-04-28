@@ -38,6 +38,92 @@
 
 
 \chapter{Lake-Analyzer}
+	\def\lafigsize{.49\textwidth}
+	\begin{figure}
+		\centering
+		\begin{subfigure}{\lafigsize}
+			\caption{Lake Number}
+			\includegraphics[width=\textwidth]{figures/Sparkling_Ln.pdf}
+		\end{subfigure}
+		\begin{subfigure}{\lafigsize}
+			\caption{Seasonal Lake Number}
+			\includegraphics[width=\textwidth]{figures/Sparkling_SLn.pdf}
+		\end{subfigure}
+		\begin{subfigure}{\lafigsize}
+			\caption{Metalimnion Top}
+			\includegraphics[width=\textwidth]{figures/Sparkling_metaT.pdf}
+		\end{subfigure}
+		\begin{subfigure}{\lafigsize}
+			\caption{Metalimnion Bottom}
+			\includegraphics[width=\textwidth]{figures/Sparkling_metaB.pdf}
+		\end{subfigure}
+		\begin{subfigure}{\lafigsize}
+			\caption{Parent Metalimnion Top}
+			\includegraphics[width=\textwidth]{figures/Sparkling_SmetaT.pdf}
+		\end{subfigure}
+		\begin{subfigure}{\lafigsize}
+			\caption{Parent Metalimnion Bottom}
+			\includegraphics[width=\textwidth]{figures/Sparkling_SmetaB.pdf}
+		\end{subfigure}
+		\begin{subfigure}{\lafigsize}
+			\caption{Buoyancy Frequency}
+			\includegraphics[width=\textwidth]{figures/Sparkling_N2.pdf}
+		\end{subfigure}
+		\begin{subfigure}{\lafigsize}
+			\caption{Parent Buoyancy Frequency}
+			\includegraphics[width=\textwidth]{figures/Sparkling_SN2.pdf}
+		\end{subfigure}
+		\begin{subfigure}{\lafigsize}
+			\caption{Mode 1 Vertical Seiche}
+			\includegraphics[width=\textwidth]{figures/Sparkling_T1.pdf}
+		\end{subfigure}
+		\begin{subfigure}{\lafigsize}
+			\caption{Parent Mode 1 Vertical Seiche}
+			\includegraphics[width=\textwidth]{figures/Sparkling_ST1.pdf}
+		\end{subfigure}
+		\caption{Visualization of \la outputs.}
+	\end{figure}
+	\begin{figure}
+		\ContinuedFloat\centering\captionsetup{list=no}
+		\begin{subfigure}{\lafigsize}
+			\caption{Wedderburn Number}
+			\includegraphics[width=\textwidth]{figures/Sparkling_W.pdf}
+		\end{subfigure}
+		\begin{subfigure}{\lafigsize}
+			\caption{Seasonal Wedderburn Number}
+			\includegraphics[width=\textwidth]{figures/Sparkling_SW.pdf}
+		\end{subfigure}
+		\begin{subfigure}{\lafigsize}
+			\caption{Thermocline}
+			\includegraphics[width=\textwidth]{figures/Sparkling_thermD.pdf}
+		\end{subfigure}
+		\begin{subfigure}{\lafigsize}
+			\caption{Parent Thermocline}
+			\includegraphics[width=\textwidth]{figures/Sparkling_SthermD.pdf}
+		\end{subfigure}
+		\begin{subfigure}{\lafigsize}
+			\caption{uStar}
+			\includegraphics[width=\textwidth]{figures/Sparkling_uSt.pdf}
+		\end{subfigure}
+		\begin{subfigure}{\lafigsize}
+			\caption{Seasonal uStar}
+			\includegraphics[width=\textwidth]{figures/Sparkling_SuSt.pdf}
+		\end{subfigure}
+		\begin{subfigure}{\lafigsize}
+			\caption{Schmidt Stability}
+			\includegraphics[width=\textwidth]{figures/Sparkling_St.pdf}
+		\end{subfigure}
+		\begin{subfigure}{\lafigsize}
+			\caption{Wind Speed}
+			\includegraphics[width=\textwidth]{figures/Sparkling_wndSpd.pdf}
+		\end{subfigure}
+		\begin{subfigure}{\lafigsize}
+			\caption{Water Temperature}
+			\includegraphics[width=\textwidth]{figures/Sparkling_wTemp.pdf}
+		\end{subfigure}
+		\caption{Visualization of \la outputs.}
+	\end{figure}
+
 \chapter{Web Processing Service}
 	\label{sec:wps}
 	The \ac{WPS} \citep{ogc:wps} is the quasi standard for web based processing of spatiotemporal data \citep{foerster2012live}. It is an open service standard specified by the \ac{OGC} and is embedded in the \ac{OWS} \citep{ogc:ows} environment. Even though the \ac{WPS} is mostly used in the geospatial domain, it's interface is not restricted to spatiotemporal data and also can be deployed in other professional contexts. Within the WPS, it is possible to publish and execute models, algorithms or generic calculations and computations in a standardized web service interface, so called processes. The \ac{WPS} describes a generic interface, that imposes no restrictions on the type of process, their inputs and outputs and so it can encapsulate any kind of algorithm or model. By this, an interoperability is offered, which leads to a number of significant advantages. It adds a layer that hides complexity and permits -- by it's consistency across implementations -- a high level of reusability, flexibility and scalability. Server and client software implementations become reusable and generic client implementations are possible. Scalable and complex computations, like grid or cloud computing, as well as super computer processing are hidden behind a simple to use service interface and become accessible.
