@@ -36,91 +36,97 @@
 		\item How can a analysis language commonly used by domain experts (in this case MatLab) be easily deployed in a web based processing chain?
 	\end{itemize}
 
-\chapter{Lake-Analyzer}
-	\def\lafigsize{.49\textwidth}
+\chapter{\la}
+	\la is tool to compute key characteristics of lakes with regards to the lake's thermal stratification and its stability. It analyzes times series data of water temperature measurements obtained using instrumented lake buoys as well as wind speed observations using the lake's bathymetric areas with respect to depth and optional salinity measurements to improve water density calculations. It promotes comparative lake research, which is made possible due to the increased temporal resolution and spatial extent of lake measurements by offering a consistent methodology that can be applied to many types of lakes \citep{read2011derivation}.
+
+	\la allows to predict biological phenomenon (e.g. the likelihood of nutrient upwelling that can cause algal blooms), explain phenological pattern in aquatic organisms, control and monitor the state of a lake as well as to improve the quality of models by comparing their outputs to the physical state of the lake that is computed by the \la.
+
+	Besides a raw data output as \ac{CSV}, the \la features a visualizations of the produces stratification and mixing indices, which can be seen in \cref{fig:la:outputs:1}: Lake Number \citep[see \Cref{fig:la:out:Ln,fig:la:out:SLn},][]{imberger1990}, metalimnion extent (see \Cref{fig:la:out:metaT,fig:la:out:metaB,fig:la:out:SmetaT,fig:la:out:SmetaB}), Brunt-Väisälä buoyancy frequency (see \Cref{fig:la:out:N2,fig:la:out:SN2}), mode-1 vertical seiche period \citep[see \Cref{fig:la:out:T1,fig:la:out:ST1},][]{monismith1986}, Wedderburn Number \citep[see \Cref{fig:la:out:W,fig:la:out:SW},][]{thompson1980}, thermocline depth (see \Cref{fig:la:out:thermD,fig:la:out:SthermD}), $u^{*}$ (wind stress introduced water friction velocity, see \Cref{fig:la:out:uSt,fig:la:out:SuSt}) and Schmidt Stability \citep[see \Cref{fig:la:out:St},][]{schmidt1928,hutchinson1957,idso1973}. The \la is able to error check and/or down sample input time series and also outputs wind speed (\Cref{fig:la:out:wndSpd}) and water temperature (\Cref{fig:la:out:wTemp}).
+
+	\def\lafigsize{.497\textwidth}
 	\begin{figure}
 		\centering
 		\begin{subfigure}{\lafigsize}
-			\caption{Lake Number}
+			\caption{\label{fig:la:out:Ln}Lake Number}
 			\includegraphics[width=\textwidth]{figures/Sparkling_Ln.pdf}
 		\end{subfigure}
 		\begin{subfigure}{\lafigsize}
-			\caption{Seasonal Lake Number}
+			\caption{\label{fig:la:out:SLn}Seasonal Lake Number}
 			\includegraphics[width=\textwidth]{figures/Sparkling_SLn.pdf}
 		\end{subfigure}
 		\begin{subfigure}{\lafigsize}
-			\caption{Metalimnion Top}
+			\caption{\label{fig:la:out:metaT}Metalimnion Top}
 			\includegraphics[width=\textwidth]{figures/Sparkling_metaT.pdf}
 		\end{subfigure}
 		\begin{subfigure}{\lafigsize}
-			\caption{Metalimnion Bottom}
+			\caption{\label{fig:la:out:metaB}Metalimnion Bottom}
 			\includegraphics[width=\textwidth]{figures/Sparkling_metaB.pdf}
 		\end{subfigure}
 		\begin{subfigure}{\lafigsize}
-			\caption{Parent Metalimnion Top}
+			\caption{\label{fig:la:out:SmetaT}Seasonal Metalimnion Top}
 			\includegraphics[width=\textwidth]{figures/Sparkling_SmetaT.pdf}
 		\end{subfigure}
 		\begin{subfigure}{\lafigsize}
-			\caption{Parent Metalimnion Bottom}
+			\caption{\label{fig:la:out:SmetaB}Seasonal Metalimnion Bottom}
 			\includegraphics[width=\textwidth]{figures/Sparkling_SmetaB.pdf}
 		\end{subfigure}
 		\begin{subfigure}{\lafigsize}
-			\caption{Buoyancy Frequency}
+			\caption{\label{fig:la:out:N2}Buoyancy Frequency}
 			\includegraphics[width=\textwidth]{figures/Sparkling_N2.pdf}
 		\end{subfigure}
 		\begin{subfigure}{\lafigsize}
-			\caption{Parent Buoyancy Frequency}
+			\caption{\label{fig:la:out:SN2}Seasonal Buoyancy Frequency}
 			\includegraphics[width=\textwidth]{figures/Sparkling_SN2.pdf}
 		\end{subfigure}
 		\begin{subfigure}{\lafigsize}
-			\caption{Mode 1 Vertical Seiche}
+			\caption{\label{fig:la:out:T1}Mode-1 Vertical Seiche Period}
 			\includegraphics[width=\textwidth]{figures/Sparkling_T1.pdf}
 		\end{subfigure}
 		\begin{subfigure}{\lafigsize}
-			\caption{Parent Mode 1 Vertical Seiche}
+			\caption{\label{fig:la:out:ST1}Seasonal Mode-1 Vertical Seiche Period}
 			\includegraphics[width=\textwidth]{figures/Sparkling_ST1.pdf}
 		\end{subfigure}
-		\caption{Visualization of \la outputs.}
+		\caption{\label{fig:la:outputs:1}Visualization of \la outputs \emph{(continued on \cpageref{fig:la:outputs:2})}.}
 	\end{figure}
 	\begin{figure}
 		\ContinuedFloat\centering\captionsetup{list=no}
 		\begin{subfigure}{\lafigsize}
-			\caption{Wedderburn Number}
+			\caption{\label{fig:la:out:W}Wedderburn Number}
 			\includegraphics[width=\textwidth]{figures/Sparkling_W.pdf}
 		\end{subfigure}
 		\begin{subfigure}{\lafigsize}
-			\caption{Seasonal Wedderburn Number}
+			\caption{\label{fig:la:out:SW}Seasonal Wedderburn Number}
 			\includegraphics[width=\textwidth]{figures/Sparkling_SW.pdf}
 		\end{subfigure}
 		\begin{subfigure}{\lafigsize}
-			\caption{Thermocline}
+			\caption{\label{fig:la:out:thermD}Thermocline Depth}
 			\includegraphics[width=\textwidth]{figures/Sparkling_thermD.pdf}
 		\end{subfigure}
 		\begin{subfigure}{\lafigsize}
-			\caption{Parent Thermocline}
+			\caption{\label{fig:la:out:SthermD}Seasonal Thermocline Depth}
 			\includegraphics[width=\textwidth]{figures/Sparkling_SthermD.pdf}
 		\end{subfigure}
 		\begin{subfigure}{\lafigsize}
-			\caption{uStar}
+			\caption{\label{fig:la:out:uSt}$u^{*}$}
 			\includegraphics[width=\textwidth]{figures/Sparkling_uSt.pdf}
 		\end{subfigure}
 		\begin{subfigure}{\lafigsize}
-			\caption{Seasonal uStar}
+			\caption{\label{fig:la:out:SuSt}Seasonal $u^{*}$}
 			\includegraphics[width=\textwidth]{figures/Sparkling_SuSt.pdf}
 		\end{subfigure}
 		\begin{subfigure}{\lafigsize}
-			\caption{Schmidt Stability}
+			\caption{\label{fig:la:out:St}Schmidt Stability}
 			\includegraphics[width=\textwidth]{figures/Sparkling_St.pdf}
 		\end{subfigure}
 		\begin{subfigure}{\lafigsize}
-			\caption{Wind Speed}
+			\caption{\label{fig:la:out:wndSpd}Wind Speed}
 			\includegraphics[width=\textwidth]{figures/Sparkling_wndSpd.pdf}
 		\end{subfigure}
 		\begin{subfigure}{\lafigsize}
-			\caption{Water Temperature}
+			\caption{\label{fig:la:out:wTemp}Water Temperature}
 			\includegraphics[width=\textwidth]{figures/Sparkling_wTemp.pdf}
 		\end{subfigure}
-		\caption{Visualization of \la outputs.}
+		\caption{\label{fig:la:outputs:2}Visualization of \la outputs.}
 	\end{figure}
 
 \chapter{Web Processing Service}
