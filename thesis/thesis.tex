@@ -263,7 +263,7 @@
 \newenvironment{sansserif}{\sffamily}{}
 \newenvironment{serif}{\rmfamily}{}
 \newenvironment{fixedwidth}{\ttfamily}{}
-\newenvironment{listings}{\pagestyle{scrplain}\pagenumbering{roman}}{}
+\newenvironment{listings}{\pagestyle{scrplain}\pagenumbering{roman}}{\clearpage}
 \newenvironment{content}{\pagestyle{scrheadings}\pagenumbering{arabic}}{\bibliography{\jobname}\clearpage}
 \AtBeginEnvironment{appendix}{
     \pagestyle{scrplain}
@@ -333,13 +333,14 @@
       \end{center}
     \end{spacing}
   \end{titlepage}
-
   \begin{listings}
-    \renewcommand{\clearpage}{}
-    \tableofcontents
-    \listoftables
-    \listoffigures
-    \lstlistoflistings
+    \begingroup
+      \renewcommand{\clearpage}{}
+      \tableofcontents
+      \listoftables
+      \listoffigures
+      \lstlistoflistings
+    \endgroup
   \end{listings}
 
   \begin{content}
