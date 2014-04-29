@@ -116,6 +116,8 @@
 \acrodef{CSV}{Comma Seperated Values}
 \acrodef{GML}{Geography Markup Language}
 \acrodef{CORS}{Cross-Origin Resource Sharing}
+\acrodef{HTTP}{Hypertext Transfer Protocol}
+
 \newcommand{\acrocitep}[2]{\acl{#1} \citep[\acs{#1},][]{#2}}
 
 \usepackage[squaren,binary,textstyle]{SIunits}
@@ -262,7 +264,7 @@
 \newenvironment{serif}{\rmfamily}{}
 \newenvironment{fixedwidth}{\ttfamily}{}
 \newenvironment{listings}{\pagestyle{scrplain}\pagenumbering{roman}}{}
-\newenvironment{content}{\pagestyle{scrheadings}\pagenumbering{arabic}}{\bibliography{\jobname}}
+\newenvironment{content}{\pagestyle{scrheadings}\pagenumbering{arabic}}{\bibliography{\jobname}\clearpage}
 \AtBeginEnvironment{appendix}{
     \pagestyle{scrplain}
     \pagenumbering{roman}
@@ -333,10 +335,11 @@
   \end{titlepage}
 
   \begin{listings}
+    \renewcommand{\clearpage}{}
     \tableofcontents
+    \listoftables
     \listoffigures
     \lstlistoflistings
-    \listoftables
   \end{listings}
 
   \begin{content}
