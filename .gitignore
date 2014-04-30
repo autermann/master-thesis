@@ -29,3 +29,5 @@
 *.nav
 *.snm
 *.vrb
+*.sublime-project
+*.sublime-workspace

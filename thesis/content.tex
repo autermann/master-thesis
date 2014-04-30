@@ -554,47 +554,80 @@
 		An example for this can be visualized using the JavaScript based client library that was developed. The \ac{API} abstract message encoding and WebSocket interaction and allows to start and stop streaming processes, to supply input messages, to request the process' description as well as to retrieve outputs. A basic demonstrations of the Streaming WPS' capabilities can be seen in \cref{fig:client}, in which the seventh Fibonacci number is calculated using a streaming process. Fibonacci numbers are the values integer sequence $0, 1, 1, 2, 3, 5, 8, 13, \dots$ defined inductively by the function $fib(n) = fib(n-1) + fib(n-2)$ with $fib(0) = 0$ and $fib(1) = 1$. $fib(n)$ is thereby called the \emph{n-th Fibonacci number} \citep{fibonacci}. Through their recursive definition, Fibonacci number calculation can be used to showcase the advanced dependency resolution capabilities of the Streaming WPS. The generic streaming process is started with a reference to another WPS process, which sole functionality is to add two integers and return the result. Each Fibonacci number is then defined in its own streaming iteration by supplying an input message to the streaming process. To break down the principle of calculating Fibonacci numbers to the addition of two numbers, $fib(0)$ is defined as the addition of $0$ and $0$ and $fib(1)$ as the addition of $0$ and $1$. All following Fibonacci numbers are defined as the addition of the results of the two previous streaming iterations. By sending the input messages in a random order, the streaming process has to postpone calculation of a streaming iteration until the input messages of the two referenced streaming iterations have arrived and their results are available. This can be seen from the intermediate results containing all Fibonacci numbers previous to the one requested that arrive in order.
 
 	\section{Streaming \la WPS}
-	\begin{itemize}
-		\item simple application of the Streaming WPS and MATLAB WPS
-		\item LakeAnalyzer may need further adjustments to allow live analysis
-		\item remove down sampling code
-		\item operate on single point in time
-		\item etc
-	\end{itemize}
+		Implementing a streaming variant of the \la process presented in \cref{sec:matlab:la} has to be divided in two different use cases. Processing of large data sets of several lakes can be easily accomplished using the generic streaming process implementation presented in the previous section. Configuration parameters for down-sampling rates, error correction and plotting configuration can be supplied using static input parameters, whereas the streaming input messages contain bathymetry, wind and water measurements and optionally salinity information. In this case the greater data set of time series for multiple lakes is broken into smaller chunks spatially, whereas the temporal dimension is not modified.
+
+		By splitting a data set temporally, the analysis of very long time series or near real time buoys data is possible. In theory, streaming chunks can be reduced to a single point in time by deactivating the down sampling code of the \la. This would allow to offer characteristics as single values instead of \ac{CSV} files, but error checking, outlier detection and temporal averaging would not be possible using the \la as delegate to the generic streaming process, because the \la can not maintain state across streaming iterations and has to operate on a single point in time. By this outputs like Lake or Wedderburn Number outputs are more prone to error and may not be meaningful (e.g. mode-1 vertical seiche period). Developing of an stateful streaming process that overcomes this issues would, however, neglect the efforts and possibilities already done in the lake analyzer.
+
+		An easier solution to enable near real time or live analysis is to find an appropriate time frame adapted to the sampling rate of sensors deployed in a lake, which is large enough to allow temporal averaging and error checking but is small enough to produce continuous outputs. This approach could be realized using the generic streaming algorithm implementation: the process is initialized using a reference to the \la process and bathymetry, configuration and plotting parameters are supplied as static inputs. Water temperature, wind speed and optionally level and salinity measurements are supplied in each streaming iterations. The supplied time frame should optimally be chosen such that after down sampling, smoothing and error correction only a single point in time is outputted.
+
+		Future extension of the \la, e.g. calculation of parameters that require the previous results or analysis of chains of lakes in which lakes depend on each other, could also be easily realized. By implementing previous results or the results of a previous lake in the chain as additional inputs to the \la, these dependencies can be easily resolved by the streaming process.
 
 \chapter{Discussion/Conclusion/Future Work}
+
 	\begin{itemize}
-		\item limitations of WPS standard
+		\item two independent sub problems
+		\item domain expert friendly deployment of MATLAB models and algorithms as interoperable web services
 		\begin{itemize}
-			\item different procedure description format, like in the SensorWeb
+			\item WPS ideal solution for web based processing of geospatial data
+			\item MATLAB WPS of great importance for intoperable model development and sharing of research results
+			\item can bridge gap between different domains
+			\item future work
 			\begin{itemize}
-				\item differentiation between intermediate results and final result
-				\item would make WPS standard less interoperable
+				\item extension to similar languages like octave
+				\item selective output generation
+				\item support for different formats of the same output
+				\item offer WPS metadata (e.g. WPS URL, etc)
+				\item option to supply inputs and output as structures for better maintenance of processes with a multitude of inputs or outputs
 			\end{itemize}
-			\item process instance need to be identifiable
-			\item WSDL like description language of WPS processes
-			\begin{itemize}
-				\item would allow specification of other transports
-			\end{itemize}
-			\item differentiation between continuous outputs and final results
-			\item allow different transport layers (like WebSockets)
-			\item allowing subsequent input parameters
 		\end{itemize}
-		\item MATLAB WPS future work
+		\item efficient processing of large data sets and analysis of live data
 		\begin{itemize}
-			\item extension to similar languages like octave
-		\end{itemize}
-		\item Streaming WPS future work
-		\begin{itemize}
-			\item No input/output conversion
-			\item Only default format is requested from delegate
-			\item process will not fail fast in under every condition
+			\item Streaming best answer to this kind of problems
+			\item possibility to process indefinite or live data sets
+			\item previous approaches insufficient in regard to compatibility, efficiency and ultimately effectiveness
+			\item limitations of WPS standard
 			\begin{itemize}
-				\item inputs first are checked at execution time
+				\item different procedure description format, like in the SensorWeb
+				\begin{itemize}
+					\item process description format is simple and thus is easily adoptable but eventually lacks expressiveness
+					\item differentiation between intermediate results and final result
+					\item would make WPS standard less interoperable
+					\item description of dependencies between outputs and required inputs, or between input and inputs
+					\item differentiation between continuous outputs and final results
+				\end{itemize}
+				\item process instance need to be identifiable
+				\item allow specification of other transports
+				\item allow different transport layers (like WebSockets)
+				\item allowing subsequent input parameters
 			\end{itemize}
-			\item receivers are only provided with upcoming outputs
+
+			\item to break out of the WPS standard has to be critically evaluated
+			\item breaks compatibility to WPS standard
+			\item but
 			\begin{itemize}
-				\item no replay queue
+				\item client solutions have to be adjusted to streaming inputs and outputs nevertheless (even in previous approaches)
+				\item e.g understand the format of playlist files continuously poll for new outputs vs clients connect to a streaming process an request outputs.
+				\item e.g. uploading of data fragments to a service and updating the playlist vs. pushing input through a WebSocket
+				\item by reusing WPS terminologies and technologies adjustments are minimal
+			\end{itemize}
+			\item is ultimately required due to the above limitations
+			\item allows usage in all kind of setups
+			\item greater coverage of use cases due to dependency handling and support for multiple streaming inputs and outputs
+			\item future work
+			\begin{itemize}
+				\item No input/output conversion
+				\item Only default format is requested from delegate
+				\item process will not fail fast in under every condition
+				\begin{itemize}
+					\item inputs first are checked at execution time
+				\end{itemize}
+				\item receivers are only provided with upcoming outputs
+				\begin{itemize}
+					\item no replay queue
+				\end{itemize}
+				\item timeouts
+				\item in-depth performance evaluation
+				\item client tools that can connect to a streaming process and are able to visualize live outputs
 			\end{itemize}
 		\end{itemize}
 	\end{itemize}
