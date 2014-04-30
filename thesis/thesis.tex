@@ -358,72 +358,90 @@
 
     \chapter{Lake Analyzer Process Description}
       \label{appendix:lakeanalyzer:description}
+      See \cref{sec:xmlnamespaces} for omitted XML namespaces.
       \lstinputlisting[nolol,language=XML]{listings/lake-analyzer-wps-process-description.xml}
 
     \chapter{Source Code}
-      \begin{tabularx}{\textwidth}{@{}lX@{}}
-        \toprule
-        \textbf{Streaming WPS}
-        & Extension for the 52°North WPS to allow of Inputs and Outputs over WebSockets.\\
-        & \url{https://github.com/autermann/streaming-wps} \\
-        \cmidrule(r){1-1}
-        \cmidrule(l){2-2}
+      All source code, including prototypical implementations of the described Streaming WPS and MATLAB WPS, is freely available under an open source license:
+      \begin{center}
+        \begin{small}
+          \begin{tabularx}{\textwidth}{@{}lX@{}}
+          \toprule
+            \textbf{Streaming WPS}
+            & Extension for the \ftn WPS to allow streaming of input and output parameters over WebSockets.\\
+            & GNU General Public License Version 3\\
+            & \url{https://github.com/autermann/streaming-wps} \\
+            \cmidrule(r){1-1}
+            \cmidrule(l){2-2}
 
-        \textbf{Matlab WPS}
-        & Extension for the 52°North WPS to offer Matlab functions and scripts as OGC Web Processing Service algorithms.\\
-        & \url{https://github.com/autermann/matlab-wps}\\
-        \cmidrule(r){1-1}
-        \cmidrule(l){2-2}
+            \textbf{MATLAB WPS}
+            & Extension for the \ftn WPS to offer MATLAB functions and scripts as OGC Web Processing Service algorithms.\\
+            & GNU General Public License Version 2\\
+            & \url{https://github.com/autermann/matlab-wps}\\
+            \cmidrule(r){1-1}
+            \cmidrule(l){2-2}
 
-        \textbf{streaming-wps-js}
-        & Streaming WPS JavaScript Bindings\\
-        & \url{https://github.com/autermann/streaming-wps-js}\\
-        \cmidrule(r){1-1}
-        \cmidrule(l){2-2}
+            \textbf{streaming-wps-js}
+            & Streaming WPS JavaScript Bindings\\
+            & Apache License Version 2.0\\
+            & \url{https://github.com/autermann/streaming-wps-js}\\
+            \cmidrule(r){1-1}
+            \cmidrule(l){2-2}
 
-        \textbf{WPS Commons}
-        & 52°North WPS convenience classes and bootstrapping code.\\
-        & \url{https://github.com/autermann/wps-commons}\\
-        \cmidrule(r){1-1}
-        \cmidrule(l){2-2}
+            \textbf{WPS Commons}
+            & \ftn WPS convenience classes and bootstrapping code.\\
+            & GNU General Public License Version 2\\
+            & \url{https://github.com/autermann/wps-commons}\\
+            \cmidrule(r){1-1}
+            \cmidrule(l){2-2}
 
-        \textbf{Matlab Connector}
-        & Matlab function execution on (pooled) remote Matlab instances.\\
-        & \url{https://github.com/autermann/matlab-connector}\\
-        \cmidrule(r){1-1}
-        \cmidrule(l){2-2}
+            \textbf{MATLAB Connector}
+            & MATLAB function execution on (pooled) remote MATLAB instances.\\
+            & GNU General Public License Version 3\\
+            & \url{https://github.com/autermann/matlab-connector}\\
+            \cmidrule(r){1-1}
+            \cmidrule(l){2-2}
 
-        \textbf{Lake-Analyzer}
-        & Matlab source code for Lake Analyzer\\
-        & \url{https://github.com/autermann/Lake-Analyzer}\\
-        \cmidrule(r){1-1}
-        \cmidrule(l){2-2}
+            \textbf{LakeAnalyzer}
+            & MATLAB source code for Lake Analyzer\\
+            & GNU General Public License Version 2\\
+            & \url{https://github.com/autermann/Lake-Analyzer}\\
+            \cmidrule(r){1-1}
+            \cmidrule(l){2-2}
 
-        \textbf{YAML API}
-        & A Jackson-like API to read and create YAML nodes (based on SnakeYAML).\\
-        & \url{https://github.com/autermann/yaml}\\
-        \bottomrule
-      \end{tabularx}
+            \textbf{YAML API}
+            & A Jackson-like API to read and create YAML nodes (based on SnakeYAML).\\
+            & Apache License Version 2.0\\
+            & \url{https://github.com/autermann/yaml}\\
+            \bottomrule
+          \end{tabularx}
+        \end{small}
+      \end{center}
+
 
     \chapter{XML Namespaces}\label{sec:xmlnamespaces}
       For clarity XML name spaces are omitted in XML Listings. Their respective value can be found in the following table:
       \begin{center}
-        \centering
-        \begin{tabular}{@{}ll@{}}
-          Prefix & Namespace \\\midrule
-          xlink  & \url{http://www.w3.org/1999/xlink}\\
-          xml    & \url{http://www.w3.org/XML/1998/namespace}\\
-          xs     & \url{http://www.w3.org/2001/XMLSchema}\\
-          xsi    & \url{http://www.w3.org/2001/XMLSchema-instance}\\
-          %\addlinespace
-          soap   & \url{http://www.w3.org/2003/05/soap-envelope}\\
-          wsa    & \url{http://www.w3.org/2005/08/addressing}\\
-          %\addlinespace
-          ows    & \url{http://www.opengis.net/ows/1.1}\\
-          wps    & \url{http://www.opengis.net/wps/1.0.0}\\
-          %\addlinespace
-          stream & \url{https://github.com/autermann/streaming-wps} \\
-        \end{tabular}
+        \begin{small}
+          \begin{tabular}{@{}ll@{}}
+            \toprule
+            \textbf{Prefix} & \textbf{Namespace} \\
+            \midrule
+            xlink  & \url{http://www.w3.org/1999/xlink}\\
+            xml    & \url{http://www.w3.org/XML/1998/namespace}\\
+            xs     & \url{http://www.w3.org/2001/XMLSchema}\\
+            xsi    & \url{http://www.w3.org/2001/XMLSchema-instance}\\
+            %\addlinespace
+            soap   & \url{http://www.w3.org/2003/05/soap-envelope}\\
+            wsa    & \url{http://www.w3.org/2005/08/addressing}\\
+            %\addlinespace
+            ows    & \url{http://www.opengis.net/ows/1.1}\\
+            wps    & \url{http://www.opengis.net/wps/1.0.0}\\
+            %\addlinespace
+            stream & \url{https://github.com/autermann/streaming-wps} \\
+            \bottomrule
+          \end{tabular}
+        \end{small}
       \end{center}
   \end{appendix}
 
