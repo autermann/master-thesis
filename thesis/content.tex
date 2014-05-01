@@ -563,23 +563,12 @@
     Future extension of the \la, e.g. calculation of parameters that require the previous results or analysis of chains of lakes in which lakes depend on each other, could also be easily realized. By implementing previous results or the results of a previous lake in the chain as additional inputs to the \la, these dependencies can be easily resolved by the streaming process.
 
 \chapter{Discussion/Conclusion/Future Work}
+  This thesis had to deal with to independent sub problems: on the one hand the domain friendly deployment of MATLAB models and algorithms as interoperable web services and on the other hand the efficient processing of large data sets and the analysis of live or near real-time data.
 
+  The \ac{OGC} \acl{WPS} presents an ideal solution for web based processing of spatiotemporal data in an interoperable manner and allows the reuse of developed models and algorithms using a standardized interface. The introduced MATLAB WPS facilitates domain experts to easily expose domain specific models as WPS processes. This allows the participation of MATLAB software in the Model Web \citep{geller2008looking}, which promotes usage of models in processing chains and multi-models computations. The MATLAB WPS is not only of great importance for intoperable model development and sharing of research results, but thus also allows advanced processing chains that bridge the gap between different domains. By this, the MATLAB WPS is able to advance research and can help to gain new insights by connecting domains, topics and themes that were previously considered independent.
+
+  Future improvements to the MATLAB WPS may include selective output generation so that only outputs that the client requested are generated. This can greatly reduce processing time an thus costs. Also the generation of different output formats has to solved without introducing additional complexity. Both points may be solved by offering WPS process meta data to the MATLAB process (e.g. using an global variable). This should also include informations like the WPS' URL, etc. As the \la shows, MATLAB function that use a multitude of inputs and/or outputs quickly become hard to read and thus hard to manage. The optional encoding of inputs and outputs as structures could improve maintenance efforts for these kind of processes.
   \begin{itemize}
-    \item two independent sub problems
-    \item domain expert friendly deployment of MATLAB models and algorithms as interoperable web services
-    \begin{itemize}
-      \item WPS ideal solution for web based processing of geospatial data
-      \item MATLAB WPS of great importance for intoperable model development and sharing of research results
-      \item can bridge gap between different domains
-      \item future work
-      \begin{itemize}
-        \item extension to similar languages like octave
-        \item selective output generation
-        \item support for different formats of the same output
-        \item offer WPS metadata (e.g. WPS URL, etc)
-        \item option to supply inputs and output as structures for better maintenance of processes with a multitude of inputs or outputs
-      \end{itemize}
-    \end{itemize}
     \item efficient processing of large data sets and analysis of live data
     \begin{itemize}
       \item Streaming best answer to this kind of problems
