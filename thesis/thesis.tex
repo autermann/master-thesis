@@ -268,9 +268,12 @@
 \newenvironment{content}{\pagestyle{scrheadings}\pagenumbering{arabic}}{\bibliography{\jobname}\clearpage}
 \newenvironment{noclearpage}{\renewcommand{\clearpage}{}}{}
 \AtBeginEnvironment{appendix}{
+    \clearpage
+    \pagenumbering{gobble}
+    \part*{Appendix}
     \pagestyle{scrplain}
     \pagenumbering{roman}
-    \KOMAoptions{chapterprefix}
+    %\KOMAoptions{chapterprefix}
     \lstset{%
       numberstyle=\ttfamily\footnotesize,
       basicstyle=\ttfamily\footnotesize\mdseries\singlespacing,
