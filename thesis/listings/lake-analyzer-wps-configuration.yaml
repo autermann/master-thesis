@@ -197,8 +197,7 @@ inputs:
     type: double
   - identifier: leftMargin
     title: Left Margin
-    abstract: >
-      Space between left edge of figure and y-axis (relative to figUnits)
+    abstract: Space between left edge of figure and y-axis (relative to figUnits)
     type: double
   - identifier: rightMargin
     title: Right Margin
@@ -299,4 +298,3 @@ outputs:
   - identifier: wndSpd
     title: Wind speed
     type: *png
-...
