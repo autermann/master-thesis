@@ -1,7 +1,8 @@
 % !TEX root = ../thesis.tex
 
-\def\lafigsize{.495\linewidth}
-\begin{figure}
+\def\lafigsize{.491\linewidth}
+\def\lafigdesc{Visualization of outputs created by the \la based on an example data set of the Sparkling Lake, WI, USA}
+\begin{figure}[!htb]
   \centering
   \begin{subfigure}{\lafigsize}
     \caption{\label{fig:la:out:Ln}Lake Number}
@@ -43,7 +44,7 @@
     \caption{\label{fig:la:out:ST1}Seasonal Mode-1 Vertical Seiche Period}
     \includegraphics[width = \linewidth]{figures/Sparkling_ST1.pdf}
   \end{subfigure}
-  \caption[Visualization of outputs created by the \la.]{\label{fig:la:outputs:1}Visualization of outputs created by the \la \emph{(continued on \cpageref{fig:la:outputs:2})}.}
+  \caption[\lafigdesc.]{\label{fig:la:outputs:1}\lafigdesc{} \emph{(continued on \cpageref{fig:la:outputs:2})}.}
 \end{figure}
 \begin{figure}
   \ContinuedFloat\centering\captionsetup{list=no}
@@ -83,5 +84,5 @@
     \caption{\label{fig:la:out:wTemp}Water Temperature}
     \includegraphics[width = \linewidth]{figures/Sparkling_wTemp.pdf}
   \end{subfigure}
-  \caption{\label{fig:la:outputs:2}Visualization of outputs created by the \la.}
+  \caption{\label{fig:la:outputs:2}\lafigdesc.}
 \end{figure}

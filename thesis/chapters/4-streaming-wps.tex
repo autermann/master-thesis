@@ -1,6 +1,7 @@
 % !TEX root = ../thesis.tex
 
 \chapter{Streaming WPS}
+\label{sec:streamingwps}
 
 In contrast to conventional data processing, such as the method used in the \ac{WPS}, streaming processing approaches show considerable benefits. Regarding to time efficiency and with reference to the already mentioned problems of processing substantial large data sets or live data, the development of a streaming enabled \ac{WPS} seems to be of great value.
 
@@ -18,7 +19,7 @@ Streaming processing can be divided into three categories that differ from conve
   \caption{\label{fig:streaming}Four different types of processing data: (a) conventional processing, (b) streaming input data (c) streaming output data, (d) full input and output streaming \citep[based on][]{foerster2012live}.}
 \end{figure}
 
-While there are efforts to utilize popular techniques like grid and cloud computing, there are few efforts in research and development to facilitate streaming processing \citep{foerster2012live}. Previous approaches to combine the concept of streaming and web-based processing of spatiotemporal data using the \ac{WPS} are drafted in strong correlation to media streaming (ibidem) by using playlist files \citep{ietf:draft-pantos-http-live-streaming-12} as inputs and outputs of a \ac{WPS} process. The process is executed asynchronously and the output playlist location is published using the \texttag{wps}{ProcessStarted} element of the process status response (see \cref{fig:sd:previous}). As the \ac{WPS} specification is not designed to be extensible, the element's content is restricted to a simple string and can not contain complex \ac{XML} structures. Furthermore, the element's definition states that it should be used to convey a human readable text that is presented to an user:
+While there are efforts to utilize popular techniques like grid and cloud computing, there are few efforts in research and development to facilitate streaming processing \citep{foerster2012live}. Previous approaches to combine the concept of streaming and web-based processing of spatiotemporal data using the \ac{WPS} are drafted in strong correlation to media streaming (ibid.) by using playlist files \citep{ietf:draft-pantos-http-live-streaming-12} as inputs and outputs of a \ac{WPS} process. The process is executed asynchronously and the output playlist location is published using the \texttag{wps}{ProcessStarted} element of the process status response (see \cref{fig:sd:previous}). As the \ac{WPS} specification is not designed to be extensible, the element's content is restricted to a simple string and can not contain complex \ac{XML} structures. Furthermore, the element's definition states that it should be used to convey a human readable text that is presented to an user:
 \begin{xquote}[\citet{ogc:wps}]
   ``A human-readable text string whose contents are left open to definition by each WPS server, but is expected to include any messages the server may wish to let the clients know. Such information could include how much longer the process may take to execute, or any warning conditions that may have been encountered to date. The client may display this text to a human user.''
 \end{xquote}
