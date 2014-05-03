@@ -1,0 +1,81 @@
+{
+  "folders": [
+    {
+      "file_exclude_patterns": [
+        "*.aux",
+        "*.bbl",
+        "*.blg",
+        "*.fdb_latexmk",
+        "*.lof",
+        "*.log",
+        "*.lol",
+        "*.lot",
+        "*.out",
+        "*.synctex.gz",
+        "*.synctex.gz(busy)",
+        "*.toc",
+        "*.fls",
+        "*.pdf",
+        "*.nav",
+        "*.vrb",
+        "*.snm",
+        ".gitkeep"
+      ],
+      "folder_exclude_patterns": [
+        "figures",
+        "listings",
+        "tables",
+        "literature",
+        "chapters",
+        "appendix",
+        "includes"
+      ],
+      "name": "Thesis",
+      "path": "."
+    },
+    {
+      "file_exclude_patterns": [
+        ".gitkeep"
+      ],
+      "name": "Appendix",
+      "path": "appendix"
+    },
+    {
+      "file_exclude_patterns": [
+        ".gitkeep"
+      ],
+      "name": "Chapters",
+      "path": "chapters"
+    },
+    {
+      "file_exclude_patterns": [
+        ".gitkeep"
+      ],
+      "name": "Includes",
+      "path": "includes"
+    },
+    {
+      "file_exclude_patterns": [
+        ".gitkeep",
+        "*.pdf",
+        "*.png"
+      ],
+      "name": "Figures",
+      "path": "figures"
+    },
+    {
+      "file_exclude_patterns": [
+        ".gitkeep"
+      ],
+      "name": "Tables",
+      "path": "tables"
+    },
+    {
+      "file_exclude_patterns": [
+        ".gitkeep"
+      ],
+      "name": "Listings",
+      "path": "listings"
+    }
+  ]
+}
