@@ -1,0 +1,43 @@
+% !TEX root = ../thesis.tex
+
+\begin{table}[!htb]
+  \sffamily
+  \centering
+  \caption[Mapping between WPS data types and MATLAB types.]{\label{tab:matlab:typemapping}Mapping between WPS data types and MATLAB types. Absent optional parameters are denoted by \emph{NaN} ($1\times1$).}
+  \begin{tabular}{@{}llcc@{}}
+    \toprule\toprule
+    &
+    & \multicolumn{2}{b}{MATLAB Type}\\
+    &
+    & \multicolumn{1}{b}{Single}
+    & \multicolumn{1}{b@{}}{Multiple}\\
+    \midrule
+    \multicolumn{2}{@{}l}{\textbf{Complex Data}}
+    & char ($1\times{}m$)
+    & cell of chars ($1\times{}n$)
+    \\
+    \midrule
+    \multicolumn{2}{@{}l}{\textbf{Bounding Box Data}} & struct ($1\times1$) & cell of structs ($1\times{}n$)\\
+    \midrule
+    \textbf{Literal Data}
+    & xs:string
+    & \multirow{2}{*}{char ($1\times{}m$)}
+    & \multirow{2}{*}{cell of chars ($1\times{}n$)}\\
+    & xs:anyURI\\
+    \cmidrule(r){2-4}
+    & xs:byte
+    & \multirow{7}{*}{double ($1\times1$)}
+    & \multirow{7}{*}{double ($1\times{}n$)} \\
+    & xs:short\\
+    & xs:int\\
+    & xs:long\\
+    & xs:integer\\
+    & xs:double\\
+    & xs:float\\
+    \cmidrule(r){2-4}
+    & xs:boolean & logical ($1\times1$) & logical ($1\times{}n$) \\
+    \cmidrule(r){2-4}
+    & xs:dateTime & double/datenum ($1\times1$) & double/datenum ($1\times{}n$)\\
+    \bottomrule\bottomrule
+  \end{tabular}
+\end{table}
