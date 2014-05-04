@@ -75,7 +75,7 @@
 \Crefname{lstlisting}{Listing}{Listings}
 
 \usepackage[semicolon,authoryear,round,comma,compress]{natbib}
-\bibliographystyle{abbrvnat}
+\bibliographystyle{abbrvnat-custom}
 
 \usepackage{acronym}
 
@@ -215,6 +215,7 @@
 
 \newcommand{\ftn}{52\textdegree{}North\xspace}
 \newcommand{\la}{LakeAnalyzer\xspace}
+
 \newcommand{\pseudosubfigure}[2]{\hyperref[#1]{Figure \ref*{#1}#2}}
 \newcommand{\step}[2]{\hyperref[#1]{step #2}}
 \newcommand{\Step}[2]{\hyperref[#1]{step #2}}
@@ -222,6 +223,7 @@
 \newcommand{\Steps}[3]{\hyperref[#1]{Steps #2} and \hyperref[#1]{#3}}
 \newcommand{\steprange}[3]{\hyperref[#1]{steps #2} to \hyperref[#1]{#3}}
 \newcommand{\Steprange}[3]{\hyperref[#1]{Steps #2} to \hyperref[#1]{#3}}
+
 \renewcommand{\lstlistlistingname}{List of Listings}
 \newenvironment{bold}{\bfseries}{}
 \newenvironment{italic}{\itshape}{}
@@ -230,9 +232,14 @@
 \newenvironment{sansserif}{\sffamily}{}
 \newenvironment{serif}{\rmfamily}{}
 \newenvironment{fixedwidth}{\ttfamily}{}
-\newenvironment{listings}{\pagestyle{scrplain}\pagenumbering{roman}}{\clearpage}
-\newenvironment{content}{\pagestyle{scrheadings}\pagenumbering{arabic}}{\bibliography{\jobname}\clearpage}
 \newenvironment{noclearpage}{\renewcommand{\clearpage}{}}{}
+\newenvironment{listings}%
+  {\pagestyle{scrplain}\pagenumbering{roman}}%
+  {\clearpage}
+\newenvironment{content}%
+  {\pagestyle{scrheadings}\pagenumbering{arabic}}%
+  {\bibliography{\jobname}\clearpage}
+
 \AtBeginEnvironment{appendix}{
     \clearpage
     \pagenumbering{gobble}
@@ -247,8 +254,7 @@
     }
   }
 \AtEndEnvironment{appendix}{\clearpage}
-\AtEndEnvironment{listings}{\clearpage}
-\AtEndEnvironment{contents}{\clearpage}
+
 \day=5 \month=5 \year=2014
 \def\lastretrieved{Last retrieved May 4, 2014}
 \def\lastretrievedp{(\lastretrieved)}
