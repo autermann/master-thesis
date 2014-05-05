@@ -86,7 +86,7 @@ This chapter will outline the conceptualization and implementation of a MATLAB W
   MATLAB lacks a value to represent the absence of a value (often denoted as \emph{null}, \emph{nil}, \emph{none} or \emph{nothing} in other programming languages). Even though MATLAB supports optional parameters in function calls, it does not support named function parameters, and a function can only interpret the amount of input parameters to determine if an optional parameter is present or not. As WPS processes can contain a multitude of optional input parameters, the value \emph{NaN} \citep{ieee:754:2008}, which represents an undefined or unrepresentable numeric value and so comes close to a null value, is used to transport absent optional input parameters, regardless of their type.
 
   The WPS specification offers the possibility to only request specific outputs of a process. This enables the process to only compute the outputs that are really needed and thus can reduce the time needed for process executions. The MATLAB WPS currently does not support this mechanism and MATLAB functions are required to compute all outputs regardless which are requested by a client.
-  %%% move this somewhere else?
+
   To overcome this issue, the requested output identifiers could be saved in a globally accessible environment variable. In addition to this, other contextual information could be conveyed using this method, e.g. the WPS service URL, which was used to execute the process or other meta data that the function may use.
 
   \input{tables/matlab-types}
