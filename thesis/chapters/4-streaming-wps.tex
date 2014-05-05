@@ -150,12 +150,14 @@ The following sections should introduce a approach for a Streaming \ac{WPS}, tha
   \subsection{Polling inputs}
     \label{sec:stream:input:polling}
     The last category of possible input types for a streaming \ac{WPS} are polling inputs. These inputs are continuously polled from an external resource and a new streaming iteration would be started, when new inputs become available. Polling inputs would be supplied at process creation time and would contain a reference to an external resource, which is requested continuously. In order to not miss inputs when they become available, a playlist file as described in previous approaches \citep{foerster2012live} would be needed. The implementation of polling inputs as part of this streaming \ac{WPS} specification would present the very same issues that were criticized in previous approaches:
+
     \begin{itemize}
       \item How can polling frequencies used to retrieve the playlist be defined?
       \item How can multiple polling inputs be declared?
       \item How would they be combined by the streaming \ac{WPS}?
     \end{itemize}
-    For this reason, the Streaming \ac{WPS} will not implement polling inputs. These input types are by far better handled on client side, as the client typically knows the rate data becomes available. By this the client can choose an appropriate polling frequency and also is able to coordinate multiple polling inputs by having a deeper understanding of their affiliation. Polling inputs could be implemented as shown in \cref{fig:sd:polling}: the client polls a data provider (e.g. a \acrocitep{SOS}{ogc:sos}) to check if new data is available and convert this data into a streaming input for the Streaming \ac{WPS}.
+
+    For this reason, the Streaming \ac{WPS} will not implement polling inputs. These input types are by far better handled on client side, as the client typically knows the rate data becomes available. By this the client can choose an appropriate polling frequency and also is able to coordinate multiple polling inputs by having a deeper understanding of their affiliation. Polling inputs could be implemented as shown in \cref{fig:sd:polling}: the client polls a data provider -- e.g. a \acrocitep{SOS}{ogc:sos} -- to check if new data is available and convert this data into a streaming input for the Streaming \ac{WPS}.
 
     \begin{figure}[!htb]
       \centering

@@ -21,8 +21,6 @@ The comment-based approach taken by WPS4R has several advantages like having \ac
 
 Typical MATLAB programs would not benefit from combining annotations and scripts in a single file, as it is common practice -- or even a requirement to access a function from outside -- to place a function in its own file. By this, MATLAB programs tend to consist of multiple files, and can not easily deployed as single script files.
 
-\dots
-
 In contrast to R, MATLAB offers multiple return values of functions as a native language feature (see \cref{lst:matlab:example:fun}). Through this, MATLAB functions are able to directly represent a \ac{WPS} process, and the MATLAB WPS should use MATLAB functions instead of scripts to offer functionalities as WPS processes. As stated before, MATLAB is a weakly and dynamically typed language, and the parsing of a function signature can not create a statically typed binding as the \ac{WPS} standard requires. For this, an additional description mechanism has to be developed that allows the semi-automatically generation of process descriptions. This should be done without extensive knowledge of web service development or programming languages. Also the deployment of existing MATLAB functions should be a straightforward non-intrusive process. Similar to R, MATLAB instances are single threaded, and so can only process one WPS process execution a time. Moreover, and contrary to R, opening the MATLAB workbench even in a headless mode (i.e. without any user interface) can take considerable time. This requires an efficient usage of MATLAB instances, especially the reuse of already started MATLAB instances to reduce latency of process executions. Complex inputs should be usable inside of MATLAB without restrictions to any format, and without the need to change any configuration files.
 
 \lstinputlisting[label={lst:matlab:example:fun},
@@ -130,6 +128,4 @@ This chapter will outline the conceptualization and implementation of a MATLAB W
 
   The wrapper function is described in a separate YAML configuration file (see \cref{appendix:lakeanalyzer:configuration}) containing the necessary meta data to publish the function as a WPS process. It assigns the function to the process identifier \emph{org.gleon.LakeAnalyzer} and expresses process input and output definitions \citep[taken from the \la user manual,][]{lamanual}. As the WPS specification is not able to express dependencies between specific outputs and inputs, and due to the fact that the MATLAB WPS requires all outputs, all necessary input parameters are mandatory and only the globally optional water level and salinity files are optional for the WPS process.
 
-  After loading the configuration file into the MATLAB WPS, it will create a WPS process (see \cref{appendix:lakeanalyzer:description}) offered under the specified identifier and will direct all \emph{Execute} requests to the MATLAB server specified in the configuration file.
-
-  \dots
+  After loading the configuration file into the MATLAB WPS, it creates a WPS process (see \cref{appendix:lakeanalyzer:description}) offered under the specified identifier and directs all \emph{Execute} requests to the MATLAB server specified in the configuration file.
